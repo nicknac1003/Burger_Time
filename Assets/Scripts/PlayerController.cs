@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private PlayerInput playerInput;
+    private PlayerInput playerInput;
 
     InputAction pauseAction;
     InputAction moveAction;
@@ -17,7 +18,6 @@ public class PlayerController : MonoBehaviour
     public  float moveSpeed; // m/s
 
     [Header("Physics Parameters")]
-    public  float playerHeight;
     public  float playerRadius;
     private float skinnyRadius;
 
@@ -31,11 +31,16 @@ public class PlayerController : MonoBehaviour
     public  float   velocityMagnitude;
     public  float   accelerationMagnitude;
 
-    private List<Interactable> interactables;
+    private List<Interactable> interactables = new List<Interactable>();
 
     void Awake()
     {
-        moveAction   = playerInput.actions.FindAction("Move");
+        playerInput  = GetComponent<PlayerInput>();
+
+        moveAction = playerInput.actions.FindAction("Move");
+        zAction    = playerInput.actions.FindAction("Z");
+        xAction    = playerInput.actions.FindAction("X");
+        cAction    = playerInput.actions.FindAction("C");
 
         skinnyRadius = playerRadius - skinWidth;
         decayFactor  = 1 - velocityDecay * Time.fixedDeltaTime;
@@ -93,7 +98,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Shoot capsule cast and see if displacement will cause collision - return displacement if no collision
-        if (Physics.CapsuleCast(origin + Vector3.up * playerRadius, origin + Vector3.up * (playerHeight - playerRadius), skinnyRadius, displacement.normalized, out RaycastHit hit, displacement.magnitude + skinWidth, LayerMask.GetMask("Wall")) == false)
+        if (Physics.SphereCast(origin + Vector3.up * playerRadius, skinnyRadius, displacement.normalized, out RaycastHit hit, displacement.magnitude + skinWidth, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) == false)
         {
             Debug.DrawLine(origin, origin + displacement, Color.blue, Time.fixedDeltaTime);
             return displacement;
@@ -168,5 +173,20 @@ public class PlayerController : MonoBehaviour
         {
             closest.InteractC();
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Interactable"))
+        {
+            AddInteractable(other.GetComponent<Interactable>());
+        }   
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("Interactable"))
+        {
+            RemoveInteractable(other.GetComponent<Interactable>());
+        }   
     }
 }

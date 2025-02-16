@@ -62,6 +62,8 @@ public class Breakable : Interactable
 
     public void Repairing()
     {
+        Debug.Log("Repairing " + gameObject.name + " | Progress: " + repairTimer + " / " + repairTime);
+        
         repairing = true;
 
         if(repairTimer >= repairTime)

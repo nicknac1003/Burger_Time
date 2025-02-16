@@ -495,7 +495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  playerRadius: 1
+  playerRadius: 0.5
   skinWidth: 0.01
   velocityDecay: 15
   acceleration: {x: 0, y: 0, z: 0}

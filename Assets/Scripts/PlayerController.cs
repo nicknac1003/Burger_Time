@@ -32,15 +32,25 @@ public class PlayerController : MonoBehaviour
     public  float   accelerationMagnitude;
 
     private List<Interactable> interactables = new List<Interactable>();
+    private Interactable closestInteractable;
 
     void Awake()
     {
-        playerInput  = GetComponent<PlayerInput>();
+        playerInput = GetComponent<PlayerInput>();
 
         moveAction = playerInput.actions.FindAction("Move");
-        zAction    = playerInput.actions.FindAction("Z");
-        xAction    = playerInput.actions.FindAction("X");
-        cAction    = playerInput.actions.FindAction("C");
+
+        zAction = playerInput.actions.FindAction("Z");
+        zAction.started  += _ => closestInteractable.InteractZ(true);
+        zAction.canceled += _ => closestInteractable.InteractZ(false);
+
+        xAction = playerInput.actions.FindAction("X");
+        xAction.started  += _ => closestInteractable.InteractX(true);
+        xAction.canceled += _ => closestInteractable.InteractX(false);
+
+        cAction = playerInput.actions.FindAction("C");
+        cAction.started  += _ => closestInteractable.InteractC(true);
+        cAction.canceled += _ => closestInteractable.InteractC(false);
 
         skinnyRadius = playerRadius - skinWidth;
         decayFactor  = 1 - velocityDecay * Time.fixedDeltaTime;
@@ -130,10 +140,12 @@ public class PlayerController : MonoBehaviour
     public void AddInteractable(Interactable interactable)
     {
         interactables.Add(interactable);
+        interactable.ResetInteracts();
     }
     public void RemoveInteractable(Interactable interactable)
     {
         interactables.Remove(interactable);
+        interactable.ResetInteracts();
     }
 
     private Interactable GetClosestInteractable()
@@ -158,21 +170,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateInteract()
     {
         if(interactables.Count <= 0) return;
-
-        Interactable closest = GetClosestInteractable();
-
-        if(zAction.ReadValue<float>() > 0f)
-        {
-            closest.InteractZ();
-        }
-        else if(xAction.ReadValue<float>() > 0f)
-        {
-            closest.InteractX();
-        }
-        else if(cAction.ReadValue<float>() > 0f)
-        {
-            closest.InteractC();
-        }
+        closestInteractable = GetClosestInteractable();
     }
 
     private void OnTriggerEnter(Collider other)

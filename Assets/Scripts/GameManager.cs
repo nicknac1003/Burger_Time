@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 public class GameManager : MonoBehaviour
 {
     public int day = 1;
-    private bool canCreateCustomers = true;
+    public bool canCreateCustomers = true;
     private int currentCustomerCount = 0;
     private float totalMinutes = 0f;
     private int currentHour = 0;

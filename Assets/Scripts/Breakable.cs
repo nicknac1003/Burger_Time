@@ -8,8 +8,8 @@ public class Breakable : Interactable
     [SerializeField] private float safetyTime  = 5f;    // 0 to 20 seconds
     [SerializeField] private float breakChance = 0.05f; // 0.008 to 0.05
 
-    [SerializeField] private float repairTime   = 4f;    // How long it takes to repair
-    [SerializeField] private float repairDrain  = 0.5f;  // If stopped repairing, speed progress depletes
+    [SerializeField] private float repairTime   = 4f;   // How long it takes to repair
+    [SerializeField] private float repairDrain  = 0.5f; // If stopped repairing, speed progress depletes
 
     [SerializeField] private VisualEffect vfx;
 
@@ -18,53 +18,55 @@ public class Breakable : Interactable
     private float repairTimer = 0f;
     private bool  repairing   = false;
 
-    public override void InteractZ()
+    void Start()
     {
-        if(broken)
-        {
-            Repairing();
-        }
+        Break();   
+    }
+
+    public override void InteractZ(bool held)
+    {
+        if(broken) repairing = held;
     }
 
     void Update()
     {
-        if(repairing == false && repairTimer > 0f)
-        {
-            repairTimer = Mathf.Max(repairTimer - Time.deltaTime * repairDrain, 0f); // deplete progress by repairDrain per second
-        }
-        
+        HandleRepairing();
+        HandleBreaking();
+    }
+
+    private void HandleBreaking()
+    {
         if(broken) return;
 
         if(breakTimer >= interval)
         {
-            RollBreak();
+            breakTimer = 0f;
+
+            if(Random.value < breakChance)
+            {
+                Break();
+            }
         }
 
         breakTimer += Time.deltaTime;
     }
 
-    private void RollBreak()
+    public void HandleRepairing()
     {
-        breakTimer = 0f;
+        if(broken == false) return;
 
-        if(Random.value < breakChance)
+        if(repairing == false)
         {
-            Break();
+            if(repairTimer > 0f)
+            {
+                repairTimer = Mathf.Max(repairTimer - Time.deltaTime * repairDrain, 0f); // deplete progress by repairDrain per second
+
+                Debug.Log("Stopped " + gameObject.name + " | Progress: " + repairTimer + " / " + repairTime);
+            }
+            return;
         }
-    }
 
-    private void Break()
-    {
-        broken = true;
-
-        Debug.Log(gameObject.name + " broke!");
-    }
-
-    public void Repairing()
-    {
         Debug.Log("Repairing " + gameObject.name + " | Progress: " + repairTimer + " / " + repairTime);
-        
-        repairing = true;
 
         if(repairTimer >= repairTime)
         {
@@ -75,11 +77,22 @@ public class Breakable : Interactable
         repairTimer += Time.deltaTime;
     }
 
+    private void Break()
+    {
+        broken = true;
+
+        ResetInteracts();
+
+        Debug.Log(gameObject.name + " broke!");
+    }
+
     private void Repair()
     {
         broken      = false;
         breakTimer  = -safetyTime; // set to negative safety time so we can reset to 0 for interval checks
         repairTimer = 0f;
+
+        ResetInteracts();
 
         Debug.Log(gameObject.name + " repaired!");
     }

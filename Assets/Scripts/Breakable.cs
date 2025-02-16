@@ -8,8 +8,8 @@ public class Breakable : Interactable
     [SerializeField] private float safetyTime  = 5f;    // 0 to 20 seconds
     [SerializeField] private float breakChance = 0.05f; // 0.008 to 0.05
 
-    [SerializeField] private float repairTime   = 4f;   // How long it takes to repair
-    [SerializeField] private float repairDrain  = 0.5f; // If stopped repairing, speed progress depletes
+    [SerializeField] private float repairTime  = 4f;    // How long it takes to repair
+    [SerializeField] private float repairDrain = 0.5f;  // If stopped repairing, speed progress depletes
 
     [SerializeField] private VisualEffect vfx;
 

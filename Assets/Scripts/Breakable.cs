@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -17,18 +18,21 @@ public class Breakable : Interactable
     private float repairTimer = 0f;
     private bool  repairing   = false;
 
-    void Update()
+    public override void InteractZ()
     {
-        if(repairing)
+        if(broken)
         {
             Repairing();
-            return;
         }
-        else if(repairTimer > 0f)
+    }
+
+    void Update()
+    {
+        if(repairing == false && repairTimer > 0f)
         {
             repairTimer = Mathf.Max(repairTimer - Time.deltaTime * repairDrain, 0f); // deplete progress by repairDrain per second
         }
-
+        
         if(broken) return;
 
         if(breakTimer >= interval)
@@ -58,6 +62,8 @@ public class Breakable : Interactable
 
     public void Repairing()
     {
+        repairing = true;
+
         if(repairTimer >= repairTime)
         {
             Repair();

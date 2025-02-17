@@ -1,10 +1,9 @@
-using System.Runtime.InteropServices;
-using NUnit.Framework.Constraints;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     public int day = 1;
     public bool canCreateCustomers = true;
     private int currentCustomerCount = 0;
@@ -20,8 +19,18 @@ public class GameManager : MonoBehaviour
     private float elapsedTime = 0f;
     private bool dayOver = false;
     public bool logTime = false;
+
     void Awake()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         dayDuration = dayDurationMinutes * 60f; // Convert minutes to seconds
     }
 
@@ -34,11 +43,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
         // Update the elapsed time
         elapsedTime += Time.deltaTime;
 
-        totalMinutes = elapsedTime / dayDuration * ((endHour * 60f + endMinute) - (startHour * 60f + startMinute)); // 1440 minutes in a day
+        totalMinutes = elapsedTime / dayDuration * (endHour * 60f + endMinute - (startHour * 60f + startMinute)); // 1440 minutes in a day
         currentHour = startHour + Mathf.FloorToInt((totalMinutes + startMinute) / 60f);
         currentMinute =  Mathf.FloorToInt((startMinute + totalMinutes) % 60f);
         DisplayTime();
@@ -60,7 +68,26 @@ public class GameManager : MonoBehaviour
             // Your logic to create customers
             //probably some call to a customer spawner or something
         }
+    }
 
+    public void HandlePauseGame()
+    {
+        if(Mathf.Approximately(Time.timeScale, 1f))
+        {
+            PauseGame();
+        }
+        else
+        {
+            UnpauseGame();
+        }
+    }
+    private void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+    private void UnpauseGame()
+    {
+        Time.timeScale = 1f;
     }
 
     public void endDay()

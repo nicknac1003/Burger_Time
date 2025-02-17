@@ -9,6 +9,7 @@ public class Breakable
     [SerializeField] private float breakChance = 0.05f; // 0.008 to 0.05
 
     [SerializeField] private QuickTimeEvent repairQTE;
+    [SerializeField] private Holdable       requiredItem;
 
     [SerializeField] private VisualEffect vfx;
 

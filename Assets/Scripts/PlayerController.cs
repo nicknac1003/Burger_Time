@@ -1,45 +1,54 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+
+    // Player Input
     private PlayerInput playerInput;
+    private InputAction pauseAction;
+    private InputAction moveAction;
+    private InputAction zAction;
+    private InputAction xAction;
+    private InputAction cAction;
 
-    InputAction pauseAction;
-    InputAction moveAction;
-    InputAction zAction;
-    InputAction xAction;
-    InputAction cAction;
-
-    [Header("Walk Paramters")]
-    public  float moveSpeed; // m/s
-
-    [Header("Physics Parameters")]
-    public  float playerRadius;
-    private float skinnyRadius;
-
-    public  float skinWidth; // tolerance to prevent bounding box from intersecting with walls
-
-    public  float velocityDecay; // m/s^2
+    [Header("Physics Paramters")]
+    [SerializeField] private float moveSpeed; // m/s
+    [SerializeField] private float playerRadius;
+    [SerializeField] private float velocityDecay; // m/s^2
     private float decayFactor;
 
-    public  Vector3 acceleration; // m/s^2
-    public  Vector3 velocity;     // m/s
-    public  float   velocityMagnitude;
-    public  float   accelerationMagnitude;
+    [Header("Physics Debug Data")]
+    public Vector3 acceleration; // m/s^2
+    public Vector3 velocity;     // m/s
+    public float   velocityMagnitude;
+    public float   accelerationMagnitude;
 
-    private List<Interactable> interactables = new List<Interactable>();
-    private Interactable closestInteractable;
+    // Gameplay Variables
+    private List<Interactable> interactables = new();
+    private Interactable       closestInteractable;
+    private Holdable           holding;
 
     void Awake()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         playerInput = GetComponent<PlayerInput>();
 
         moveAction = playerInput.actions.FindAction("Move");
+        
+        pauseAction = playerInput.actions.FindAction("Pause");
+        pauseAction.started += _ => { GameManager.Instance.HandlePauseGame(); };
 
         zAction = playerInput.actions.FindAction("Z");
         zAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractZ(true); };
@@ -53,7 +62,6 @@ public class PlayerController : MonoBehaviour
         cAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractC(true); };
         cAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractC(false);};
 
-        skinnyRadius = playerRadius - skinWidth;
         decayFactor  = 1 - velocityDecay * Time.fixedDeltaTime;
     }
     void Start()
@@ -109,20 +117,20 @@ public class PlayerController : MonoBehaviour
         }
 
         // Shoot capsule cast and see if displacement will cause collision - return displacement if no collision
-        if (Physics.SphereCast(origin + Vector3.up * playerRadius, skinnyRadius, displacement.normalized, out RaycastHit hit, displacement.magnitude + skinWidth, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) == false)
+        if (Physics.SphereCast(origin + Vector3.up * playerRadius, playerRadius - Physics.defaultContactOffset, displacement.normalized, out RaycastHit hit, displacement.magnitude + Physics.defaultContactOffset, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) == false)
         {
             Debug.DrawLine(origin, origin + displacement, Color.blue, Time.fixedDeltaTime);
             return displacement;
         }
 
         // Find new origin point (where the collision occurred)
-        Vector3 reducedDisplacement = displacement.normalized * (hit.distance - skinWidth);
+        Vector3 reducedDisplacement = displacement.normalized * (hit.distance - Physics.defaultContactOffset);
 
         // Calculate leftover displacement after collision
         Vector3 leftoverDisplacement = displacement - reducedDisplacement;
 
         // Ensure there is enough room for collision check to work, otherwise set reducedDisplacement to zero
-        if (reducedDisplacement.magnitude <= skinWidth)
+        if (reducedDisplacement.magnitude <= Physics.defaultContactOffset)
         {
             reducedDisplacement = Vector3.zero;
         }
@@ -188,5 +196,19 @@ public class PlayerController : MonoBehaviour
         {
             RemoveInteractable(other.GetComponent<Interactable>());
         }   
+    }
+
+    public void PickUpItem(Holdable item)
+    {
+        if(holding != null)
+        {
+            DropItem();
+        }
+
+        holding = item;
+    }
+    public void DropItem()
+    {
+        holding = null;
     }
 }

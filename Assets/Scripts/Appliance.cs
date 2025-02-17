@@ -3,7 +3,11 @@ using UnityEngine;
 public class Appliance : Interactable
 {
     [SerializeField] private Breakable breakable; // leave null if not breakable
-    [SerializeField] private QuickTimeEvent useApplianceQTE;
+
+    // 
+
+    [SerializeReference] private QuickTimeEvent useApplianceQTE;
+
 
     public override void InteractZ(bool held)
     {
@@ -15,7 +19,7 @@ public class Appliance : Interactable
 
     void Start()
     {
-        breakable.Break();   
+        //breakable.Break();   
     }
 
     void Update()
@@ -25,5 +29,7 @@ public class Appliance : Interactable
             breakable.HandleBreaking();
             breakable.HandleRepairing();
         }
+
+
     }
 }

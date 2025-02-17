@@ -6,11 +6,13 @@ public class RainbowQTE : MonoBehaviour
     [Header("Rainbow Parameters")]
     public Transform pivotPoint; // Bottom center of the semi-circle to orient the arrow.
     public float radius = 1.0f; // Radius of the semi-circle
+    public bool QTESuccess = false; // True if the arrow is in the good zone
 
     [Header("Arrow Parameters")]
     public Transform arrowPos;
-    public float arrowSpeed = 1.0f; // # secs to complete a full rotation
+    public float maxArrowSpeed = 1.0f; // # secs to complete a full rotation
     public float arrowSlowDown = 0.7f; // Slow down the arrow when it reaches the good zone
+    public float angleBuffer = 10.0f; // Min angle of arrow along rainbow = angleBuffer, Max angle = 180 - angleBuffer
 
     [Header("Good-Zone Parameters")]
     public Transform goodZone;
@@ -34,17 +36,33 @@ public class RainbowQTE : MonoBehaviour
 
     private void MoveArrow()
     {
-        //arrowPos = pivot + new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0);
-        arrowPos.position = pivotPoint.position + new Vector3(Mathf.Cos(Time.time * arrowSpeed) * radius, Mathf.Sin(Time.time * arrowSpeed) * radius, 0);
+        // Get position of the arrow along the semi-circle & look at center of the semi-circle
+        float angle = angleBuffer + Mathf.PingPong((Time.time * maxArrowSpeed * Mathf.Rad2Deg), (180f - angleBuffer * 2));
+        Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
+
+        // Move along the semi-circle
+        angle = angle * Mathf.Deg2Rad;
+        arrowPos.position = pivotPoint.position + new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0);
+        arrowPos.rotation = rotation;
+    }
+
+    private void OnTriggerEnter()
+    {
+        QTESuccess = true;
+    }
+
+    private void OnTriggerExit()
+    {
+        QTESuccess = false;
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Handles.color = Color.blue;
+        //Handles.color = Color.blue;
         // Draws a wire arc around the pivot (this GameObject's position)
         // Parameters: center, normal, from (starting direction), angle in degrees, and radius
-        Handles.DrawWireArc(pivotPoint.position, Vector3.forward, Vector3.right, 180, radius);
+        //Handles.DrawWireArc(pivotPoint.position, Vector3.forward, Vector3.right, 180, radius);
     }
 #endif
 }

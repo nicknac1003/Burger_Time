@@ -19,8 +19,8 @@ public class HoldQTE : QuickTimeEvent
 
     public HoldQTE(float holdTime, float drainRate)
     {
-        time     = holdTime;
-        drain    = drainRate;
+        time = holdTime;
+        drain = drainRate;
         progress = 0f;
     }
 
@@ -31,9 +31,9 @@ public class HoldQTE : QuickTimeEvent
 
     public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput)
     {
-        if(zPressed == false)
+        if (zPressed == false)
         {
-            if(progress > 0f)
+            if (progress > 0f)
             {
                 progress = Mathf.Max(progress - Time.deltaTime * drain * drainSpeed, 0f); // deplete progress by repairDrain per second
 
@@ -44,7 +44,7 @@ public class HoldQTE : QuickTimeEvent
 
         Debug.Log("Progress: " + progress + " / " + time);
 
-        if(progress >= time)
+        if (progress >= time)
         {
             progress = 0f;
             return 1f;

@@ -9,6 +9,8 @@ public class CustomerSpawner : MonoBehaviour
     public float spawnInterval = 5f;
     private float spawnTimer = 0f;
 
+    public int maxCustomers = 5;
+
     public QueueType orderQueue = new QueueType();
     public QueueType waitingQueue= new QueueType();
 
@@ -21,9 +23,9 @@ public class CustomerSpawner : MonoBehaviour
     {
         //space the queuepositions array based on queuehead 
         orderQueue.lineHead = orderQueueHead;
-        orderQueue.generateQueuePositions();
+        orderQueue.GenerateQueuePositions();
         waitingQueue.lineHead = waitingQueueHead;
-        waitingQueue.generateQueuePositions();
+        waitingQueue.GenerateQueuePositions();
 
     }
 
@@ -31,7 +33,7 @@ public class CustomerSpawner : MonoBehaviour
     {
         spawnTimer += Time.deltaTime;
 
-        if (spawnTimer >= spawnInterval && gameManager.canCreateCustomers)
+        if (spawnTimer >= spawnInterval && gameManager.canCreateCustomers && gameManager.getCurrentCustomerCount() < maxCustomers)
         {
             spawnTimer = 0f;
             SpawnCustomer();
@@ -42,7 +44,6 @@ public class CustomerSpawner : MonoBehaviour
     {
         gameManager.addCustomer();
         GameObject customer = Instantiate(customerPrefab, spawnPoint.position, spawnPoint.rotation);
-        Debug.Log(orderQueue.customerQueue);
         orderQueue.customerQueue.Enqueue(customer.transform);
         orderQueue.UpdateQueuePositions();
     }
@@ -53,9 +54,10 @@ public class CustomerSpawner : MonoBehaviour
     {
         switch (state)
         {
-            case CustomerState.ordering:
+            case CustomerState.entering:
+            case CustomerState.waitingToOrder:
                 return orderQueue.GetQueuePosition(position);
-            case CustomerState.waiting:
+            case CustomerState.waitingToBeServed:
                 return waitingQueue.GetQueuePosition(position);
         }
         
@@ -66,9 +68,10 @@ public class CustomerSpawner : MonoBehaviour
         Transform customer = orderQueue.customerQueue.Dequeue();
         orderQueue.UpdateQueuePositions();
         waitingQueue.customerQueue.Enqueue(customer);
+        customer.GetComponent<CustomerController>().OrderTaken();
         waitingQueue.UpdateQueuePositions();
     }
-    public void serveCustomer()
+    public void CustomerServed()
     {
         Transform customer = waitingQueue.customerQueue.Dequeue();
         waitingQueue.UpdateQueuePositions();
@@ -84,7 +87,7 @@ public class QueueType{
     public int queueLength = 10; // Number of positions in the queue
     public float spacing = 1f; // Spacing between each position in the queue
 
-    public void generateQueuePositions(){
+    public void GenerateQueuePositions(){
         queuePositions = new Transform[queueLength];
         for (int i = 0; i < queueLength; i++)
         {

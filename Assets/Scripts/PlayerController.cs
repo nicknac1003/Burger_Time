@@ -43,15 +43,15 @@ public class PlayerController : MonoBehaviour
 
         zAction = playerInput.actions.FindAction("Z");
         zAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractZ(true); };
-        zAction.canceled += _ => { if(closestInteractable != null)closestInteractable?.InteractZ(false);};
+        zAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractZ(false);};
 
         xAction = playerInput.actions.FindAction("X");
-        xAction.started  += _ => { if(closestInteractable != null) closestInteractable?.InteractX(true); };
-        xAction.canceled += _ => { if(closestInteractable != null) closestInteractable?.InteractX(false);};
+        xAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractX(true); };
+        xAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractX(false);};
 
         cAction = playerInput.actions.FindAction("C");
-        cAction.started  += _ => { if(closestInteractable != null) closestInteractable?.InteractC(true); };
-        cAction.canceled += _ => { if(closestInteractable != null) closestInteractable?.InteractC(false);};
+        cAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractC(true); };
+        cAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractC(false);};
 
         skinnyRadius = playerRadius - skinWidth;
         decayFactor  = 1 - velocityDecay * Time.fixedDeltaTime;

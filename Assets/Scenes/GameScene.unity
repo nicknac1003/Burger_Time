@@ -1225,8 +1225,8 @@ GameObject:
   m_Component:
   - component: {fileID: 414117540}
   - component: {fileID: 414117539}
-  - component: {fileID: 414117538}
   - component: {fileID: 414117537}
+  - component: {fileID: 414117541}
   m_Layer: 0
   m_Name: Oven
   m_TagString: Interactable
@@ -1255,24 +1255,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.75, y: 1, z: 0.4}
   m_Center: {x: 0, y: 0.5, z: -0.7}
---- !u!114 &414117538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 414117536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8c6615469c188e48a2117afc919ea18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interval: 1
-  safetyTime: 5
-  breakChance: 0.05
-  repairTime: 4
-  repairDrain: 0.5
-  vfx: {fileID: 0}
 --- !u!65 &414117539
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1311,6 +1293,26 @@ Transform:
   - {fileID: 1589277982}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &414117541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414117536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e1f650b40249447b6e7f013d471052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakable:
+    interval: 1
+    safetyTime: 5
+    breakChance: 0.05
+    repairQTE:
+      time: 4
+      drain: 0.5
+    vfx: {fileID: 0}
 --- !u!1 &421825435
 GameObject:
   m_ObjectHideFlags: 0

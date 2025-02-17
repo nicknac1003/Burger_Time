@@ -7,9 +7,11 @@ public class BaseClassDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     { 
         EditorGUI.BeginProperty(position, label, property); 
+
         var type = property.managedReferenceFullTypename; 
-        var types = new[] { typeof(HoldQTE), typeof(RainbowQTE) }; 
-        var typeNames = new[] { "None", "Hold", "Rainbow" };
+        var types = new[] { typeof(HoldQTE), typeof(SliderQTE) }; 
+        var typeNames = new[] { "None", "Hold", "Slider" };
+
         int index = 0; 
         if (!string.IsNullOrEmpty(type)) 
         { 
@@ -23,19 +25,27 @@ public class BaseClassDrawer : PropertyDrawer
             }
         }
 
-        Rect popupPosition = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+        EditorGUI.BeginChangeCheck();
+
+        Rect popupPosition = new(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
         index = EditorGUI.Popup(popupPosition, label.text, index, typeNames);
-        
-        if (index == 0) 
+        if(EditorGUI.EndChangeCheck())
         {
-            property.managedReferenceValue = null;
-        }
-        else
-        {
-            if (property.managedReferenceValue == null || property.managedReferenceFullTypename != types[index - 1].FullName)
+            property.serializedObject.Update();
+
+            if (index == 0) 
             {
-                property.managedReferenceValue = System.Activator.CreateInstance(types[index - 1]);
+                property.managedReferenceValue = null;
             }
+            else
+            {
+                if (property.managedReferenceValue == null || property.managedReferenceFullTypename != types[index - 1].FullName)
+                {
+                    property.managedReferenceValue = System.Activator.CreateInstance(types[index - 1]);
+                }
+            }
+
+            property.serializedObject.ApplyModifiedProperties();
         }
 
         if(property.managedReferenceValue != null)

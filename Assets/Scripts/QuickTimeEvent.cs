@@ -3,7 +3,6 @@ using UnityEngine;
 [System.Serializable]
 public abstract class QuickTimeEvent
 {
-    [SerializeField] private Transform uiQuad;
-    public abstract float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput);
+    public abstract float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent);
     public abstract bool  InProgress();
 }

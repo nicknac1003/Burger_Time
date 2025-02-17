@@ -29,7 +29,7 @@ public class HoldQTE : QuickTimeEvent
     public void SetDrainSpeed(float speed) => drainSpeed = speed;
     public void ResetDrainSpeed()          => drainSpeed = 1f;
 
-    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput)
+    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
         if (zPressed == false)
         {
@@ -37,12 +37,12 @@ public class HoldQTE : QuickTimeEvent
             {
                 progress = Mathf.Max(progress - Time.deltaTime * drain * drainSpeed, 0f); // deplete progress by repairDrain per second
 
-                Debug.Log("Progress: " + progress + " / " + time);
+                Debug.Log("N - Progress: " + progress + " / " + time);
             }
             return 0f;
         }
 
-        Debug.Log("Progress: " + progress + " / " + time);
+        Debug.Log("Y - Progress: " + progress + " / " + time);
 
         if (progress >= time)
         {

@@ -23,7 +23,8 @@ public class BaseClassDrawer : PropertyDrawer
             }
         }
 
-        index = EditorGUI.Popup(position, label.text, index, typeNames);
+        Rect popupPosition = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+        index = EditorGUI.Popup(popupPosition, label.text, index, typeNames);
         
         if (index == 0) 
         {

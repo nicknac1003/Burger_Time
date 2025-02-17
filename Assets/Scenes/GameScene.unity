@@ -656,7 +656,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   playerRadius: 0.5
-  skinWidth: 0.01
   velocityDecay: 15
   acceleration: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -1309,10 +1308,19 @@ MonoBehaviour:
     interval: 1
     safetyTime: 5
     breakChance: 0.05
-    repairQTE:
-      time: 4
-      drain: 0.5
+    requiredItem: {fileID: 0}
     vfx: {fileID: 0}
+  useApplianceQTE:
+    rid: 2277583750142886465
+  references:
+    version: 2
+    RefIds:
+    - rid: 2277583750142886465
+      type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
+      data:
+        uiQuad: {fileID: 0}
+        time: 4
+        drain: 0.5
 --- !u!1 &421825435
 GameObject:
   m_ObjectHideFlags: 0

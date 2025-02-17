@@ -64,5 +64,15 @@ public class RainbowQTE : QuickTimeEvent
         // Parameters: center, normal, from (starting direction), angle in degrees, and radius
         //Handles.DrawWireArc(pivotPoint.position, Vector3.forward, Vector3.right, 180, radius);
     }
+
+    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override bool InProgress()
+    {
+        throw new System.NotImplementedException();
+    }
 #endif
 }

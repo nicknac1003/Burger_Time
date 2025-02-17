@@ -1,8 +1,6 @@
 using UnityEngine;
 
-public interface class QuickTimeEvent : MonoBehaviour
+public abstract class QuickTimeEvent
 {
-    public Breakable breakable;
-
-    public abstract void InteractZ(bool held);
+    public abstract float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput);
 }

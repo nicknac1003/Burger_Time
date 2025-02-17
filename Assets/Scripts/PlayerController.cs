@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,16 +42,16 @@ public class PlayerController : MonoBehaviour
         moveAction = playerInput.actions.FindAction("Move");
 
         zAction = playerInput.actions.FindAction("Z");
-        zAction.started  += _ => closestInteractable.InteractZ(true);
-        zAction.canceled += _ => closestInteractable.InteractZ(false);
+        zAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractZ(true); };
+        zAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractZ(false);};
 
         xAction = playerInput.actions.FindAction("X");
-        xAction.started  += _ => closestInteractable.InteractX(true);
-        xAction.canceled += _ => closestInteractable.InteractX(false);
+        xAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractX(true); };
+        xAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractX(false);};
 
         cAction = playerInput.actions.FindAction("C");
-        cAction.started  += _ => closestInteractable.InteractC(true);
-        cAction.canceled += _ => closestInteractable.InteractC(false);
+        cAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractC(true); };
+        cAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractC(false);};
 
         skinnyRadius = playerRadius - skinWidth;
         decayFactor  = 1 - velocityDecay * Time.fixedDeltaTime;
@@ -150,6 +151,8 @@ public class PlayerController : MonoBehaviour
 
     private Interactable GetClosestInteractable()
     {
+        if(interactables.Count <= 0) return null;
+
         Interactable closest = interactables[0];
         Vector3 closestToPlayer = Vector3.Scale(closest.transform.position - transform.position, new Vector3(1, 0, 1)); // ignore Y axis
 
@@ -169,7 +172,6 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateInteract()
     {
-        if(interactables.Count <= 0) return;
         closestInteractable = GetClosestInteractable();
     }
 

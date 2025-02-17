@@ -1,40 +1,25 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class Breakable : Interactable
+[System.Serializable]
+public class Breakable
 {
     [SerializeField] private float interval    = 1f;    // How often we check if something breaks
     [SerializeField] private float safetyTime  = 5f;    // 0 to 20 seconds
     [SerializeField] private float breakChance = 0.05f; // 0.008 to 0.05
 
-    [SerializeField] private float repairTime   = 4f;   // How long it takes to repair
-    [SerializeField] private float repairDrain  = 0.5f; // If stopped repairing, speed progress depletes
+    [SerializeField] private QuickTimeEvent repairQTE;
 
     [SerializeField] private VisualEffect vfx;
 
-    private float breakTimer  = 0f;
-    private bool  broken      = false;
-    private float repairTimer = 0f;
-    private bool  repairing   = false;
+    private float breakTimer = 0f;
+    private bool  broken     = false;
+    private bool  repairing  = false;
 
-    void Start()
-    {
-        Break();   
-    }
+    public bool IsBroken() => broken;
+    public void SetRepairing(bool repair) => repairing = repair;
 
-    public override void InteractZ(bool held)
-    {
-        if(broken) repairing = held;
-    }
-
-    void Update()
-    {
-        HandleRepairing();
-        HandleBreaking();
-    }
-
-    private void HandleBreaking()
+    public void HandleBreaking()
     {
         if(broken) return;
 
@@ -55,45 +40,23 @@ public class Breakable : Interactable
     {
         if(broken == false) return;
 
-        if(repairing == false)
-        {
-            if(repairTimer > 0f)
-            {
-                repairTimer = Mathf.Max(repairTimer - Time.deltaTime * repairDrain, 0f); // deplete progress by repairDrain per second
-
-                Debug.Log("Stopped " + gameObject.name + " | Progress: " + repairTimer + " / " + repairTime);
-            }
-            return;
-        }
-
-        Debug.Log("Repairing " + gameObject.name + " | Progress: " + repairTimer + " / " + repairTime);
-
-        if(repairTimer >= repairTime)
+        if(repairQTE.PerformQTE(repairing, false, false, Vector2.zero) > 0f)
         {
             Repair();
-            return;
         }
-
-        repairTimer += Time.deltaTime;
     }
 
-    private void Break()
+    public void Break()
     {
         broken = true;
-
-        ResetInteracts();
-
-        Debug.Log(gameObject.name + " broke!");
+        Debug.Log(this + " broke!");
     }
 
     private void Repair()
     {
         broken      = false;
         breakTimer  = -safetyTime; // set to negative safety time so we can reset to 0 for interval checks
-        repairTimer = 0f;
 
-        ResetInteracts();
-
-        Debug.Log(gameObject.name + " repaired!");
+        Debug.Log(this + " repaired!");
     }
 }

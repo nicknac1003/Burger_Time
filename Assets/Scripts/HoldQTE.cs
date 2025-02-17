@@ -1,41 +1,42 @@
 using UnityEngine;
 
-public class HoldQTE : QuickTimeEvents
+[System.Serializable]
+public class HoldQTE : QuickTimeEvent
 {
-    public void Update()
+    [SerializeField] private float time = 4f;   // How long it takes to repair
+    [SerializeField] private float drain = 0.5f; // If stopped repairing, speed progress depletes
+    private float progress;
+
+    public HoldQTE(float holdTime, float drainRate)
     {
-        HandleRepairing();
+        time = holdTime;
+        drain = drainRate;
+        progress = 0f;
     }
 
-    public override void InteractZ(bool held)
+    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput)
     {
-        repairing = held;
-    }
-    public void HandleRepairing()
-    {
-        if (broken == false) return;
-
-        if (repairing == false)
+        if (zPressed == false)
         {
-            if (repairTimer > 0f)
+            if (progress > 0f)
             {
-                repairTimer = Mathf.Max(repairTimer - Time.deltaTime * repairDrain, 0f); // deplete progress by repairDrain per second
+                progress = Mathf.Max(progress - Time.deltaTime * drain, 0f); // deplete progress by repairDrain per second
 
-                Debug.Log("Stopped " + gameObject.name + " | Progress: " + repairTimer + " / " + repairTime);
+                Debug.Log("Progress: " + progress + " / " + time);
             }
-            return;
+            return 0f;
         }
 
-        Debug.Log("Repairing " + gameObject.name + " | Progress: " + repairTimer + " / " + repairTime);
+        Debug.Log("Progress: " + progress + " / " + time);
 
-        if (repairTimer >= repairTime)
+        if (progress >= time)
         {
-            Repair();
-            return;
+            progress = 0f;
+            return 1f;
         }
 
-        repairTimer += Time.deltaTime;
+        progress += Time.deltaTime;
+
+        return 0f;
     }
-
-
 }

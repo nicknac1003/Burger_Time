@@ -7,8 +7,8 @@ public class ServeStation : Interactable
     public override void InteractZ(bool held)
     {
         if (held)
-        {
-            if (customerSpawner.waitingQueue.customerQueue.Count > 0 && customerSpawner.waitingQueue.customerQueue.Peek().GetComponent<CustomerController>().GetState() == CustomerState.waitingToBeServed)
+        {   
+            if (customerSpawner.serveQueue.customerQueue.Count > 0 && customerSpawner.serveQueue.customerQueue.Peek().GetComponent<CustomerController>().GetState() == CustomerState.readyToBeServed)
             {
                 Debug.Log("Serving Customer");
                 customerSpawner.CustomerServed();

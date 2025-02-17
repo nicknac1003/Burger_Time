@@ -2,34 +2,33 @@ using UnityEngine;
 
 public class Appliance : Interactable
 {
-    [SerializeField] private Breakable breakable; // leave null if not breakable
+    [SerializeField] private Breakable breakable;
 
-    // 
+    [SerializeReference] private QuickTimeEvent useApplianceQTE = null;
 
-    [SerializeReference] private QuickTimeEvent useApplianceQTE;
+    private bool working  = true;
+    private bool zPressed = false;
 
-
-    public override void InteractZ(bool held)
-    {
-        if(breakable != null && breakable.IsBroken())
-        {
-            breakable.SetRepairing(held);
-        }
-    }
-
-    void Start()
-    {
-        //breakable.Break();   
-    }
+    public override void InteractZ(bool pressed) => zPressed = pressed;
 
     void Update()
     {
-        if(breakable != null)
+        if(breakable.CanBreak())
         {
             breakable.HandleBreaking();
-            breakable.HandleRepairing();
+            breakable.HandleRepairing(zPressed, this);
+            working = breakable.IsBroken() == false;
+        }   
+
+        if(working)
+        {
+            useApplianceQTE.PerformQTE(zPressed, false, false, Vector2.zero, this);
+
+            // print out score from QTE once finished
+            //if(useApplianceQTE.InProgress() == false)
+            //{
+            //    //
+            //}
         }
-
-
     }
 }

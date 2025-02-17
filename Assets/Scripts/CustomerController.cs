@@ -41,7 +41,7 @@ public class CustomerController : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition.position, Time.deltaTime * 2f);
         }
-        Debug.Log(state);
+        
     }
     public void ReadyToOrder()
     {
@@ -57,10 +57,11 @@ public class CustomerController : MonoBehaviour
         // Logic for taking the order
         state = CustomerState.waitingToBeServed;
     }
-    public void Serve()
+    public void Served()
     {
         // Logic for getting the food
         state = CustomerState.leaving;
+        targetPosition = customerSpawner.exitPosition;
     }
     public CustomerState GetState()
     {

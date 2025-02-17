@@ -4,21 +4,22 @@ using UnityEngine.VFX;
 [System.Serializable]
 public class Breakable
 {
+    [SerializeField] private bool  canBreak    = true;
     [SerializeField] private float interval    = 1f;    // How often we check if something breaks
     [SerializeField] private float safetyTime  = 5f;    // 0 to 20 seconds
     [SerializeField] private float breakChance = 0.05f; // 0.008 to 0.05
 
-    [SerializeField] private QuickTimeEvent repairQTE;
-    [SerializeField] private Holdable       requiredItem;
+    [SerializeReference] private QuickTimeEvent repairQTE = null;
+
+    [SerializeField] private Holdable holdable = null;
 
     [SerializeField] private VisualEffect vfx;
 
     private float breakTimer = 0f;
     private bool  broken     = false;
-    private bool  repairing  = false;
 
     public bool IsBroken() => broken;
-    public void SetRepairing(bool repair) => repairing = repair;
+    public bool CanBreak() => canBreak;
 
     public void HandleBreaking()
     {
@@ -37,11 +38,17 @@ public class Breakable
         breakTimer += Time.deltaTime;
     }
 
-    public void HandleRepairing()
+    public void HandleRepairing(bool pressed, Interactable parent)
     {
         if(broken == false) return;
 
-        if(repairQTE.PerformQTE(repairing, false, false, Vector2.zero) > 0f)
+        if(repairQTE == null)
+        {
+            Debug.LogError("No repair QTE assigned to " + this);
+            return;
+        }
+
+        if(repairQTE.PerformQTE(pressed, false, false, Vector2.zero, parent) > 0f)
         {
             Repair();
         }

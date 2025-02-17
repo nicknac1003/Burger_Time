@@ -8,7 +8,7 @@ public class Breakable
     [SerializeField] private float safetyTime  = 5f;    // 0 to 20 seconds
     [SerializeField] private float breakChance = 0.05f; // 0.008 to 0.05
 
-    [SerializeField] private HoldQTE repairQTE;
+    [SerializeField] private QuickTimeEvent repairQTE;
 
     [SerializeField] private VisualEffect vfx;
 

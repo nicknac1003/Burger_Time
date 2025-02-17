@@ -3,6 +3,7 @@ using UnityEngine;
 public class Appliance : Interactable
 {
     [SerializeField] private Breakable breakable; // leave null if not breakable
+    [SerializeField] private QuickTimeEvent useApplianceQTE;
 
     public override void InteractZ(bool held)
     {

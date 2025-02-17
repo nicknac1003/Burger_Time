@@ -1,31 +1,33 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System;
 
 public class CustomerSpawner : MonoBehaviour
 {
     public GameObject customerPrefab;
     public Transform spawnPoint;
+    public Transform exitPosition;
     public float spawnInterval = 5f;
     private float spawnTimer = 0f;
 
     public int maxCustomers = 5;
 
     public QueueType orderQueue = new QueueType();
-    public QueueType waitingQueue= new QueueType();
+    public QueueType serveQueue= new QueueType();
 
     public GameManager gameManager;
 
     public Transform orderQueueHead;
-    public Transform waitingQueueHead;
+    public Transform serveQueueHead;
 
     public void Start()
     {
         //space the queuepositions array based on queuehead 
         orderQueue.lineHead = orderQueueHead;
         orderQueue.GenerateQueuePositions();
-        waitingQueue.lineHead = waitingQueueHead;
-        waitingQueue.GenerateQueuePositions();
+        serveQueue.lineHead = serveQueueHead;
+        serveQueue.GenerateQueuePositions();
 
     }
 
@@ -33,10 +35,11 @@ public class CustomerSpawner : MonoBehaviour
     {
         spawnTimer += Time.deltaTime;
 
-        if (spawnTimer >= spawnInterval && gameManager.canCreateCustomers && gameManager.getCurrentCustomerCount() < maxCustomers)
+        if (spawnTimer >= spawnInterval )
         {
             spawnTimer = 0f;
-            SpawnCustomer();
+            if (gameManager.canCreateCustomers && gameManager.getCurrentCustomerCount() < maxCustomers)
+                SpawnCustomer();
         }
     }
 
@@ -58,7 +61,7 @@ public class CustomerSpawner : MonoBehaviour
             case CustomerState.waitingToOrder:
                 return orderQueue.GetQueuePosition(position);
             case CustomerState.waitingToBeServed:
-                return waitingQueue.GetQueuePosition(position);
+                return serveQueue.GetQueuePosition(position);
         }
         
         return null;
@@ -67,19 +70,23 @@ public class CustomerSpawner : MonoBehaviour
     {
         Transform customer = orderQueue.customerQueue.Dequeue();
         orderQueue.UpdateQueuePositions();
-        waitingQueue.customerQueue.Enqueue(customer);
+        serveQueue.customerQueue.Enqueue(customer);
         customer.GetComponent<CustomerController>().OrderTaken();
-        waitingQueue.UpdateQueuePositions();
+        serveQueue.UpdateQueuePositions();
     }
     public void CustomerServed()
     {
-        Transform customer = waitingQueue.customerQueue.Dequeue();
-        waitingQueue.UpdateQueuePositions();
+        Transform customer = serveQueue.customerQueue.Dequeue();
+        customer.GetComponent<CustomerController>().Served();
+        serveQueue.UpdateQueuePositions();
         gameManager.removeCustomer();
-        Destroy(customer.gameObject); //do somekind of walkout later
+        
+        Destroy(customer.gameObject, 5f); //do somekind of walkout later
     }
 
 }
+
+[System.Serializable]
 public class QueueType{
     public Queue<Transform> customerQueue = new Queue<Transform>();
     public Transform[] queuePositions;

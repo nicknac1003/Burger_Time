@@ -8,8 +8,8 @@ public class Breakable
     [SerializeField] private float safetyTime  = 5f;    // 0 to 20 seconds
     [SerializeField] private float breakChance = 0.05f; // 0.008 to 0.05
 
-    [SerializeField] private QuickTimeEvent repairQTE;
-    [SerializeField] private Holdable       requiredItem;
+    [SerializeReference] private QuickTimeEvent repairQTE;
+    [SerializeField] private Holdable holdable;
 
     [SerializeField] private VisualEffect vfx;
 
@@ -40,7 +40,10 @@ public class Breakable
     public void HandleRepairing()
     {
         if(broken == false) return;
-
+        if(repairQTE == null){
+            Debug.LogError("No repair QTE assigned to " + this);
+            return;
+        }
         if(repairQTE.PerformQTE(repairing, false, false, Vector2.zero) > 0f)
         {
             Repair();

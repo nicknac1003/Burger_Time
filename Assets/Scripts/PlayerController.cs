@@ -172,7 +172,6 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateInteract()
     {
-        if(interactables.Count <= 0) return;
         closestInteractable = GetClosestInteractable();
     }
 

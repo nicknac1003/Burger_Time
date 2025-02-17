@@ -99,5 +99,9 @@ public class GameManager : MonoBehaviour
     {
         currentCustomerCount--;
     }
+    public int getCurrentCustomerCount()
+    {
+        return currentCustomerCount;
+    }
 }
  

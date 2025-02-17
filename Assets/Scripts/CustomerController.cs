@@ -1,9 +1,12 @@
 using UnityEngine;
 public enum CustomerState
 {
+    entering,
+    waitingToOrder,
+    readyToOrder,
     ordering,
-    waiting,
-    eating,
+    waitingToBeServed,
+    readyToBeServed,
     leaving
 
 }
@@ -12,7 +15,7 @@ public class CustomerController : MonoBehaviour
     private int queuePosition;
     private Transform targetPosition;
     private CustomerSpawner customerSpawner;
-    private CustomerState state = CustomerState.ordering;
+    private CustomerState state = CustomerState.entering;
     void Awake()
     {
         customerSpawner = FindFirstObjectByType<CustomerSpawner>();
@@ -38,18 +41,29 @@ public class CustomerController : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition.position, Time.deltaTime * 2f);
         }
+        Debug.Log(state);
+    }
+    public void ReadyToOrder()
+    {
+        state = CustomerState.ordering;
+    }
+    public void ReadyToBeServed()
+    {
+        state = CustomerState.readyToBeServed;
     }
 
-    // public void TakeOrder()
-    // {
-    //     // Logic for taking the order
-    //     Debug.Log("Order taken for customer at position: " + queuePosition);
-    //     customerSpawner.CustomerOrderTaken(this);
-    // }
-    // public void Serve()
-    // {
-    //     // Logic for getting the food
-    //     Debug.Log("Food given to customer at position: " + queuePosition);
-    //     customerSpawner.serveCustomer(this);
-    // }
+    public void OrderTaken()
+    {
+        // Logic for taking the order
+        state = CustomerState.waitingToBeServed;
+    }
+    public void Serve()
+    {
+        // Logic for getting the food
+        state = CustomerState.leaving;
+    }
+    public CustomerState GetState()
+    {
+        return state;
+    }
 }

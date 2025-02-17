@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEditor;
-public class RainbowQTE : MonoBehaviour
+public class RainbowQTE : QuickTimeEvent
 {
 
     [Header("Rainbow Parameters")]

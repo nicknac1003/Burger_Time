@@ -44,9 +44,11 @@ GameObject:
   - component: {fileID: 2535240831259751565}
   - component: {fileID: 9013245273729636465}
   - component: {fileID: 3027955535481558421}
+  - component: {fileID: -5230176534125646159}
+  - component: {fileID: 2809721718328969985}
   m_Layer: 0
   m_Name: FireExtinguisher
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,14 +137,55 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.74
+  m_Height: 2.51
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-5230176534125646159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6121615421005110241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d1a57df5bf2ba42971a2f5b7a25db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foam: {fileID: 8685062350413966357}
+  extinguisherSound: {fileID: 0}
+--- !u!54 &2809721718328969985
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6121615421005110241}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7099413356353842641
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +240,16 @@ VisualEffect:
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 0, y: 0, z: 0}
+        m_Name: Location_position
+        m_Overridden: 0
+      - m_Value: {x: 4.9120274, y: 1.78295, z: 1.7947025}
+        m_Name: Bound_size
+        m_Overridden: 0
+      - m_Value: {x: 2.4387388, y: -0.040041268, z: -0.024369376}
+        m_Name: Bound_center
+        m_Overridden: 0
     m_Vector4f:
       m_Array: []
     m_Uint:

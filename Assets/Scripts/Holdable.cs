@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Holdable : Interactable
 {
-    private bool toggleHold = false;
+    protected bool toggleHold = false;
 
     public override void InteractC(bool held)
     {

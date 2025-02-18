@@ -5,7 +5,7 @@ public class HoldQTE : QuickTimeEvent
 {
     [SerializeField] private GameObject clock;
 
-    private GameObject clockInstance;
+    private GameObject     clockInstance;
     private SpriteRenderer clockSpriteRenderer;
 
     [Tooltip("How long it takes to complete QTE.")]
@@ -25,7 +25,6 @@ public class HoldQTE : QuickTimeEvent
         drain    = 0.5f;
         progress = -1f;
     }
-
     public HoldQTE(float holdTime, float drainRate)
     {
         time = holdTime;
@@ -38,13 +37,17 @@ public class HoldQTE : QuickTimeEvent
     public void SetDrainSpeed(float speed) => drainSpeed = speed;
     public void ResetDrainSpeed()          => drainSpeed = 1f;
 
+    private void ResetProgress()           => progress   = -1f;
+    private void StartProgress()           => progress   = 0f;
+
+    public override bool InProgress()
+    {
+        return progress < time && progress >= 0f;
+    }
+
     public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        if(progress < 0f) // Initialize
-        {
-            progress = 0f;
-            CreateUI(parent.transform);
-        }
+        StartQTE(parent);
 
         if (zPressed == false)
         {
@@ -59,9 +62,7 @@ public class HoldQTE : QuickTimeEvent
 
         if (progress >= time)
         {
-            progress = -1f;
-            parent.ResetInteracts();
-            DestroyUI();
+            EndQTE(parent);
             return 1f;
         }
 
@@ -72,14 +73,11 @@ public class HoldQTE : QuickTimeEvent
         return 0f;
     }
 
-    public override bool InProgress()
+    protected override void CreateUI(Transform anchor)
     {
-        return progress < time && progress >= 0f;
-    }
+        DestroyUI();
 
-    public override void CreateUI(Transform parent)
-    {
-        clockInstance = Object.Instantiate(clock, parent);
+        clockInstance = Object.Instantiate(clock, anchor);
         clockInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
 
         clockSpriteRenderer = clockInstance.GetComponent<SpriteRenderer>();
@@ -87,15 +85,27 @@ public class HoldQTE : QuickTimeEvent
         clockSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
         clockSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
     }
-
-    public override void DestroyUI()
+    protected override void DestroyUI()
     {
+        if(clockInstance == null) return;
+
         Object.Destroy(clockInstance);
+        clockInstance       = null;
         clockSpriteRenderer = null;
     }
 
-    public override void Cancel()
+    protected override void StartQTE(Interactable parent)
     {
-        throw new System.NotImplementedException();
+        if(progress >= 0f) return;
+
+        // Do not reset interacts - hold allowed to pass through
+        StartProgress();
+        CreateUI(parent.transform);
+    }
+    public override void EndQTE(Interactable parent)
+    {
+        parent.ResetInteracts();
+        ResetProgress();
+        DestroyUI();
     }
 }

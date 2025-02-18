@@ -14,7 +14,7 @@ public class Breakable
     [Range(0.5f, 5f)][SerializeField] private float interval = 1f;
     
     [Tooltip("How long after breaking before we can break again.")]
-    [Range(0f, 20f)][SerializeField] private float safetyTime = 5f;
+    [Range(1f, 20f)][SerializeField] private float safetyTime = 5f;
 
     [Tooltip("Chance of breaking per interval check as a decimal percentage.")]
     [Range(0.008f, 0.05f)][SerializeField] private float breakChance = 0.05f;
@@ -37,9 +37,11 @@ public class Breakable
     public bool IsBroken() => broken;
     public bool CanBreak() => canBreak;
 
-    public void HandleBreaking()
+    public void HandleBreaking(Appliance parent)
     {
         if(broken) return;
+
+        if(canBreakDuringUse == false && parent.InUse()) return;
 
         if(breakTimer >= interval)
         {
@@ -47,14 +49,14 @@ public class Breakable
 
             if(Random.value < breakChance)
             {
-                Break();
+                Break(parent);
             }
         }
 
         breakTimer += Time.deltaTime;
     }
 
-    public void HandleRepairing(bool pressed, Interactable parent)
+    public void HandleRepairing(bool pressed, Appliance parent)
     {
         if(broken == false) return;
 
@@ -66,21 +68,21 @@ public class Breakable
 
         if(repairQTE.PerformQTE(pressed, false, false, Vector2.zero, parent) > 0f)
         {
-            Repair();
+            Repair(parent);
         }
     }
 
-    public void Break()
+    public void Break(Appliance parent)
     {
         broken = true;
-        Debug.Log(this + " broke!");
+        Debug.Log(parent.name + " broke!");
     }
 
-    private void Repair()
+    private void Repair(Appliance parent)
     {
         broken      = false;
         breakTimer  = -safetyTime; // set to negative safety time so we can reset to 0 for interval checks
 
-        Debug.Log(this + " repaired!");
+        Debug.Log(parent.name + " repaired!");
     }
 }

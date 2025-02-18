@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using static EaseFunctions;
 
@@ -27,6 +28,9 @@ public class SliderQTE : QuickTimeEvent
 
     private float timer = -1f;
     private Vector3 arrowStartPosition;
+
+    private void ResetTimer() => timer = -1f;
+    private void StartTimer() => timer = 0f;
 
     public SliderQTE() // default constructor
     {
@@ -63,10 +67,7 @@ public class SliderQTE : QuickTimeEvent
         {
             // Did we press Z to initiate?
             if(zPressed == false) return 0f;
-
-            timer = 0f;
-            CreateUI(parent.transform);
-            parent.ResetInteracts(); // Reset to prevent multiple interactions
+            StartQTE(parent);
             zPressed = false;
         }
 
@@ -83,24 +84,22 @@ public class SliderQTE : QuickTimeEvent
         // Did we press Z to confirm?
         if(zPressed)
         {
-            Finished();
-            parent.ResetInteracts(); // Reset to prevent multiple interactions
+            EndQTE(parent);
             return Mathf.Clamp01(1 - Mathf.Abs(arrowPosition - targetPosition) / targetRange);
         }
 
-        if(InProgress())
+        if(InProgress() == false)
         {
-            timer += Time.deltaTime;
+            EndQTE(parent);
+            return 0f;
         }
-        else
-        {
-            Finished();
-        }
+
+        timer += Time.deltaTime;
 
         return 0f;
     }
 
-    public override void CreateUI(Transform parent)
+    protected override void CreateUI(Transform parent)
     {
         // Instantiate UI Elements
         sliderBarInstance = Object.Instantiate(sliderBar, parent);
@@ -124,8 +123,7 @@ public class SliderQTE : QuickTimeEvent
         sliderSpriteRenderer.material.SetColor("_targetColor", GlobalConstants.goodColor);
         sliderSpriteRenderer.material.SetColor("_failColor", GlobalConstants.badColor);
     }
-
-    public override void DestroyUI()
+    protected override void DestroyUI()
     {
         Object.Destroy(sliderBarInstance);
         Object.Destroy(sliderArrowInstance);
@@ -134,14 +132,16 @@ public class SliderQTE : QuickTimeEvent
         sliderArrowInstance = null;
     }
 
-    private void Finished()
+    protected override void StartQTE(Interactable parent)
     {
-        DestroyUI();
-        timer = -1f;
+        parent.ResetInteracts();
+        StartTimer();
+        CreateUI(parent.transform);
     }
-
-    public override void Cancel()
+    public override void EndQTE(Interactable parent)
     {
-        throw new System.NotImplementedException();
+        parent.ResetInteracts();
+        ResetTimer();
+        DestroyUI();
     }
 }

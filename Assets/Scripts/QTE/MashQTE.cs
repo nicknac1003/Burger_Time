@@ -7,15 +7,43 @@ public class MashQTE : QuickTimeEvent
 
     [SerializeField] private GameObject fillBar;
 
-    private GameObject fillBarInstance;
+    private GameObject     fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
-    public override void Cancel()
+    private bool releasedKey  = true;
+    private int  mashProgress = 0;
+
+    private void ResetMashing() => mashProgress = 0;
+
+    public override bool InProgress()
     {
-        throw new System.NotImplementedException();
+        return mashProgress < mashCount;
     }
 
-    public override void CreateUI(Transform parent)
+    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
+    {
+        StartQTE(parent);
+
+        if(zPressed && releasedKey) mashProgress++;
+
+        releasedKey = !zPressed;
+
+        float progress = mashProgress / (float)mashCount;
+
+        Debug.Log("Mash: " + progress);
+
+        fillBarSpriteRenderer.material.SetFloat("_progress", progress);
+
+        if(mashProgress >= mashCount)
+        {
+            EndQTE(parent);
+            return 1f;
+        }
+
+        return 0f;
+    }
+
+    protected override void CreateUI(Transform parent)
     {
         fillBarInstance = Object.Instantiate(fillBar, parent);
         fillBarInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
@@ -25,19 +53,25 @@ public class MashQTE : QuickTimeEvent
         fillBarSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
         fillBarSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
     }
-
-    public override void DestroyUI()
+    protected override void DestroyUI()
     {
-        throw new System.NotImplementedException();
+        if(fillBarInstance == null) return;
+
+        Object.Destroy(fillBarInstance);
+        fillBarInstance       = null;
+        fillBarSpriteRenderer = null;
     }
 
-    public override bool InProgress()
+    protected override void StartQTE(Interactable parent)
     {
-        throw new System.NotImplementedException();
-    }
+        if(mashProgress > 0) return;
 
-    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
+        CreateUI(parent.transform);
+    }
+    public override void EndQTE(Interactable parent)
     {
-        throw new System.NotImplementedException();
+        parent.ResetInteracts();
+        ResetMashing();
+        DestroyUI();
     }
 }

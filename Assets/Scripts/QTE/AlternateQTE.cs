@@ -1,28 +1,31 @@
 using UnityEngine;
 
-public class AlternameQTE : QuickTimeEvent
+public class AlternateQTE : QuickTimeEvent
 {
-    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
-    {
-        return 0;
-    }
-
     public override bool InProgress()
     {
-        return false;
+        throw new System.NotImplementedException();
     }
 
-    public override void CreateUI(Transform parent)
+    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        return;
+        throw new System.NotImplementedException();
     }
 
-    public override void DestroyUI()
+    protected override void CreateUI(Transform anchor)
     {
-        return;
+        throw new System.NotImplementedException();
+    }
+    protected override void DestroyUI()
+    {
+        throw new System.NotImplementedException();
     }
 
-    public override void Cancel()
+    protected override void StartQTE(Interactable parent)
+    {
+        throw new System.NotImplementedException();
+    }
+    public override void EndQTE(Interactable parent)
     {
         throw new System.NotImplementedException();
     }

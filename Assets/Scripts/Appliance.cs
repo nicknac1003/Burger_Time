@@ -10,13 +10,14 @@ public class Appliance : Storage
     private bool working  = true;
     private bool zPressed = false;
 
+    public bool InUse() => useApplianceQTE.InProgress();
     public override void InteractZ(bool pressed) => zPressed = pressed;
 
     void Update()
     {
         if(breakable.CanBreak())
         {
-            breakable.HandleBreaking();
+            breakable.HandleBreaking(this);
             breakable.HandleRepairing(zPressed, this);
             working = breakable.IsBroken() == false;
         }   

@@ -1324,10 +1324,10 @@ MonoBehaviour:
     canBreak: 1
     canBreakDuringUse: 0
     interval: 1
-    safetyTime: 5
+    safetyTime: 1
     breakChance: 0.05
     repairQTE:
-      rid: 2277583764076102037
+      rid: 2277583764076102044
     requiredHoldable: {fileID: 0}
     vfxBreak: {fileID: 0}
     vfxAnchor: {fileID: 0}
@@ -1346,12 +1346,11 @@ MonoBehaviour:
         sliderTime: 2
         easeIn: 7
         easeOut: 8
-    - rid: 2277583764076102037
-      type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
+    - rid: 2277583764076102044
+      type: {class: MashQTE, ns: , asm: Assembly-CSharp}
       data:
-        clock: {fileID: 0}
-        time: 4
-        drain: 0.5
+        mashCount: 10
+        fillBar: {fileID: 77001301280069056, guid: 65bc9ff1cfc8cdc49b5f16d2131f7e70, type: 3}
 --- !u!1 &421825435
 GameObject:
   m_ObjectHideFlags: 0

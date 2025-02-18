@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(QuickTimeEvent), true)]
-public class BaseClassDrawer : PropertyDrawer
+public class QTEDrawer : PropertyDrawer
 { 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     { 
@@ -13,8 +13,8 @@ public class BaseClassDrawer : PropertyDrawer
         string type  = property.managedReferenceFullTypename;
         if(string.IsNullOrEmpty(type)) type = "HoldQTE"; // default value
 
-        Type[] types = new[] { typeof(HoldQTE), typeof(SliderQTE) };
-        string[] dropDownOptions = new[] {"Hold", "Slider"};
+        Type[] types = new[] { typeof(HoldQTE), typeof(SliderQTE), typeof(MashQTE), typeof(AlternateQTE) };
+        string[] dropDownOptions = new[] {"Hold", "Slider", "Mash", "Alternate"};
 
         int index = 0; 
         for (int i = 0; i < types.Length; i++) 

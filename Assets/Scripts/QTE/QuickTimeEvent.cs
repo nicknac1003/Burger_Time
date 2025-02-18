@@ -3,6 +3,14 @@ using UnityEngine;
 [System.Serializable]
 public abstract class QuickTimeEvent
 {
+    [Tooltip("Should the player be locked in place during the QTE?")]
+    [SerializeField] bool locksPlayerInPlace = true;
+
+    public QuickTimeEvent(bool locksPlayer = true)
+    {
+        locksPlayerInPlace = locksPlayer;
+    }
+    
     /// <summary>
     /// Is this QTE in progress?
     /// </summary>

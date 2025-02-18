@@ -13,16 +13,25 @@ public class MashQTE : QuickTimeEvent
     private bool releasedKey  = true;
     private int  mashProgress = 0;
 
+    public MashQTE() : base(true) { mashCount = 10; }
+    public MashQTE(int count) : base(true) { mashCount = count; }
+
     private void ResetMashing() => mashProgress = 0;
 
     public override bool InProgress()
     {
-        return mashProgress < mashCount;
+        return mashProgress < mashCount && mashProgress > 0;
     }
 
     public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        if(zPressed && mashProgress == 0)
+        if(xPressed)
+        {
+            EndQTE(parent);
+            return 0f;
+        }
+
+        if(zPressed)
         {
             if(mashProgress == 0)
             {
@@ -34,19 +43,18 @@ public class MashQTE : QuickTimeEvent
             }
         }
 
+        if(InProgress() == false)
+        {
+            float score = mashProgress >= mashCount ? 1f : 0f;
+            EndQTE(parent);
+            return score;
+        }
+
         releasedKey = !zPressed;
 
         float progress = mashProgress / (float)mashCount;
 
-        Debug.Log("Mash: " + progress);
-
         fillBarSpriteRenderer.material.SetFloat("_progress", progress);
-
-        if(mashProgress >= mashCount)
-        {
-            EndQTE(parent);
-            return 1f;
-        }
 
         return 0f;
     }

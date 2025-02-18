@@ -84,8 +84,8 @@ public class HoldQTE : QuickTimeEvent
 
         clockSpriteRenderer = clockInstance.GetComponent<SpriteRenderer>();
         clockSpriteRenderer.material = new Material(clockSpriteRenderer.material);
-        clockSpriteRenderer.material.SetColor("_colorA", GlobalConstants.badColor);
-        clockSpriteRenderer.material.SetColor("_colorB", GlobalConstants.goodColor);
+        clockSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
+        clockSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
     }
 
     public override void DestroyUI()

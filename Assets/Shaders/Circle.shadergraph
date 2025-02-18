@@ -730,7 +730,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 0.0,
+    "m_Value": 0.25,
     "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.0,
@@ -751,10 +751,10 @@
             "m_Id": "0843769e1b5642c3a9ecb5502d0cc9f6"
         },
         {
-            "m_Id": "95774ad6686c45e4ab712911c23d822d"
+            "m_Id": "d9418ed2d0564c75b75d0914a3703b22"
         },
         {
-            "m_Id": "d9418ed2d0564c75b75d0914a3703b22"
+            "m_Id": "95774ad6686c45e4ab712911c23d822d"
         }
     ]
 }
@@ -1722,7 +1722,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "44e3a18f4a86467f8626e2426da8a54d",
     "m_Id": 0,
-    "m_DisplayName": "colorA",
+    "m_DisplayName": "colorEmpty",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2851,10 +2851,10 @@
     "m_Guid": {
         "m_GuidSerialized": "ea96e4cf-faf1-45f1-baad-2277c9bef19a"
     },
-    "m_Name": "colorA",
+    "m_Name": "colorEmpty",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "colorA",
-    "m_DefaultReferenceName": "_colorA",
+    "m_RefNameGeneratedByDisplayName": "colorEmpty",
+    "m_DefaultReferenceName": "_colorEmpty",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -3237,7 +3237,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "aa1666e2f9c646d79f2fc3ded8480815",
     "m_Id": 0,
-    "m_DisplayName": "colorB",
+    "m_DisplayName": "colorFilled",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -3663,10 +3663,10 @@
     "m_Guid": {
         "m_GuidSerialized": "36feb348-8867-425b-8a55-a2dc33f97652"
     },
-    "m_Name": "colorB",
+    "m_Name": "colorFilled",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "colorB",
-    "m_DefaultReferenceName": "_colorB",
+    "m_RefNameGeneratedByDisplayName": "colorFilled",
+    "m_DefaultReferenceName": "_colorFilled",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,

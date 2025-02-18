@@ -209,6 +209,7 @@ public class PlayerController : MonoBehaviour
     }
     public void DropItem()
     {
+        holding.SetHold(false);
         holding = null;
     }
 }

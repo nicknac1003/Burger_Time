@@ -6,7 +6,7 @@ public class HoldQTE : QuickTimeEvent
     [SerializeField] private GameObject clock;
 
     private GameObject clockInstance;
-    private Material   clockInstanceMaterial;
+    private SpriteRenderer clockSpriteRenderer;
 
     [Tooltip("How long it takes to complete QTE.")]
     [Range(0.5f, 8f)][SerializeField] private float time  = 4f;
@@ -52,23 +52,22 @@ public class HoldQTE : QuickTimeEvent
             {
                 progress = Mathf.Max(progress - Time.deltaTime * drain * drainSpeed, 0f); // deplete progress by repairDrain per second
 
-                Debug.Log("N - Progress: " + progress + " / " + time);
+                clockSpriteRenderer.material.SetFloat("_progress", progress / time); // normalize progress to 0-1 range
             }
             return 0f;
         }
 
-        Debug.Log("Y - Progress: " + progress + " / " + time);
-
         if (progress >= time)
         {
             progress = -1f;
+            parent.ResetInteracts();
             DestroyUI();
             return 1f;
         }
 
         progress += Time.deltaTime * fillSpeed;
 
-        clockInstanceMaterial.SetFloat("_progress", progress / time); // normalize progress to 0-1 range
+        clockSpriteRenderer.material.SetFloat("_progress", progress / time); // normalize progress to 0-1 range
 
         return 0f;
     }
@@ -81,17 +80,17 @@ public class HoldQTE : QuickTimeEvent
     public override void CreateUI(Transform parent)
     {
         clockInstance = Object.Instantiate(clock, parent);
-        clockInstance.transform.localPosition = new Vector3(0f, 2.25f, 0f);
+        clockInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
 
-        SpriteRenderer clockSpriteRenderer = clockInstance.GetComponent<SpriteRenderer>();
-        clockInstanceMaterial = new Material(clockSpriteRenderer.material);
-        clockInstanceMaterial.SetColor("_colorA", GlobalConstants.badColor);
-        clockInstanceMaterial.SetColor("_colorB", GlobalConstants.goodColor);
+        clockSpriteRenderer = clockInstance.GetComponent<SpriteRenderer>();
+        clockSpriteRenderer.material = new Material(clockSpriteRenderer.material);
+        clockSpriteRenderer.material.SetColor("_colorA", GlobalConstants.badColor);
+        clockSpriteRenderer.material.SetColor("_colorB", GlobalConstants.goodColor);
     }
 
     public override void DestroyUI()
     {
         Object.Destroy(clockInstance);
-        clockInstanceMaterial = null;
+        clockSpriteRenderer = null;
     }
 }

@@ -84,6 +84,7 @@ public class SliderQTE : QuickTimeEvent
         if(zPressed)
         {
             Finished();
+            parent.ResetInteracts(); // Reset to prevent multiple interactions
             return Mathf.Clamp01(1 - Mathf.Abs(arrowPosition - targetPosition) / targetRange);
         }
 

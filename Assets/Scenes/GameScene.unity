@@ -1313,12 +1313,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   breakable:
-    canBreak: 0
+    canBreak: 1
     interval: 1
     safetyTime: 5
     breakChance: 0.05
     repairQTE:
-      rid: -2
+      rid: 2277583764076102004
     holdable: {fileID: 0}
     vfxBreak: {fileID: 0}
     vfxRepair: {fileID: 0}
@@ -1327,8 +1327,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 2277583764076101992
       type: {class: SliderQTE, ns: , asm: Assembly-CSharp}
       data:
@@ -1339,6 +1337,12 @@ MonoBehaviour:
         sliderTime: 1.5
         easeIn: 7
         easeOut: 8
+    - rid: 2277583764076102004
+      type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
+      data:
+        clock: {fileID: 4808308107867946876, guid: de06d067b2ca6164f8ad5d2e5c757001, type: 3}
+        time: 3
+        drain: 0.5
 --- !u!1 &421825435
 GameObject:
   m_ObjectHideFlags: 0

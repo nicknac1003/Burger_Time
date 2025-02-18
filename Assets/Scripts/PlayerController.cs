@@ -52,15 +52,15 @@ public class PlayerController : MonoBehaviour
         pauseAction.started += _ => { GameManager.Instance.HandlePauseGame(); };
 
         zAction = playerInput.actions.FindAction("Z");
-        zAction.started += _ => { if (closestInteractable != null) closestInteractable.InteractZ(true); };
+        zAction.started  += _ => { if (closestInteractable != null) closestInteractable.InteractZ(true); };
         zAction.canceled += _ => { if (closestInteractable != null) closestInteractable.InteractZ(false); };
 
         xAction = playerInput.actions.FindAction("X");
-        xAction.started += _ => ProcessXInteract(true);
+        xAction.started  += _ => ProcessXInteract(true);
         xAction.canceled += _ => ProcessXInteract(true);
 
         cAction = playerInput.actions.FindAction("C");
-        cAction.started += _ => { if (closestInteractable != null) closestInteractable.InteractC(true); };
+        cAction.started  += _ => { if (closestInteractable != null) closestInteractable.InteractC(true); };
         cAction.canceled += _ => { if (closestInteractable != null) closestInteractable.InteractC(false); };
 
         decayFactor = 1 - velocityDecay * Time.fixedDeltaTime;
@@ -174,7 +174,6 @@ public class PlayerController : MonoBehaviour
     public void AddInteractable(Interactable interactable)
     {
         interactables.Add(interactable);
-        interactable.ResetInteracts();
     }
     public void RemoveInteractable(Interactable interactable)
     {

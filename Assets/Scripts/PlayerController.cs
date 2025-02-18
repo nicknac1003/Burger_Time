@@ -24,17 +24,18 @@ public class PlayerController : MonoBehaviour
     [Header("Physics Debug Data")]
     public Vector3 acceleration; // m/s^2
     public Vector3 velocity;     // m/s
-    public float   velocityMagnitude;
-    public float   accelerationMagnitude;
+    public float velocityMagnitude;
+    public float accelerationMagnitude;
 
-    // Gameplay Variables
+    [Header("Gameplay Variables")]
+    public TicketManager ticketManager;
     private List<Interactable> interactables = new();
-    private Interactable       closestInteractable;
-    private Holdable           holding;
+    private Interactable closestInteractable;
+    private Holdable holding;
 
     void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -46,32 +47,32 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
 
         moveAction = playerInput.actions.FindAction("Move");
-        
+
         pauseAction = playerInput.actions.FindAction("Pause");
         pauseAction.started += _ => { GameManager.Instance.HandlePauseGame(); };
 
         zAction = playerInput.actions.FindAction("Z");
-        zAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractZ(true); };
-        zAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractZ(false);};
+        zAction.started += _ => { if (closestInteractable != null) closestInteractable.InteractZ(true); };
+        zAction.canceled += _ => { if (closestInteractable != null) closestInteractable.InteractZ(false); };
 
         xAction = playerInput.actions.FindAction("X");
-        xAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractX(true); };
-        xAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractX(false);};
+        xAction.started += _ => ProcessXInteract(true);
+        xAction.canceled += _ => ProcessXInteract(true);
 
         cAction = playerInput.actions.FindAction("C");
-        cAction.started  += _ => { if(closestInteractable != null) closestInteractable.InteractC(true); };
-        cAction.canceled += _ => { if(closestInteractable != null) closestInteractable.InteractC(false);};
+        cAction.started += _ => { if (closestInteractable != null) closestInteractable.InteractC(true); };
+        cAction.canceled += _ => { if (closestInteractable != null) closestInteractable.InteractC(false); };
 
-        decayFactor  = 1 - velocityDecay * Time.fixedDeltaTime;
+        decayFactor = 1 - velocityDecay * Time.fixedDeltaTime;
     }
     void Start()
     {
-        Cursor.visible   = false;
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
     void Update()
     {
-        UpdateInteract();   
+        UpdateInteract();
     }
 
     void FixedUpdate()
@@ -146,6 +147,30 @@ public class PlayerController : MonoBehaviour
         return reducedDisplacement + CollideAndSlide(newOrigin, projectedDisplacement, bounceCount + 1);
     }
 
+    public void ProcessXInteract(bool held)
+    {
+        if (closestInteractable != null)
+        {
+            closestInteractable.InteractX(held);
+        }
+        else
+        {
+            toggleTicketManager(held);
+        }
+    }
+
+    public void toggleTicketManager(bool held)
+    {
+        if (ticketManager.isOpen)
+        {
+            ticketManager.Close();
+        }
+        else
+        {
+            ticketManager.Open();
+        }
+    }
+
     public void AddInteractable(Interactable interactable)
     {
         interactables.Add(interactable);
@@ -159,16 +184,16 @@ public class PlayerController : MonoBehaviour
 
     private Interactable GetClosestInteractable()
     {
-        if(interactables.Count <= 0) return null;
+        if (interactables.Count <= 0) return null;
 
         Interactable closest = interactables[0];
         Vector3 closestToPlayer = Vector3.Scale(closest.transform.position - transform.position, new Vector3(1, 0, 1)); // ignore Y axis
 
-        for(int i = 1; i < interactables.Count; i++)
+        for (int i = 1; i < interactables.Count; i++)
         {
             Vector3 toPlayer = Vector3.Scale(interactables[i].transform.position - transform.position, new Vector3(1, 0, 1)); // ignore Y axis
 
-            if(toPlayer.magnitude < closestToPlayer.magnitude)
+            if (toPlayer.magnitude < closestToPlayer.magnitude)
             {
                 closest = interactables[i];
                 closestToPlayer = toPlayer;
@@ -185,22 +210,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Interactable"))
+        if (other.CompareTag("Interactable"))
         {
             AddInteractable(other.GetComponent<Interactable>());
-        }   
+        }
     }
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Interactable"))
+        if (other.CompareTag("Interactable"))
         {
             RemoveInteractable(other.GetComponent<Interactable>());
-        }   
+        }
     }
 
     public void PickUpItem(Holdable item)
     {
-        if(holding != null)
+        if (holding != null)
         {
             DropItem();
         }

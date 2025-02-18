@@ -22,9 +22,17 @@ public class MashQTE : QuickTimeEvent
 
     public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        StartQTE(parent);
-
-        if(zPressed && releasedKey) mashProgress++;
+        if(zPressed && mashProgress == 0)
+        {
+            if(mashProgress == 0)
+            {
+                StartQTE(parent);
+            }
+            if(releasedKey)
+            {
+                mashProgress++;
+            }
+        }
 
         releasedKey = !zPressed;
 
@@ -45,6 +53,8 @@ public class MashQTE : QuickTimeEvent
 
     protected override void CreateUI(Transform parent)
     {
+        DestroyUI();
+
         fillBarInstance = Object.Instantiate(fillBar, parent);
         fillBarInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
 
@@ -64,9 +74,8 @@ public class MashQTE : QuickTimeEvent
 
     protected override void StartQTE(Interactable parent)
     {
-        if(mashProgress > 0) return;
-
         CreateUI(parent.transform);
+        releasedKey = true;
     }
     public override void EndQTE(Interactable parent)
     {

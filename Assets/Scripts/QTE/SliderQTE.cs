@@ -29,6 +29,13 @@ public class SliderQTE : QuickTimeEvent
     private float timer = -1f;
     private Vector3 arrowStartPosition;
 
+    private float targetPosition;
+    private float targetRange;
+    private float ratio;
+    private float timeToReachTargetFromStart;
+    private float timeToReachEndFromTarget;
+    private float arrowPosition;
+
     private void ResetTimer() => timer = -1f;
     private void StartTimer() => timer = 0f;
 
@@ -51,10 +58,17 @@ public class SliderQTE : QuickTimeEvent
 
     public void SetTargetPosition(int start, int end)
     {
+        if(InProgress()) return;
+
         sliderTargetStart = Mathf.Clamp(start, 0, 59);
         sliderTargetEnd   = Mathf.Clamp(end,   1, 60);
     }
-    public void SetSliderTime(float time) => sliderTime = Mathf.Clamp(time, 0.1f, 2f);
+    public void SetSliderTime(float time)
+    {
+        if(InProgress()) return;
+
+        sliderTime = Mathf.Clamp(time, 0.1f, 2f);
+    }
 
     public override bool InProgress()
     {
@@ -63,30 +77,24 @@ public class SliderQTE : QuickTimeEvent
 
     public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        if (timer < 0f)
-        {
-            // Did we press Z to initiate?
-            if(zPressed == false) return 0f;
-            StartQTE(parent);
-            zPressed = false;
-        }
-
-        float targetPosition = (sliderTargetStart + sliderTargetEnd) / 2f;
-        float targetRange    = (sliderTargetEnd - sliderTargetStart) / 2f; // technically half the range
-        float ratio          = targetPosition / 60f;
-        float timeToReachTargetFromStart = sliderTime * ratio;
-        float timeToReachEndFromTarget   = sliderTime - timeToReachTargetFromStart;
-        
-        float arrowPosition = timer < timeToReachTargetFromStart ? EaseFunctions.Interpolate(0, targetPosition, timer / timeToReachTargetFromStart, easeIn) : EaseFunctions.Interpolate(targetPosition, 60, (timer - timeToReachTargetFromStart) / timeToReachEndFromTarget, easeOut);
-
-        sliderArrowInstance.transform.position = arrowStartPosition + new Vector3(GlobalConstants.pixelWorldSize * arrowPosition, 0f, 0f);
-
-        // Did we press Z to confirm?
         if(zPressed)
         {
-            EndQTE(parent);
-            return Mathf.Clamp01(1 - Mathf.Abs(arrowPosition - targetPosition) / targetRange);
+            if(timer < 0f)
+            {
+                StartQTE(parent);
+            }
+            else
+            {
+                EndQTE(parent);
+                return Mathf.Clamp01(1 - Mathf.Abs(arrowPosition - targetPosition) / targetRange);
+            }
+
+            return 0f;
         }
+        
+        arrowPosition = timer < timeToReachTargetFromStart ? EaseFunctions.Interpolate(0, targetPosition, timer / timeToReachTargetFromStart, easeIn) : EaseFunctions.Interpolate(targetPosition, 60, (timer - timeToReachTargetFromStart) / timeToReachEndFromTarget, easeOut);
+
+        sliderArrowInstance.transform.position = arrowStartPosition + new Vector3(GlobalConstants.pixelWorldSize * arrowPosition, 0f, 0f);
 
         if(InProgress() == false)
         {
@@ -101,6 +109,8 @@ public class SliderQTE : QuickTimeEvent
 
     protected override void CreateUI(Transform parent)
     {
+        DestroyUI();
+
         // Instantiate UI Elements
         sliderBarInstance = Object.Instantiate(sliderBar, parent);
         sliderBarInstance.transform.localPosition = new Vector3(0f, 2.25f, 0f);
@@ -137,6 +147,13 @@ public class SliderQTE : QuickTimeEvent
         parent.ResetInteracts();
         StartTimer();
         CreateUI(parent.transform);
+
+        targetPosition = (sliderTargetStart + sliderTargetEnd) / 2f;
+        targetRange    = (sliderTargetEnd - sliderTargetStart) / 2f; // technically half the range
+        ratio          = targetPosition / 60f;
+        timeToReachTargetFromStart = sliderTime * ratio;
+        timeToReachEndFromTarget   = sliderTime - timeToReachTargetFromStart;
+        arrowPosition  = 0f;
     }
     public override void EndQTE(Interactable parent)
     {

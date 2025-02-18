@@ -47,20 +47,26 @@ public class HoldQTE : QuickTimeEvent
 
     public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        StartQTE(parent);
-
-        if (zPressed == false)
+        if(zPressed == false)
         {
-            if (progress > 0f)
+            if(progress < 0f)
+            {
+                StartQTE(parent);
+            }
+            else if(progress > 0f)
             {
                 progress = Mathf.Max(progress - Time.deltaTime * drain * drainSpeed, 0f); // deplete progress by repairDrain per second
 
                 clockSpriteRenderer.material.SetFloat("_progress", progress / time); // normalize progress to 0-1 range
             }
+            else
+            {
+                EndQTE(parent);
+            }
             return 0f;
         }
 
-        if (progress >= time)
+        if (InProgress() == false)
         {
             EndQTE(parent);
             return 1f;
@@ -96,8 +102,6 @@ public class HoldQTE : QuickTimeEvent
 
     protected override void StartQTE(Interactable parent)
     {
-        if(progress >= 0f) return;
-
         // Do not reset interacts - hold allowed to pass through
         StartProgress();
         CreateUI(parent.transform);

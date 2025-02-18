@@ -673,6 +673,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   velocityMagnitude: 0
   accelerationMagnitude: 0
+  holdAnchor: {fileID: 0}
   ticketManager: {fileID: 0}
 --- !u!114 &299220627
 MonoBehaviour:
@@ -1317,6 +1318,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e1f650b40249447b6e7f013d471052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedHoldables: []
+  anchor: {fileID: 0}
   breakable:
     canBreak: 1
     interval: 1
@@ -1326,7 +1329,7 @@ MonoBehaviour:
       rid: 2277583764076102024
     holdable: {fileID: 0}
     vfxBreak: {fileID: 0}
-    vfxRepair: {fileID: 0}
+    vfxAnchor: {fileID: 0}
   useApplianceQTE:
     rid: 2277583764076101904
   references:

@@ -22,7 +22,7 @@ public class Breakable
     [Tooltip("What item needs to be held to perform the repair?")]
     [SerializeField] private Holdable holdable;
 
-    [Tooltip("VFX to play when breaking.")]
+    [Tooltip("VFX to play while broken.")]
     [SerializeField] private VisualEffect vfxBreak;
 
     [Tooltip("VFX to play when repairing.")]

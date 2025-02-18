@@ -9,13 +9,12 @@ public class CustomerSpawner : MonoBehaviour
     public Transform spawnPoint;
     public Transform exitPosition;
     public float spawnInterval = 5f;
-    public ReceiptGenerator receiptGenerator;
     private float spawnTimer = 0f;
 
     public int maxCustomers = 5;
 
     public QueueType orderQueue = new QueueType();
-    public QueueType serveQueue = new QueueType();
+    public QueueType serveQueue= new QueueType();
 
     public GameManager gameManager;
 
@@ -36,7 +35,7 @@ public class CustomerSpawner : MonoBehaviour
     {
         spawnTimer += Time.deltaTime;
 
-        if (spawnTimer >= spawnInterval)
+        if (spawnTimer >= spawnInterval )
         {
             spawnTimer = 0f;
             if (gameManager.canCreateCustomers && gameManager.getCurrentCustomerCount() < maxCustomers)
@@ -48,7 +47,6 @@ public class CustomerSpawner : MonoBehaviour
     {
         gameManager.addCustomer();
         GameObject customer = Instantiate(customerPrefab, spawnPoint.position, spawnPoint.rotation);
-        customer.GetComponent<CustomerController>().receiptGenerator = receiptGenerator;
         orderQueue.customerQueue.Enqueue(customer.transform);
         orderQueue.UpdateQueuePositions();
     }
@@ -65,7 +63,7 @@ public class CustomerSpawner : MonoBehaviour
             case CustomerState.waitingToBeServed:
                 return serveQueue.GetQueuePosition(position);
         }
-
+        
         return null;
     }
     public void CustomerOrderTaken()
@@ -82,23 +80,21 @@ public class CustomerSpawner : MonoBehaviour
         customer.GetComponent<CustomerController>().Served();
         serveQueue.UpdateQueuePositions();
         gameManager.removeCustomer();
-
+        
         Destroy(customer.gameObject, 5f); //do somekind of walkout later
     }
 
 }
 
 [System.Serializable]
-public class QueueType
-{
+public class QueueType{
     public Queue<Transform> customerQueue = new Queue<Transform>();
     public Transform[] queuePositions;
     public Transform lineHead;
     public int queueLength = 10; // Number of positions in the queue
     public float spacing = 1f; // Spacing between each position in the queue
 
-    public void GenerateQueuePositions()
-    {
+    public void GenerateQueuePositions(){
         queuePositions = new Transform[queueLength];
         for (int i = 0; i < queueLength; i++)
         {

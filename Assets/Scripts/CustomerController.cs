@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 public enum CustomerState
 {
     entering,
@@ -13,31 +12,14 @@ public enum CustomerState
 }
 public class CustomerController : MonoBehaviour
 {
-    [Header("Customer Order Parameters")]
-    public int minIngredients = 1;
-    public int maxIngredients = 5;
     private int queuePosition;
     private Transform targetPosition;
     private CustomerSpawner customerSpawner;
     private CustomerState state = CustomerState.entering;
-    public ReceiptGenerator receiptGenerator;
-    private List<string> order = new List<string>();
     void Awake()
     {
         customerSpawner = FindFirstObjectByType<CustomerSpawner>();
-    }
 
-    void GenerateOrder()
-    {
-        List<string> ingredients = receiptGenerator.ingredientNames;
-        int numIngredients = Random.Range(minIngredients, maxIngredients + 1);
-
-        for (int i = 0; i < numIngredients; i++)
-        {
-            order.Add(ingredients[Random.Range(0, ingredients.Count)]);
-        }
-
-        receiptGenerator.GenerateReceipt(order);
     }
 
     public void SetQueuePosition(int position)
@@ -59,7 +41,7 @@ public class CustomerController : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition.position, Time.deltaTime * 2f);
         }
-
+        
     }
     public void ReadyToOrder()
     {
@@ -72,9 +54,6 @@ public class CustomerController : MonoBehaviour
 
     public void OrderTaken()
     {
-        // Player has taken the order
-        GenerateOrder();
-
         // Logic for taking the order
         state = CustomerState.waitingToBeServed;
     }

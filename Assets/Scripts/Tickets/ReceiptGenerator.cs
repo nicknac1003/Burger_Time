@@ -9,8 +9,8 @@ public class ReceiptGenerator : MonoBehaviour
     [SerializeField] private TicketManager ticketManager;
 
     [Header("Serialize Dictionary -- Ignore")]
-    [SerializeField] public List<Sprite> ingredientSprites;
-    [SerializeField] public List<string> ingredientNames;
+    [SerializeField] List<Sprite> ingredientSprites;
+    [SerializeField] List<string> ingredientNames;
 
     private Dictionary<string, Sprite> ingredientImages;
     private float receiptWidth;
@@ -30,7 +30,10 @@ public class ReceiptGenerator : MonoBehaviour
         }
     }
 
-    public void GenerateReceipt(List<string> ingredients)
+    //TODO: Function that calls this will likely want to pass a list of ingredients
+    //TODO: Likely want to add reciept object to the created game object that has the list of ingredients so we can compare it to the player's burger ingredients
+    [ContextMenu("Generate New Receipt")]
+    void GenerateReceipt()
     {
         if (ticketManager != null)
         {
@@ -41,12 +44,12 @@ public class ReceiptGenerator : MonoBehaviour
             LayoutElement layoutElement = receiptParent.AddComponent<LayoutElement>();
             layoutElement.preferredWidth = totalReceiptWidth;
 
-            PopulateReceipt(receiptParent, ingredients);
+            PopulateReceipt(receiptParent);
             ticketManager.AddTicket(receiptParent);
         }
     }
 
-    void PopulateReceipt(GameObject receiptParent, List<string> ingredients)
+    void PopulateReceipt(GameObject receiptParent)
     {
         GameObject curReceipt = null;
         // Shift spawn of receipt left half of the receipt width for every receipt over 1

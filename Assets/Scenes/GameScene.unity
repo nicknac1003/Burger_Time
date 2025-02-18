@@ -1317,31 +1317,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   breakable:
-    canBreak: 0
+    canBreak: 1
     interval: 1
     safetyTime: 5
     breakChance: 0.05
     repairQTE:
-      rid: -2
+      rid: 2277583764076102004
     holdable: {fileID: 0}
-    vfx: {fileID: 0}
+    vfxBreak: {fileID: 0}
+    vfxRepair: {fileID: 0}
   useApplianceQTE:
-    rid: 2277583764076101904
+    rid: 2277583764076101992
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 2277583764076101904
+    - rid: 2277583764076101992
       type: {class: SliderQTE, ns: , asm: Assembly-CSharp}
       data:
         sliderBar: {fileID: 5575114351457919158, guid: 8f94defe36e726b4691294e7348c1bc2, type: 3}
         sliderArrow: {fileID: 80798548407402649, guid: 3038555366c819147a9227f8e5d12c51, type: 3}
         sliderTargetStart: 45
         sliderTargetEnd: 55
-        sliderTime: 2
+        sliderTime: 1.5
         easeIn: 7
         easeOut: 8
+    - rid: 2277583764076102004
+      type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
+      data:
+        clock: {fileID: 4808308107867946876, guid: de06d067b2ca6164f8ad5d2e5c757001, type: 3}
+        time: 3
+        drain: 0.5
 --- !u!1 &421825435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,6 +1840,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
+<<<<<<< HEAD
 --- !u!1 &692646549
 GameObject:
   m_ObjectHideFlags: 0
@@ -2010,6 +2016,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> 0642c27132ffd6f180cf285459438d114ee293f7
 --- !u!1 &780836838
 GameObject:
   m_ObjectHideFlags: 0
@@ -3892,6 +3900,9 @@ SceneRoots:
   - {fileID: 1584896436}
   - {fileID: 5528170186413246138}
   - {fileID: 1961612588872784228}
+<<<<<<< HEAD
   - {fileID: 726156025}
   - {fileID: 2037230720}
   - {fileID: 824360920}
+=======
+>>>>>>> 0642c27132ffd6f180cf285459438d114ee293f7

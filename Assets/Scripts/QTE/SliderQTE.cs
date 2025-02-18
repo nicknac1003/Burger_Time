@@ -10,14 +10,47 @@ public class SliderQTE : QuickTimeEvent
     private GameObject sliderBarInstance; // instance of slider bar
     private GameObject sliderArrowInstance; // instance of slider arrow
 
-    [SerializeField] private int sliderTargetStart = 45; // pixel position along slider from 0 to 59
-    [SerializeField] private int sliderTargetEnd   = 55; // pixel position along slider from 1 to 60
-    [SerializeField] private float sliderTime      = 3f; // Speed slider moves along bar
-    [SerializeField] private Ease easeIn; // Ease function slider moves with
+    [Tooltip("Pixel position along slider from 0 to 59.")]
+    [Range(0, 59)][SerializeField] private int sliderTargetStart = 45;
+
+    [Tooltip("Pixel position along slider from 1 to 60.")]
+    [Range(1, 60)][SerializeField] private int sliderTargetEnd   = 55;
+    
+    [Tooltip("How long it takes for arrow to reach the end of the bar.")]
+    [Range(0.1f, 2f)][SerializeField] private float sliderTime = 1.5f;
+
+    [Tooltip("Ease function for arrow moving from start to target.")]
+    [SerializeField] private Ease easeIn;
+
+    [Tooltip("Ease function for arrow moving from target to end.")]
     [SerializeField] private Ease easeOut;
 
     private float timer = -1f;
     private Vector3 arrowStartPosition;
+
+    public SliderQTE() // default constructor
+    {
+        sliderTargetStart = 45;
+        sliderTargetEnd   = 55;
+        sliderTime        = 1.5f;
+        easeIn            = Ease.InCubic;
+        easeOut           = Ease.OutCubic;
+    }
+    public SliderQTE(int start, int end, float time, Ease inEase, Ease outEase)
+    {
+        sliderTargetStart = Mathf.Clamp(start, 0, 59);
+        sliderTargetEnd   = Mathf.Clamp(end,   1, 60);
+        sliderTime        = Mathf.Clamp(time, 0.1f, 2f);
+        easeIn            = inEase;
+        easeOut           = outEase;
+    }
+
+    public void SetTargetPosition(int start, int end)
+    {
+        sliderTargetStart = Mathf.Clamp(start, 0, 59);
+        sliderTargetEnd   = Mathf.Clamp(end,   1, 60);
+    }
+    public void SetSliderTime(float time) => sliderTime = Mathf.Clamp(time, 0.1f, 2f);
 
     public override bool InProgress()
     {
@@ -34,7 +67,7 @@ public class SliderQTE : QuickTimeEvent
             timer = 0f;
             CreateUI(parent.transform);
             parent.ResetInteracts(); // Reset to prevent multiple interactions
-            return 0f;
+            zPressed = false;
         }
 
         float targetPosition = (sliderTargetStart + sliderTargetEnd) / 2f;
@@ -51,7 +84,8 @@ public class SliderQTE : QuickTimeEvent
         if(zPressed)
         {
             Finished();
-            return 1 - Mathf.Abs(arrowPosition - targetPosition) / targetRange;
+            parent.ResetInteracts(); // Reset to prevent multiple interactions
+            return Mathf.Clamp01(1 - Mathf.Abs(arrowPosition - targetPosition) / targetRange);
         }
 
         if(InProgress())
@@ -66,16 +100,16 @@ public class SliderQTE : QuickTimeEvent
         return 0f;
     }
 
-    private void CreateUI(Transform parent)
+    public override void CreateUI(Transform parent)
     {
         // Instantiate UI Elements
-        sliderBarInstance = GameObject.Instantiate(sliderBar, parent);
+        sliderBarInstance = Object.Instantiate(sliderBar, parent);
         sliderBarInstance.transform.localPosition = new Vector3(0f, 2.25f, 0f);
 
         Vector2 barSpriteSize   = sliderBar.GetComponent<SpriteRenderer>().sprite.rect.size;
         Vector2 arrowSpriteSize = sliderArrow.GetComponent<SpriteRenderer>().sprite.rect.size;
 
-        sliderArrowInstance = GameObject.Instantiate(sliderArrow, sliderBarInstance.transform);
+        sliderArrowInstance = Object.Instantiate(sliderArrow, sliderBarInstance.transform);
         sliderArrowInstance.transform.position = sliderBarInstance.transform.position + new Vector3(GlobalConstants.pixelWorldSize * -30, GlobalConstants.pixelWorldSize * ((barSpriteSize.y + arrowSpriteSize.y) / 2f - 2f) * GlobalConstants.yDistortion, 0f);
         arrowStartPosition = sliderArrowInstance.transform.position;
 
@@ -87,12 +121,14 @@ public class SliderQTE : QuickTimeEvent
         sliderSpriteRenderer.material = new Material(sliderSpriteRenderer.material);
         sliderSpriteRenderer.material.SetFloat("_targetStartPosition", sliderTargetStart);
         sliderSpriteRenderer.material.SetFloat("_targetEndPosition", sliderTargetEnd);
+        sliderSpriteRenderer.material.SetColor("_targetColor", GlobalConstants.goodColor);
+        sliderSpriteRenderer.material.SetColor("_failColor", GlobalConstants.badColor);
     }
 
-    private void DestroyUI()
+    public override void DestroyUI()
     {
-        GameObject.Destroy(sliderBarInstance);
-        GameObject.Destroy(sliderArrowInstance);
+        Object.Destroy(sliderBarInstance);
+        Object.Destroy(sliderArrowInstance);
 
         sliderBarInstance   = null;
         sliderArrowInstance = null;

@@ -4,16 +4,29 @@ using UnityEngine.VFX;
 [System.Serializable]
 public class Breakable
 {
-    [SerializeField] private bool  canBreak    = true;
-    [SerializeField] private float interval    = 1f;    // How often we check if something breaks
-    [SerializeField] private float safetyTime  = 5f;    // 0 to 20 seconds
-    [SerializeField] private float breakChance = 0.05f; // 0.008 to 0.05
+    [Tooltip("Can this item break?")]
+    [SerializeField] private bool canBreak = true;
 
-    [SerializeReference] private QuickTimeEvent repairQTE = null;
+    [Tooltip("How often we check if something breaks in seconds.")]
+    [Range(0.5f, 5f)][SerializeField] private float interval = 1f;
+    
+    [Tooltip("How long after breaking before we can break again.")]
+    [Range(0f, 20f)][SerializeField] private float safetyTime = 5f;
 
-    [SerializeField] private Holdable holdable = null;
+    [Tooltip("Chance of breaking per interval check as a decimal percentage.")]
+    [Range(0.008f, 0.05f)][SerializeField] private float breakChance = 0.05f;
 
-    [SerializeField] private VisualEffect vfx;
+    [Tooltip("Quicktime Event to repair the item.")]
+    [SerializeReference] private QuickTimeEvent repairQTE = new HoldQTE();
+
+    [Tooltip("What item needs to be held to perform the repair?")]
+    [SerializeField] private Holdable holdable;
+
+    [Tooltip("VFX to play when breaking.")]
+    [SerializeField] private VisualEffect vfxBreak;
+
+    [Tooltip("VFX to play when repairing.")]
+    [SerializeField] private VisualEffect vfxRepair;
 
     private float breakTimer = 0f;
     private bool  broken     = false;

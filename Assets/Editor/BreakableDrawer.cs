@@ -4,44 +4,78 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(Breakable))]
 public class BreakableDrawer : PropertyDrawer
 {
+    private float propertyHeight = 0f;
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         EditorGUI.BeginProperty(position, label, property);
 
-        // Calculate rects
-        Rect canBreakRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-        Rect intervalRect = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight + 2, position.width, EditorGUIUtility.singleLineHeight);
-        Rect safetyTimeRect = new Rect(position.x, position.y + 2 * (EditorGUIUtility.singleLineHeight + 2), position.width, EditorGUIUtility.singleLineHeight);
-        Rect breakChanceRect = new Rect(position.x, position.y + 3 * (EditorGUIUtility.singleLineHeight + 2), position.width, EditorGUIUtility.singleLineHeight);
-        Rect repairQTERect = new Rect(position.x, position.y + 4 * (EditorGUIUtility.singleLineHeight + 2), position.width, EditorGUIUtility.singleLineHeight);
-        Rect holdableRect = new Rect(position.x, position.y + 5 * (EditorGUIUtility.singleLineHeight + 2), position.width, EditorGUIUtility.singleLineHeight);
-        Rect vfxRect = new Rect(position.x, position.y + 6 * (EditorGUIUtility.singleLineHeight + 2), position.width, EditorGUIUtility.singleLineHeight);
+        SerializedProperty canBreakProp    = property.FindPropertyRelative("canBreak");
+        SerializedProperty intervalProp    = property.FindPropertyRelative("interval");
+        SerializedProperty safetyTimeProp  = property.FindPropertyRelative("safetyTime");
+        SerializedProperty breakChanceProp = property.FindPropertyRelative("breakChance");
+        SerializedProperty repairQTEProp   = property.FindPropertyRelative("repairQTE");
+        SerializedProperty holdableProp    = property.FindPropertyRelative("holdable");
+        SerializedProperty vfxBreakProp    = property.FindPropertyRelative("vfxBreak");
+        SerializedProperty vfxRepairProp   = property.FindPropertyRelative("vfxRepair");
 
-        // Draw fields
-        SerializedProperty canBreakProp = property.FindPropertyRelative("canBreak");
+        // Calculate rects
+        Rect canBreakRect = new(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+        float totalHeight = EditorGUIUtility.singleLineHeight + 2;
+
+        // Draw can break field
         EditorGUI.PropertyField(canBreakRect, canBreakProp);
 
-        if (canBreakProp.boolValue)
+        // Update height and exit if canBreak is false
+        if(canBreakProp.boolValue == false)
         {
-            EditorGUI.indentLevel++;
-
-            EditorGUI.PropertyField(intervalRect, property.FindPropertyRelative("interval"));
-            EditorGUI.PropertyField(safetyTimeRect, property.FindPropertyRelative("safetyTime"));
-            EditorGUI.PropertyField(breakChanceRect, property.FindPropertyRelative("breakChance"));
-            EditorGUI.PropertyField(repairQTERect, property.FindPropertyRelative("repairQTE"));
-            EditorGUI.PropertyField(holdableRect, property.FindPropertyRelative("holdable"));
-            EditorGUI.PropertyField(vfxRect, property.FindPropertyRelative("vfx"));
-
-            EditorGUI.indentLevel--;
+            propertyHeight = totalHeight;
+            EditorGUI.EndProperty();
+            return;
         }
+
+        // Otherwise, update height and draw the rest of the fields
+        Rect intervalRect    = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(intervalProp));
+        totalHeight += EditorGUI.GetPropertyHeight(intervalProp) + 2;
+
+        Rect safetyTimeRect  = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(safetyTimeProp));
+        totalHeight += EditorGUI.GetPropertyHeight(safetyTimeProp) + 2;
+
+        Rect breakChanceRect = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(breakChanceProp));
+        totalHeight += EditorGUI.GetPropertyHeight(breakChanceProp) + 2;
+
+        Rect repairQTERect   = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(repairQTEProp));
+        totalHeight += EditorGUI.GetPropertyHeight(repairQTEProp) + 2;
+        
+        Rect holdableRect    = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(holdableProp));
+        totalHeight += EditorGUI.GetPropertyHeight(holdableProp) + 2;
+        
+        Rect vfxBreakRect    = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(vfxBreakProp));
+        totalHeight += EditorGUI.GetPropertyHeight(vfxBreakProp) + 2;
+
+        Rect vfxRepairRect   = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(vfxRepairProp));
+        totalHeight += EditorGUI.GetPropertyHeight(vfxRepairProp) + 2;
+
+        propertyHeight = totalHeight;
+
+        // Draw other fields
+        EditorGUI.indentLevel++;
+
+        EditorGUI.PropertyField(intervalRect, intervalProp);
+        EditorGUI.PropertyField(safetyTimeRect, safetyTimeProp);
+        EditorGUI.PropertyField(breakChanceRect, breakChanceProp);
+        EditorGUI.PropertyField(repairQTERect, repairQTEProp);
+        EditorGUI.PropertyField(holdableRect, holdableProp);
+        EditorGUI.PropertyField(vfxBreakRect, vfxBreakProp);
+        EditorGUI.PropertyField(vfxRepairRect, vfxRepairProp);
+
+        EditorGUI.indentLevel--;
 
         EditorGUI.EndProperty();
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        SerializedProperty canBreakProp = property.FindPropertyRelative("canBreak");
-        int lineCount = canBreakProp.boolValue ? 7 : 1;
-        return lineCount * (EditorGUIUtility.singleLineHeight + 2);
+        return propertyHeight;
     }
 }

@@ -4,7 +4,8 @@ public class Appliance : Interactable
 {
     [SerializeField] private Breakable breakable;
 
-    [SerializeReference] private QuickTimeEvent useApplianceQTE = null;
+    [Tooltip("The QuickTimeEvent to use when interacting with this appliance.")]
+    [SerializeReference] private QuickTimeEvent useApplianceQTE = new SliderQTE();
 
     private bool working  = true;
     private bool zPressed = false;
@@ -22,13 +23,10 @@ public class Appliance : Interactable
 
         if(working)
         {
-            useApplianceQTE.PerformQTE(zPressed, false, false, Vector2.zero, this);
-
-            // print out score from QTE once finished
-            //if(useApplianceQTE.InProgress() == false)
-            //{
-            //    //
-            //}
+            if(useApplianceQTE.PerformQTE(zPressed, false, false, Vector2.zero, this) > 0f)
+            {
+                Debug.Log("Success!");
+            }
         }
     }
 }

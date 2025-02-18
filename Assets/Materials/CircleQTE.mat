@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SliderBar
-  m_Shader: {fileID: -6465566751694194690, guid: 3bdbaa74186f9154cb7432c636dac971, type: 3}
+  m_Name: CircleQTE
+  m_Shader: {fileID: -6465566751694194690, guid: 547881e11cde56a4baa44331a02a7c8a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,16 +23,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Layer_B3CCEA17:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Layer_B4E27CA5:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: af47b66df77b80d43989c24e578819ed, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -49,14 +41,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _targetEndPosition: 35
-    - _targetStartPosition: 25
+    - _progress: 0
     m_Colors:
-    - _failColor: {r: 1, g: 0.4, b: 0.4, a: 1}
-    - _targetColor: {r: 0.5, g: 1, b: 0.6, a: 1}
+    - _badColor: {r: 1, g: 0, b: 0, a: 1}
+    - _colorA: {r: 0, g: 1, b: 0, a: 1}
+    - _colorB: {r: 1, g: 0, b: 0, a: 1}
+    - _goodColor: {r: 0, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &7472508117108448036
+--- !u!114 &6683901246846022042
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

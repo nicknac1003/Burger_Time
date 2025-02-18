@@ -7,6 +7,9 @@ public class Breakable
     [Tooltip("Can this item break?")]
     [SerializeField] private bool canBreak = true;
 
+    [Tooltip("Can this item break while being used?")]
+    [SerializeField] private bool canBreakDuringUse = false;
+
     [Tooltip("How often we check if something breaks in seconds.")]
     [Range(0.5f, 5f)][SerializeField] private float interval = 1f;
     
@@ -20,7 +23,7 @@ public class Breakable
     [SerializeReference] private QuickTimeEvent repairQTE = new HoldQTE();
 
     [Tooltip("What item needs to be held to perform the repair?")]
-    [SerializeField] private Holdable holdable;
+    [SerializeField] private Holdable requiredHoldable;
 
     [Tooltip("VFX to play while broken.")]
     [SerializeField] private VisualEffect vfxBreak;

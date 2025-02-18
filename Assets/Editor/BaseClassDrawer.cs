@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,41 +10,33 @@ public class BaseClassDrawer : PropertyDrawer
     { 
         EditorGUI.BeginProperty(position, label, property); 
 
-        var type = property.managedReferenceFullTypename; 
-        var types = new[] { typeof(HoldQTE), typeof(SliderQTE) }; 
-        var typeNames = new[] { "None", "Hold", "Slider" };
+        string type  = property.managedReferenceFullTypename;
+        if(string.IsNullOrEmpty(type)) type = "HoldQTE"; // default value
+
+        Type[] types = new[] { typeof(HoldQTE), typeof(SliderQTE) };
+        string[] dropDownOptions = new[] {"Hold", "Slider"};
 
         int index = 0; 
-        if (!string.IsNullOrEmpty(type)) 
+        for (int i = 0; i < types.Length; i++) 
         { 
-            for (int i = 0; i < types.Length; i++) 
+            if (type.Contains(types[i].Name)) 
             { 
-                if (type.Contains(types[i].Name)) 
-                { 
-                    index = i + 1; 
-                    break; 
-                }
+                index = i; 
+                break; 
             }
         }
 
         EditorGUI.BeginChangeCheck();
 
         Rect popupPosition = new(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-        index = EditorGUI.Popup(popupPosition, label.text, index, typeNames);
+        index = EditorGUI.Popup(popupPosition, label.text, index, dropDownOptions);
         if(EditorGUI.EndChangeCheck())
         {
             property.serializedObject.Update();
 
-            if (index == 0) 
+            if (property.managedReferenceValue == null || property.managedReferenceFullTypename != types[index].FullName)
             {
-                property.managedReferenceValue = null;
-            }
-            else
-            {
-                if (property.managedReferenceValue == null || property.managedReferenceFullTypename != types[index - 1].FullName)
-                {
-                    property.managedReferenceValue = System.Activator.CreateInstance(types[index - 1]);
-                }
+                property.managedReferenceValue = System.Activator.CreateInstance(types[index]);
             }
 
             property.serializedObject.ApplyModifiedProperties();

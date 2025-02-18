@@ -21,4 +21,9 @@ public class AlternameQTE : QuickTimeEvent
     {
         return;
     }
+
+    public override void Cancel()
+    {
+        throw new System.NotImplementedException();
+    }
 }

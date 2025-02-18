@@ -11,11 +11,12 @@ public class BreakableDrawer : PropertyDrawer
         EditorGUI.BeginProperty(position, label, property);
 
         SerializedProperty canBreakProp    = property.FindPropertyRelative("canBreak");
+        SerializedProperty breakInUseProp  = property.FindPropertyRelative("canBreakDuringUse");
         SerializedProperty intervalProp    = property.FindPropertyRelative("interval");
         SerializedProperty safetyTimeProp  = property.FindPropertyRelative("safetyTime");
         SerializedProperty breakChanceProp = property.FindPropertyRelative("breakChance");
         SerializedProperty repairQTEProp   = property.FindPropertyRelative("repairQTE");
-        SerializedProperty holdableProp    = property.FindPropertyRelative("holdable");
+        SerializedProperty holdableProp    = property.FindPropertyRelative("requiredHoldable");
         SerializedProperty vfxBreakProp    = property.FindPropertyRelative("vfxBreak");
         SerializedProperty vfxAnchorProp   = property.FindPropertyRelative("vfxAnchor");
 
@@ -35,6 +36,9 @@ public class BreakableDrawer : PropertyDrawer
         }
 
         // Otherwise, update height and draw the rest of the fields
+        Rect breakInUseRect  = new(position.x, position.y + totalHeight, position.width, EditorGUIUtility.singleLineHeight);
+        totalHeight += EditorGUIUtility.singleLineHeight + 2;
+
         Rect intervalRect    = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(intervalProp));
         totalHeight += EditorGUI.GetPropertyHeight(intervalProp) + 2;
 
@@ -61,6 +65,7 @@ public class BreakableDrawer : PropertyDrawer
         // Draw other fields
         EditorGUI.indentLevel++;
 
+        EditorGUI.PropertyField(breakInUseRect, breakInUseProp);
         EditorGUI.PropertyField(intervalRect, intervalProp);
         EditorGUI.PropertyField(safetyTimeRect, safetyTimeProp);
         EditorGUI.PropertyField(breakChanceRect, breakChanceProp);

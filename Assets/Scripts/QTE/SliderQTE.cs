@@ -139,4 +139,9 @@ public class SliderQTE : QuickTimeEvent
         DestroyUI();
         timer = -1f;
     }
+
+    public override void Cancel()
+    {
+        throw new System.NotImplementedException();
+    }
 }

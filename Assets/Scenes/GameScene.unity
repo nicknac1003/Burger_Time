@@ -1322,12 +1322,13 @@ MonoBehaviour:
   anchor: {fileID: 0}
   breakable:
     canBreak: 1
+    canBreakDuringUse: 0
     interval: 1
     safetyTime: 5
     breakChance: 0.05
     repairQTE:
-      rid: 2277583764076102024
-    holdable: {fileID: 0}
+      rid: 2277583764076102037
+    requiredHoldable: {fileID: 0}
     vfxBreak: {fileID: 0}
     vfxAnchor: {fileID: 0}
   useApplianceQTE:
@@ -1345,10 +1346,10 @@ MonoBehaviour:
         sliderTime: 2
         easeIn: 7
         easeOut: 8
-    - rid: 2277583764076102024
+    - rid: 2277583764076102037
       type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
       data:
-        clock: {fileID: 4808308107867946876, guid: de06d067b2ca6164f8ad5d2e5c757001, type: 3}
+        clock: {fileID: 0}
         time: 4
         drain: 0.5
 --- !u!1 &421825435

@@ -10,6 +10,11 @@ public class MashQTE : QuickTimeEvent
     private GameObject fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
+    public override void Cancel()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void CreateUI(Transform parent)
     {
         fillBarInstance = Object.Instantiate(fillBar, parent);

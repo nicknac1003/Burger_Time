@@ -93,4 +93,9 @@ public class HoldQTE : QuickTimeEvent
         Object.Destroy(clockInstance);
         clockSpriteRenderer = null;
     }
+
+    public override void Cancel()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -7,4 +7,5 @@ public abstract class QuickTimeEvent
     public abstract bool  InProgress();
     public abstract void  CreateUI(Transform parent);
     public abstract void  DestroyUI();
+    public abstract void  Cancel();
 }

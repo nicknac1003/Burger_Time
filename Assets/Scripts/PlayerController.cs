@@ -28,7 +28,10 @@ public class PlayerController : MonoBehaviour
     public float accelerationMagnitude;
 
     [Header("Gameplay Variables")]
-    public TicketManager ticketManager;
+    [SerializeField] private Transform holdAnchor;
+
+    public  TicketManager ticketManager;
+
     private List<Interactable> interactables = new();
     private Interactable closestInteractable;
     private Holdable holding;
@@ -206,7 +209,6 @@ public class PlayerController : MonoBehaviour
     {
         closestInteractable = GetClosestInteractable();
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Interactable"))
@@ -222,18 +224,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PickUpItem(Holdable item)
+    public bool HoldingItem()
     {
-        if (holding != null)
-        {
-            DropItem();
-        }
+        return holding != null;
+    }
+    public Holdable GetItem()
+    {
+        return holding;
+    }
+    public bool GrabItem(Holdable item)
+    {
+        if(HoldingItem()) return false;
 
         holding = item;
+        holding.transform.SetParent(holdAnchor);
+        holding.transform.localPosition = Vector3.zero;
+        
+        return true;
     }
-    public void DropItem()
+    public bool DestroyItem()
     {
-        holding.SetHold(false);
+        if(HoldingItem() == false) return false;
+
+        Destroy(holding.gameObject);
         holding = null;
+
+        return true;
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Appliance : Interactable
+public class Appliance : Storage
 {
     [SerializeField] private Breakable breakable;
 

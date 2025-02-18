@@ -25,8 +25,8 @@ public class Breakable
     [Tooltip("VFX to play while broken.")]
     [SerializeField] private VisualEffect vfxBreak;
 
-    [Tooltip("VFX to play when repairing.")]
-    [SerializeField] private VisualEffect vfxRepair;
+    [Tooltip("Anchor to place VFX.")]
+    [SerializeField] private Transform vfxAnchor;
 
     private float breakTimer = 0f;
     private bool  broken     = false;

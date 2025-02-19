@@ -4,8 +4,6 @@ public class AlternateQTE : QuickTimeEvent
 {
     [Range(3, 20)][SerializeField] private int mashCount = 10;
 
-    [SerializeField] private GameObject fillBar;
-
     private GameObject     fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
@@ -70,6 +68,8 @@ public class AlternateQTE : QuickTimeEvent
 
         float progress = mashProgress / (float)mashCount;
 
+        Debug.Log("Progress " + progress + " Z " + zPressed + " C " + cPressed + " ZR " + zReleased + " CR " + cReleased);
+
         fillBarSpriteRenderer.material.SetFloat("_progress", progress);
 
         return 0f;
@@ -79,7 +79,7 @@ public class AlternateQTE : QuickTimeEvent
     {
         DestroyUI();
 
-        fillBarInstance = Object.Instantiate(fillBar, anchor);
+        fillBarInstance = Object.Instantiate(GlobalConstants.alternateFill, anchor);
         fillBarInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
 
         fillBarSpriteRenderer = fillBarInstance.GetComponent<SpriteRenderer>();

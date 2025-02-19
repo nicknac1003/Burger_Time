@@ -5,8 +5,6 @@ public class MashQTE : QuickTimeEvent
     [Tooltip("The number of times the player must press the button to succeed.")]
     [Range(3, 20)][SerializeField] private int mashCount = 10;
 
-    [SerializeField] private GameObject fillBar;
-
     private GameObject     fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
@@ -63,7 +61,7 @@ public class MashQTE : QuickTimeEvent
     {
         DestroyUI();
 
-        fillBarInstance = Object.Instantiate(fillBar, anchor);
+        fillBarInstance = Object.Instantiate(GlobalConstants.boxFill, anchor);
         fillBarInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
 
         fillBarSpriteRenderer = fillBarInstance.GetComponent<SpriteRenderer>();

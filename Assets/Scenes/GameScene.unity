@@ -1633,28 +1633,26 @@ MonoBehaviour:
     safetyTime: 1
     breakChance: 0.05
     repairQTE:
-      rid: 2277583764076102072
+      rid: 2277583796127662159
     requiredHoldable: {fileID: 0}
     vfxBreak: {fileID: 0}
     vfxAnchor: {fileID: 0}
   useApplianceQTE:
-    rid: 2277583764076102069
+    rid: 2277583796127662158
   references:
     version: 2
     RefIds:
-    - rid: 2277583764076102069
-      type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
-      data:
-        locksPlayerInPlace: 0
-        clock: {fileID: 4808308107867946876, guid: de06d067b2ca6164f8ad5d2e5c757001, type: 3}
-        time: 4
-        drain: 0.5
-    - rid: 2277583764076102072
+    - rid: 2277583796127662158
       type: {class: AlternateQTE, ns: , asm: Assembly-CSharp}
       data:
         locksPlayerInPlace: 1
         mashCount: 10
-        fillBar: {fileID: 0}
+    - rid: 2277583796127662159
+      type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
+      data:
+        locksPlayerInPlace: 0
+        time: 4
+        drain: 0.5
 --- !u!1 &421825435
 GameObject:
   m_ObjectHideFlags: 0
@@ -4536,7 +4534,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1878440147}
   - component: {fileID: 1878440149}
-  - component: {fileID: 1878440148}
   m_Layer: 0
   m_Name: Review Group
   m_TagString: Untagged
@@ -4567,20 +4564,6 @@ RectTransform:
   m_AnchoredPosition: {x: 133, y: 25}
   m_SizeDelta: {x: 266, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1878440148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1878440146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74757a71564b78d4586758851b718df9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mask: {fileID: 0}
-  group: {fileID: 0}
 --- !u!225 &1878440149
 CanvasGroup:
   m_ObjectHideFlags: 0

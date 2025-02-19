@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 public enum CustomerState
 {
     entering,
@@ -22,9 +23,24 @@ public class CustomerController : MonoBehaviour
     private CustomerState state = CustomerState.entering;
     public ReceiptGenerator receiptGenerator;
     private List<string> order = new List<string>();
-    void Awake()
+
+    public float MaxWaitTime = 10f;
+    private float waitTimer = 0f;
+
+    private Image image;
+
+    private float maxRating = 6f;
+
+    private GameManager gameManager;
+    private void Awake()
     {
         customerSpawner = FindFirstObjectByType<CustomerSpawner>();
+        image = GetComponentInChildren<Image>();
+        gameManager = GameManager.Instance;
+    }
+    private void Start()
+    {
+        if (image) HideTimerImage();
     }
 
     void GenerateOrder()
@@ -58,12 +74,42 @@ public class CustomerController : MonoBehaviour
         if (targetPosition != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition.position, Time.deltaTime * 2f);
+            if (Vector3.Distance(transform.position, targetPosition.position) < 0.1f && state == CustomerState.entering)
+            {
+                state = CustomerState.waitingToOrder;
+            }
+        }
+        if (state != CustomerState.entering && image.gameObject.activeSelf == false)
+        {
+            image.gameObject.SetActive(true);
+        }
+
+        if (state != CustomerState.entering && state != CustomerState.leaving)
+        {
+
+            waitTimer += Time.deltaTime;
+            if (waitTimer >= MaxWaitTime)
+            {
+                CustomerWaitTimeOut();
+            }
+            UpdateTimerImage();
+        }
+        if (state == CustomerState.leaving)
+        {
+            HideTimerImage();
         }
 
     }
+    public void CustomerWaitTimeOut()
+    {
+        customerSpawner.customerWaitTimeOut(this);
+        state = CustomerState.leaving;
+        targetPosition = customerSpawner.exitPosition;
+        GameManager.Instance.WelpReview(0);
+    }
     public void ReadyToOrder()
     {
-        state = CustomerState.ordering;
+        state = CustomerState.readyToOrder;
     }
     public void ReadyToBeServed()
     {
@@ -83,9 +129,24 @@ public class CustomerController : MonoBehaviour
         // Logic for getting the food
         state = CustomerState.leaving;
         targetPosition = customerSpawner.exitPosition;
+        gameManager.WelpReview(Mathf.Min(CalculateReview(), 5));
     }
     public CustomerState GetState()
     {
         return state;
+    }
+    private void UpdateTimerImage()
+    {
+        image.fillAmount = 1 - (waitTimer / MaxWaitTime);
+        image.color = Color.Lerp(Color.red, Color.green, image.fillAmount);
+    }
+    private void HideTimerImage()
+    {
+        image.gameObject.SetActive(false);
+    }
+    private float CalculateReview()
+    {
+        //edit here for burger scoring effect on review
+        return maxRating * (MaxWaitTime - waitTimer) / MaxWaitTime;
     }
 }

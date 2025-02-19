@@ -356,7 +356,7 @@ PrefabInstance:
       objectReference: {fileID: 1115754280}
     - target: {fileID: 7646871234015480474, guid: 55ca31c5fc377634087f1089a186a8b1, type: 3}
       propertyPath: maxCustomers
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7646871234015480474, guid: 55ca31c5fc377634087f1089a186a8b1, type: 3}
       propertyPath: spawnInterval
@@ -2253,6 +2253,10 @@ PrefabInstance:
       propertyPath: timeText
       value: 
       objectReference: {fileID: 1447259924}
+    - target: {fileID: 865474330569445239, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
+      propertyPath: ratingScale
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 865474330569445239, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
       propertyPath: dayDurationMinutes
       value: 5

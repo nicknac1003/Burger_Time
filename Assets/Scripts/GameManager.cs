@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using TMPro;
+using System.Collections;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -18,7 +19,12 @@ public class GameManager : MonoBehaviour
     private  float dayDuration; // Duration of a day in seconds 
     private float elapsedTime = 0f;
     private bool dayOver = false;
+    private bool dayStarting = false;
     public bool logTime = false;
+    public float dayDelay = 6f;
+
+    public TextMeshProUGUI dayText;
+    public TextMeshProUGUI timeText;
 
     void Awake()
     {
@@ -57,16 +63,11 @@ public class GameManager : MonoBehaviour
             dayOver = true;
             canCreateCustomers = false;
         }
-        if (dayOver && currentCustomerCount == 0)
+        if (dayOver && currentCustomerCount == 0 && !dayStarting)
         {
+            dayStarting = true;
             endDay();
-        }
 
-        // Example of stopping customer creation
-        if (canCreateCustomers)
-        {
-            // Your logic to create customers
-            //probably some call to a customer spawner or something
         }
     }
 
@@ -94,8 +95,9 @@ public class GameManager : MonoBehaviour
     {
         // End of the day logic
         Debug.Log("End of Day " + day);
-        Debug.Break();
-        // Stop creating customers
+        
+        //start new day after daydelay seconds
+        Invoke(nameof(StartNewDay), dayDelay);
 
     }
 
@@ -106,17 +108,66 @@ public class GameManager : MonoBehaviour
         elapsedTime = 0f;
         canCreateCustomers = true;
         dayOver = false;
+        dayStarting = false;
+        DisplayDay();
     }
 
      // Method to display the time as a 24-hour clock probably will eventual involve a UI element
     private void DisplayTime()
     {
-        // Format the time as HH:MM
-        string timeString = $"{currentHour:D2}:{currentMinute:D2}";
+        string timeString = "";
+        if (currentHour >= 24)
+        {
+            timeString = "12:00 PM";
+        }
+        else{
+            // Format the time as HH:MM
+            string ampm = currentHour >= 12 ? "PM" : "AM";
+
+            string hourString = currentHour > 12 ? (currentHour - 12).ToString() : currentHour.ToString();
+            timeString = $"{hourString}:{currentMinute:D2} {ampm}";
+        }
 
         // Display the time (for example, using Debug.Log or a UI element)
         if (logTime)
             Debug.Log("Current Time: " + timeString ); //+ "(" + elapsedTime / dayDuration +")"
+        if (timeText != null)
+            timeText.text = timeString;
+    }
+    private void DisplayDay()
+    {
+        if (dayText != null)
+            dayText.text = "Day " + day;
+            //i want the text to fade in and out a couple times
+            int fadeCount = 4;
+            float fadeDuration = 0.8f;
+            StartCoroutine(FadeText(dayText, fadeCount, fadeDuration));
+    }
+        private IEnumerator FadeText(TextMeshProUGUI text, int fadeCount, float duration)
+    {
+        for (int i = 0; i < fadeCount; i++)
+        {
+            // Fade out
+            yield return StartCoroutine(Fade(text, 1f, 0f, duration));
+            // Fade in
+            yield return StartCoroutine(Fade(text, 0f, 1f, duration));
+        }
+    }
+
+    private IEnumerator Fade(TextMeshProUGUI text, float startAlpha, float endAlpha, float duration)
+    {
+        float elapsedTime = 0f;
+        Color color = text.color;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
+            text.color = new Color(color.r, color.g, color.b, alpha);
+            yield return null;
+        }
+
+        text.color = new Color(color.r, color.g, color.b, endAlpha);
     }
     public void addCustomer()
     {

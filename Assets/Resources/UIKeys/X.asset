@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d03d54b2a3934374390d97be4a5400c5, type: 3}
   m_Name: X
   m_EditorClassIdentifier: 
+  key: 2
   up: {fileID: 21300000, guid: 061d4bdb3f749c04b91cb17f27872592, type: 3}
   half: {fileID: 21300000, guid: cceb7e490cbd94545bd608fcf4452e10, type: 3}
   down: {fileID: 21300000, guid: 9d81845651663fd4fa5aa02887bff477, type: 3}

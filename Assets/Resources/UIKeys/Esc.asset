@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d03d54b2a3934374390d97be4a5400c5, type: 3}
   m_Name: Esc
   m_EditorClassIdentifier: 
+  key: 9
   up: {fileID: 21300000, guid: 7b285c0446e7c8a4184e71db8d7d9163, type: 3}
   half: {fileID: 21300000, guid: 60fe8ba511b905c4491c31d32d395d24, type: 3}
   down: {fileID: 21300000, guid: 694d59684865c694eb3db382ec73bf59, type: 3}

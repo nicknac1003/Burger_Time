@@ -9,6 +9,30 @@ public class UIKey : ScriptableObject
     [SerializeField] private Sprite  down;
 
     public KeyIcon Key() => key;
+
+    public Sprite GetSprite(KeyState state, bool reverse)
+    {
+        if(reverse)
+        {
+            switch(state)
+            {
+                case KeyState.Up:   return down;
+                case KeyState.Half: return half;
+                case KeyState.Down: return up;
+            }
+        }
+        else
+        {
+            switch(state)
+            {
+                case KeyState.Up:   return up;
+                case KeyState.Half: return half;
+                case KeyState.Down: return down;
+            }
+        }
+
+        return null;
+    }
 }
 
 public enum KeyIcon
@@ -23,4 +47,11 @@ public enum KeyIcon
     Right,
     Left,
     Esc
+}
+
+public enum KeyState
+{
+    Up,
+    Half,
+    Down
 }

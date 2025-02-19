@@ -8,6 +8,9 @@ public class SliderQTE : QuickTimeEvent
     private GameObject sliderBarInstance; // instance of slider bar
     private GameObject sliderArrowInstance; // instance of slider arrow
 
+    private GameObject    keyZ;
+    private UIKeyAnimator keyZAnimator;
+
     [Tooltip("Pixel position along slider from 0 to 59.")]
     [Range(0, 59)][SerializeField] private int sliderTargetStart = 45;
 
@@ -103,6 +106,18 @@ public class SliderQTE : QuickTimeEvent
 
         arrowPosition = timer < timeToReachTargetFromStart ? EaseFunctions.Interpolate(0, targetPosition, timer / timeToReachTargetFromStart, easeIn) : EaseFunctions.Interpolate(targetPosition, 60, (timer - timeToReachTargetFromStart) / timeToReachEndFromTarget, easeOut);
 
+        if(arrowPosition >= sliderTargetStart - 2) // -2 for reaction time buffer
+        {
+            if(arrowPosition < sliderTargetEnd)
+            {
+                keyZAnimator.PushKey(GlobalConstants.sliderAnimationTime);
+            }
+            else
+            {
+                keyZAnimator.ReleaseKey(GlobalConstants.sliderAnimationTime);
+            }
+        }
+
         sliderArrowInstance.transform.position = arrowStartPosition + new Vector3(GlobalConstants.pixelWorldSize * arrowPosition, 0f, 0f);
 
         timer += Time.deltaTime;
@@ -136,6 +151,14 @@ public class SliderQTE : QuickTimeEvent
         sliderSpriteRenderer.material.SetFloat("_targetEndPosition", sliderTargetEnd);
         sliderSpriteRenderer.material.SetColor("_targetColor", GlobalConstants.goodColor);
         sliderSpriteRenderer.material.SetColor("_failColor", GlobalConstants.badColor);
+
+        keyZ = new GameObject("KeyZ");
+        keyZ.transform.parent = sliderBarInstance.transform;
+        float xPos = GlobalConstants.pixelWorldSize * (targetPosition - 28);
+        keyZ.transform.localPosition = new Vector3(xPos, 0.6f, 0f); // instantiate over target position
+        keyZ.transform.localScale = new Vector3(1f, 1f, 1f); // same as parent
+        keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
+        keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Up);
     }
     protected override void DestroyUI()
     {
@@ -150,7 +173,6 @@ public class SliderQTE : QuickTimeEvent
     {
         parent.ResetInteracts();
         StartTimer();
-        CreateUI(parent.transform);
 
         targetPosition = (sliderTargetStart + sliderTargetEnd) / 2f;
         targetRange    = (sliderTargetEnd - sliderTargetStart) / 2f; // technically half the range
@@ -158,6 +180,8 @@ public class SliderQTE : QuickTimeEvent
         timeToReachTargetFromStart = sliderTime * ratio;
         timeToReachEndFromTarget   = sliderTime - timeToReachTargetFromStart;
         arrowPosition  = 0f;
+
+        CreateUI(parent.transform);
     }
     public override void EndQTE(Interactable parent)
     {

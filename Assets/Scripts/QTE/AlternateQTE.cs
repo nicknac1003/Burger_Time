@@ -7,6 +7,11 @@ public class AlternateQTE : QuickTimeEvent
     private GameObject     fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
+    private GameObject    keyZ;
+    private GameObject    keyC;
+    private UIKeyAnimator keyZAnimator;
+    private UIKeyAnimator keyCAnimator;
+
     private bool zReleased = true;
     private bool cReleased = true;
     private bool zLastPressed = false;
@@ -42,7 +47,8 @@ public class AlternateQTE : QuickTimeEvent
                 mashProgress++;
             }
         }
-        else if(cPressed)
+        
+        if(cPressed)
         {
             if(mashProgress == 0)
             {
@@ -68,9 +74,10 @@ public class AlternateQTE : QuickTimeEvent
 
         float progress = mashProgress / (float)mashCount;
 
-        Debug.Log("Progress " + progress + " Z " + zPressed + " C " + cPressed + " ZR " + zReleased + " CR " + cReleased);
-
         fillBarSpriteRenderer.material.SetFloat("_progress", progress);
+
+        keyZAnimator.ToggleKey(GlobalConstants.alternateAnimationTime);
+        keyCAnimator.ToggleKey(GlobalConstants.alternateAnimationTime);
 
         return 0f;
     }
@@ -86,6 +93,20 @@ public class AlternateQTE : QuickTimeEvent
         fillBarSpriteRenderer.material = new Material(fillBarSpriteRenderer.material);
         fillBarSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
         fillBarSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
+
+        keyZ = new GameObject("KeyZ");
+        keyZ.transform.parent = fillBarInstance.transform;
+        keyZ.transform.localPosition = new Vector3(-0.5f, 0f, 0f);
+        keyZ.transform.localScale = new Vector3(1f, 1f, 1f); // same as parent
+        keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
+        keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Down);
+
+        keyC = new GameObject("KeyC");
+        keyC.transform.parent = fillBarInstance.transform;
+        keyC.transform.localPosition = new Vector3(0.5f, 0f, 0f);
+        keyC.transform.localScale = new Vector3(1f, 1f, 1f); // same as parent
+        keyCAnimator = keyC.AddComponent<UIKeyAnimator>();
+        keyCAnimator.Init(GlobalConstants.keyC, KeyState.Up);
     }
     protected override void DestroyUI()
     {

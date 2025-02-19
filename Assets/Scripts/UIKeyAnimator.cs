@@ -1,88 +1,100 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class UIKeyAnimator : MonoBehaviour
 {
-    public enum Perform
-    {
-        Press,
-        Release,
-        Hold,
-        Mash
-    }
-
-    [SerializeField] private KeyIcon key     = KeyIcon.None;
-    [SerializeField] private Perform perform = Perform.Press;
-    [SerializeField] private bool    reverse = false;
-    [Range(0.1f,5f)][SerializeField] private float time = 1f;
-
-    private static Dictionary<KeyIcon, UIKey> keys = new();
+    private UIKey    key   = GlobalConstants.keyBlank;
+    private KeyState state = KeyState.Up;
+    private bool     done  = true;
 
     private SpriteRenderer spriteRenderer;
-    private float timer = 0f;
 
-
-    void Start()
+    void Awake()
     {
-        if(keys.Count == 0)
-        {
-            LoadKeys();
-        }
-
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        spriteRenderer.sprite = key.GetSprite(state);
     }
 
-    void Update()
+    public void Init(UIKey inKey, KeyState initialState)
     {
-        switch(perform)
-        {
-            case Perform.Press:
-            {
-
-                break;
-            }
-            case Perform.Release:
-            {
-                break;
-            }
-            case Perform.Hold:
-            {
-                break;
-            }
-            case Perform.Mash:
-            {
-                if(timer < time / 3f)
-                {
-                    spriteRenderer.sprite = keys[key].GetSprite(KeyState.Up, reverse);
-                }
-                else if(timer < time * 2f / 3f)
-                {
-                    spriteRenderer.sprite = keys[key].GetSprite(KeyState.Half, reverse);
-                }
-                else
-                {
-                    spriteRenderer.sprite = keys[key].GetSprite(KeyState.Down, reverse);
-                }
-                break;
-            }
-        }
-
-        timer += Time.deltaTime;
-
-        if(timer >= time)
-        {
-            timer = 0f;
-        }
+        key   = inKey;
+        state = initialState;
+        spriteRenderer.sprite = key.GetSprite(state);
     }
 
-    private void LoadKeys()
+    public void ToggleKey(float time)
     {
-        UIKey[] loadedKeys = Resources.LoadAll<UIKey>("UIKeys");
+        if(done) StartCoroutine(Toggle(time));
+    }
+    public void PushKey(float time)
+    {
+        if(done) StartCoroutine(Push(time));
+    }
+    public void ReleaseKey(float time)
+    {
+        if(done) StartCoroutine(Release(time));
+    }
 
-        foreach(UIKey key in loadedKeys)
+    private void ChangeState(KeyState newState)
+    {
+        state = newState;
+        spriteRenderer.sprite = key.GetSprite(state);
+    }
+
+    private IEnumerator Toggle(float time)
+    {
+        done = false;
+
+        bool pressed = state == KeyState.Down;
+
+        ChangeState(KeyState.Half);
+
+        yield return new WaitForSeconds(time / 2f);
+
+        if(pressed)
         {
-            keys.Add(key.Key(), key);
+            ChangeState(KeyState.Up);
         }
+        else
+        {
+            ChangeState(KeyState.Down);
+        }
+
+        yield return new WaitForSeconds(time / 2f);
+
+        done = true;
+    }
+
+    private IEnumerator Push(float time)
+    {
+        if(state == KeyState.Down) yield break;
+
+        done = false;
+
+        ChangeState(KeyState.Half);
+        yield return new WaitForSeconds(time / 2f);
+
+        ChangeState(KeyState.Down);
+        yield return new WaitForSeconds(time / 2f);
+
+        done = true;
+    }
+
+    private IEnumerator Release(float time)
+    {
+        if(state == KeyState.Up) yield break;
+
+        done = false;
+
+        ChangeState(KeyState.Half);
+        yield return new WaitForSeconds(time / 2f);
+
+        ChangeState(KeyState.Up);
+        yield return new WaitForSeconds(time / 2f);
+
+        done = true;
     }
 }

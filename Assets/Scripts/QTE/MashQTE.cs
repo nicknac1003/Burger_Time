@@ -8,6 +8,9 @@ public class MashQTE : QuickTimeEvent
     private GameObject     fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
+    private GameObject    keyZ;
+    private UIKeyAnimator keyZAnimator;
+
     private bool zReleased  = true;
     private int  mashProgress = 0;
 
@@ -54,6 +57,8 @@ public class MashQTE : QuickTimeEvent
 
         fillBarSpriteRenderer.material.SetFloat("_progress", progress);
 
+        keyZAnimator.ToggleKey(GlobalConstants.mashingAnimationTime);
+
         return 0f;
     }
 
@@ -68,6 +73,13 @@ public class MashQTE : QuickTimeEvent
         fillBarSpriteRenderer.material = new Material(fillBarSpriteRenderer.material);
         fillBarSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
         fillBarSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
+
+        keyZ = new GameObject("KeyZ");
+        keyZ.transform.parent = fillBarInstance.transform;
+        keyZ.transform.localPosition = new Vector3(0f, 0.5f, 0f);
+        keyZ.transform.localScale = new Vector3(1f, 1f, 1f); // same as parent
+        keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
+        keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Up);
     }
     protected override void DestroyUI()
     {

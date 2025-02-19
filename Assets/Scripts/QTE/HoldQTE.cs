@@ -12,6 +12,9 @@ public class HoldQTE : QuickTimeEvent
     [Tooltip("How fast progress depletes when not holding.")]
     [Range(0f, 2f)][SerializeField] private float drain = 0.5f; // Speed progress depletes when not holding
 
+    private GameObject    keyZ;
+    private UIKeyAnimator keyZAnimator;
+
     private float progress;
 
     private float fillSpeed  = 1f; // Multiplier for how fast progress fills
@@ -71,6 +74,8 @@ public class HoldQTE : QuickTimeEvent
             return 1f;
         }
 
+        keyZAnimator.PushKey(0.15f);
+
         progress += Time.deltaTime * fillSpeed;
 
         circleSpriteRenderer.material.SetFloat("_progress", progress / time); // normalize progress to 0-1 range
@@ -89,6 +94,13 @@ public class HoldQTE : QuickTimeEvent
         circleSpriteRenderer.material = new Material(circleSpriteRenderer.material);
         circleSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
         circleSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
+
+        keyZ = new GameObject("KeyZ");
+        keyZ.transform.parent = circle.transform;
+        keyZ.transform.localPosition = new Vector3(0f, 0.5f, 0f);
+        keyZ.transform.localScale = new Vector3(1f, 1f, 1f); // same as parent
+        keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
+        keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Up);
     }
     protected override void DestroyUI()
     {

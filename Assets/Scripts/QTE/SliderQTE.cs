@@ -5,9 +5,6 @@ using static EaseFunctions;
 [System.Serializable]
 public class SliderQTE : QuickTimeEvent
 {
-    [SerializeField] private GameObject sliderBar; // prefab for slider bar for instantiation
-    [SerializeField] private GameObject sliderArrow; // prefab for slider arrow for instantiation
-
     private GameObject sliderBarInstance; // instance of slider bar
     private GameObject sliderArrowInstance; // instance of slider arrow
 
@@ -118,14 +115,15 @@ public class SliderQTE : QuickTimeEvent
         DestroyUI();
 
         // Instantiate UI Elements
-        sliderBarInstance = Object.Instantiate(sliderBar, anchor);
+        sliderBarInstance = Object.Instantiate(GlobalConstants.sliderBar, anchor);
+        Vector2 barSpriteSize = sliderBarInstance.GetComponent<SpriteRenderer>().sprite.rect.size;
         sliderBarInstance.transform.localPosition = new Vector3(0f, 2.25f, 0f);
 
-        Vector2 barSpriteSize   = sliderBar.GetComponent<SpriteRenderer>().sprite.rect.size;
-        Vector2 arrowSpriteSize = sliderArrow.GetComponent<SpriteRenderer>().sprite.rect.size;
 
-        sliderArrowInstance = Object.Instantiate(sliderArrow, sliderBarInstance.transform);
+        sliderArrowInstance = Object.Instantiate(GlobalConstants.sliderArrow, sliderBarInstance.transform);
+        Vector2 arrowSpriteSize = sliderArrowInstance.GetComponent<SpriteRenderer>().sprite.rect.size;
         sliderArrowInstance.transform.position = sliderBarInstance.transform.position + new Vector3(GlobalConstants.pixelWorldSize * -30, GlobalConstants.pixelWorldSize * ((barSpriteSize.y + arrowSpriteSize.y) / 2f - 2f) * GlobalConstants.yDistortion, 0f);
+        
         arrowStartPosition = sliderArrowInstance.transform.position;
 
         // Update Shader

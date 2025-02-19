@@ -3,10 +3,8 @@ using UnityEngine;
 [System.Serializable]
 public class HoldQTE : QuickTimeEvent
 {
-    [SerializeField] private GameObject clock;
-
-    private GameObject     clockInstance;
-    private SpriteRenderer clockSpriteRenderer;
+    private GameObject     circle;
+    private SpriteRenderer circleSpriteRenderer;
 
     [Tooltip("How long it takes to complete QTE.")]
     [Range(0.5f, 8f)][SerializeField] private float time  = 4f;
@@ -53,7 +51,7 @@ public class HoldQTE : QuickTimeEvent
             {
                 progress = Mathf.Max(progress - Time.deltaTime * drain * drainSpeed, 0f); // deplete progress by repairDrain per second
 
-                clockSpriteRenderer.material.SetFloat("_progress", progress / time); // normalize progress to 0-1 range
+                circleSpriteRenderer.material.SetFloat("_progress", progress / time); // normalize progress to 0-1 range
             }
             else
             {
@@ -75,32 +73,30 @@ public class HoldQTE : QuickTimeEvent
 
         progress += Time.deltaTime * fillSpeed;
 
-        clockSpriteRenderer.material.SetFloat("_progress", progress / time); // normalize progress to 0-1 range
+        circleSpriteRenderer.material.SetFloat("_progress", progress / time); // normalize progress to 0-1 range
 
         return 0f;
     }
 
     protected override void CreateUI(Transform anchor)
     {
-        Debug.Log("Creating UI");
-
         DestroyUI();
 
-        clockInstance = Object.Instantiate(clock, anchor);
-        clockInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
+        circle = Object.Instantiate(GlobalConstants.circleFill, anchor);
+        circle.transform.localPosition = new Vector3(0f, 2f, 0f);
 
-        clockSpriteRenderer = clockInstance.GetComponent<SpriteRenderer>();
-        clockSpriteRenderer.material = new Material(clockSpriteRenderer.material);
-        clockSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
-        clockSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
+        circleSpriteRenderer = circle.GetComponent<SpriteRenderer>();
+        circleSpriteRenderer.material = new Material(circleSpriteRenderer.material);
+        circleSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
+        circleSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
     }
     protected override void DestroyUI()
     {
-        if(clockInstance == null) return;
+        if(circle == null) return;
 
-        Object.Destroy(clockInstance);
-        clockInstance       = null;
-        clockSpriteRenderer = null;
+        Object.Destroy(circle);
+        circle       = null;
+        circleSpriteRenderer = null;
     }
 
     protected override void StartQTE(Interactable parent)

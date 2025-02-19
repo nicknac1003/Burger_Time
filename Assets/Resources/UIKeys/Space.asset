@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d03d54b2a3934374390d97be4a5400c5, type: 3}
+  m_Name: Space
+  m_EditorClassIdentifier: 
+  key: 4
+  up: {fileID: 21300000, guid: dcf9b6c36c0023842b9f12d28df62020, type: 3}
+  half: {fileID: 21300000, guid: c3864c8ba42c7644b906cf4fda9ad3be, type: 3}
+  down: {fileID: 21300000, guid: ed97257aeb04d0046b05a67340e49b0a, type: 3}

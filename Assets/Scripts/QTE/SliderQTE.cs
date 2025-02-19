@@ -113,12 +113,12 @@ public class SliderQTE : QuickTimeEvent
         return 0f;
     }
 
-    protected override void CreateUI(Transform parent)
+    protected override void CreateUI(Transform anchor)
     {
         DestroyUI();
 
         // Instantiate UI Elements
-        sliderBarInstance = Object.Instantiate(sliderBar, parent);
+        sliderBarInstance = Object.Instantiate(sliderBar, anchor);
         sliderBarInstance.transform.localPosition = new Vector3(0f, 2.25f, 0f);
 
         Vector2 barSpriteSize   = sliderBar.GetComponent<SpriteRenderer>().sprite.rect.size;

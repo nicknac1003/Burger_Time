@@ -39,7 +39,7 @@ public class SliderQTE : QuickTimeEvent
     private void ResetTimer() => timer = -1f;
     private void StartTimer() => timer = 0f;
 
-    public SliderQTE() // default constructor
+    public SliderQTE() : base(true)
     {
         sliderTargetStart = 45;
         sliderTargetEnd   = 55;
@@ -47,7 +47,7 @@ public class SliderQTE : QuickTimeEvent
         easeIn            = Ease.InCubic;
         easeOut           = Ease.OutCubic;
     }
-    public SliderQTE(int start, int end, float time, Ease inEase, Ease outEase)
+    public SliderQTE(int start, int end, float time, Ease inEase, Ease outEase) : base(true)
     {
         sliderTargetStart = Mathf.Clamp(start, 0, 59);
         sliderTargetEnd   = Mathf.Clamp(end,   1, 60);
@@ -77,6 +77,12 @@ public class SliderQTE : QuickTimeEvent
 
     public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
+        if(xPressed)
+        {
+            EndQTE(parent);
+            return 0f;
+        }
+
         if(zPressed)
         {
             if(timer < 0f)
@@ -92,15 +98,15 @@ public class SliderQTE : QuickTimeEvent
             return 0f;
         }
         
-        arrowPosition = timer < timeToReachTargetFromStart ? EaseFunctions.Interpolate(0, targetPosition, timer / timeToReachTargetFromStart, easeIn) : EaseFunctions.Interpolate(targetPosition, 60, (timer - timeToReachTargetFromStart) / timeToReachEndFromTarget, easeOut);
-
-        sliderArrowInstance.transform.position = arrowStartPosition + new Vector3(GlobalConstants.pixelWorldSize * arrowPosition, 0f, 0f);
-
         if(InProgress() == false)
         {
             EndQTE(parent);
             return 0f;
         }
+
+        arrowPosition = timer < timeToReachTargetFromStart ? EaseFunctions.Interpolate(0, targetPosition, timer / timeToReachTargetFromStart, easeIn) : EaseFunctions.Interpolate(targetPosition, 60, (timer - timeToReachTargetFromStart) / timeToReachEndFromTarget, easeOut);
+
+        sliderArrowInstance.transform.position = arrowStartPosition + new Vector3(GlobalConstants.pixelWorldSize * arrowPosition, 0f, 0f);
 
         timer += Time.deltaTime;
 

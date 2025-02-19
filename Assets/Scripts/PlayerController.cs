@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     // Player Input
     private PlayerInput playerInput;
     private InputAction pauseAction;
+    private InputAction ticketAction;
     private InputAction moveAction;
     private InputAction zAction;
     private InputAction xAction;
@@ -36,6 +37,12 @@ public class PlayerController : MonoBehaviour
     private Interactable closestInteractable;
     private Holdable holding;
 
+    private bool lockedInPlace = false;
+
+    public bool LockedInPlace() => lockedInPlace;
+    public void LockPlayer()    => lockedInPlace = true;
+    public void UnlockPlayer()  => lockedInPlace = false;
+
     void Awake()
     {
         if (Instance == null)
@@ -52,15 +59,19 @@ public class PlayerController : MonoBehaviour
         moveAction = playerInput.actions.FindAction("Move");
 
         pauseAction = playerInput.actions.FindAction("Pause");
-        pauseAction.started += _ => { GameManager.Instance.HandlePauseGame(); };
+        pauseAction.started += _ => GameManager.Instance.HandlePauseGame();
+
+        ticketAction = playerInput.actions.FindAction("Ticket");
+        ticketAction.started  += _ => ticketManager.Open();
+        ticketAction.canceled += _ => ticketManager.Close();
 
         zAction = playerInput.actions.FindAction("Z");
         zAction.started  += _ => { if (closestInteractable != null) closestInteractable.InteractZ(true); };
         zAction.canceled += _ => { if (closestInteractable != null) closestInteractable.InteractZ(false); };
 
         xAction = playerInput.actions.FindAction("X");
-        xAction.started  += _ => ProcessXInteract(true);
-        xAction.canceled += _ => ProcessXInteract(true);
+        xAction.started  += _ => { if (closestInteractable != null) closestInteractable.InteractX(true); };
+        xAction.canceled += _ => { if (closestInteractable != null) closestInteractable.InteractX(false); };
 
         cAction = playerInput.actions.FindAction("C");
         cAction.started  += _ => { if (closestInteractable != null) closestInteractable.InteractC(true); };
@@ -80,7 +91,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdatePosition();
+        if(lockedInPlace == false)
+        {
+            UpdatePosition();
+        }
     }
 
     private void UpdatePosition()
@@ -148,30 +162,6 @@ public class PlayerController : MonoBehaviour
         Debug.DrawLine(origin, hit.point, Color.yellow, Time.fixedDeltaTime);
 
         return reducedDisplacement + CollideAndSlide(newOrigin, projectedDisplacement, bounceCount + 1);
-    }
-
-    public void ProcessXInteract(bool held)
-    {
-        if (closestInteractable != null)
-        {
-            closestInteractable.InteractX(held);
-        }
-        else
-        {
-            toggleTicketManager(held);
-        }
-    }
-
-    public void toggleTicketManager(bool held)
-    {
-        if (ticketManager.isOpen)
-        {
-            ticketManager.Close();
-        }
-        else
-        {
-            ticketManager.Open();
-        }
     }
 
     public void AddInteractable(Interactable interactable)

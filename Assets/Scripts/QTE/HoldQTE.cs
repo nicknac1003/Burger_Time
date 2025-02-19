@@ -19,13 +19,13 @@ public class HoldQTE : QuickTimeEvent
     private float fillSpeed  = 1f; // Multiplier for how fast progress fills
     private float drainSpeed = 1f; // Multiplier for how fast progress depletes
 
-    public HoldQTE() // default constructor
+    public HoldQTE() : base(false) // default constructor
     {
         time     = 4f;
         drain    = 0.5f;
         progress = -1f;
     }
-    public HoldQTE(float holdTime, float drainRate)
+    public HoldQTE(float holdTime, float drainRate) : base(false)
     {
         time = holdTime;
         drain = drainRate;

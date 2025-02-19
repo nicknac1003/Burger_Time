@@ -49,11 +49,7 @@ public class HoldQTE : QuickTimeEvent
     {
         if(zPressed == false)
         {
-            if(progress < 0f)
-            {
-                StartQTE(parent);
-            }
-            else if(progress > 0f)
+            if(progress > 0f)
             {
                 progress = Mathf.Max(progress - Time.deltaTime * drain * drainSpeed, 0f); // deplete progress by repairDrain per second
 
@@ -64,6 +60,11 @@ public class HoldQTE : QuickTimeEvent
                 EndQTE(parent);
             }
             return 0f;
+        }
+
+        if(progress < 0f)
+        {
+            StartQTE(parent);
         }
 
         if (InProgress() == false)
@@ -81,6 +82,8 @@ public class HoldQTE : QuickTimeEvent
 
     protected override void CreateUI(Transform anchor)
     {
+        Debug.Log("Creating UI");
+
         DestroyUI();
 
         clockInstance = Object.Instantiate(clock, anchor);

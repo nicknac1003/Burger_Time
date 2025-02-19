@@ -10,7 +10,7 @@ public class MashQTE : QuickTimeEvent
     private GameObject     fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
-    private bool releasedKey  = true;
+    private bool zReleased  = true;
     private int  mashProgress = 0;
 
     public MashQTE() : base(true) { mashCount = 10; }
@@ -37,7 +37,7 @@ public class MashQTE : QuickTimeEvent
             {
                 StartQTE(parent);
             }
-            if(releasedKey)
+            if(zReleased)
             {
                 mashProgress++;
             }
@@ -50,7 +50,7 @@ public class MashQTE : QuickTimeEvent
             return score;
         }
 
-        releasedKey = !zPressed;
+        zReleased = !zPressed;
 
         float progress = mashProgress / (float)mashCount;
 
@@ -59,11 +59,11 @@ public class MashQTE : QuickTimeEvent
         return 0f;
     }
 
-    protected override void CreateUI(Transform parent)
+    protected override void CreateUI(Transform anchor)
     {
         DestroyUI();
 
-        fillBarInstance = Object.Instantiate(fillBar, parent);
+        fillBarInstance = Object.Instantiate(fillBar, anchor);
         fillBarInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
 
         fillBarSpriteRenderer = fillBarInstance.GetComponent<SpriteRenderer>();
@@ -83,7 +83,7 @@ public class MashQTE : QuickTimeEvent
     protected override void StartQTE(Interactable parent)
     {
         CreateUI(parent.transform);
-        releasedKey = true;
+        zReleased = true;
     }
     public override void EndQTE(Interactable parent)
     {

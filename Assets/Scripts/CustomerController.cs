@@ -30,6 +30,7 @@ public class CustomerController : MonoBehaviour
     private Image image;
 
     private float maxRating = 6f;
+    private float finalRating = 0f;
 
     private GameManager gameManager;
     private void Awake()
@@ -129,7 +130,8 @@ public class CustomerController : MonoBehaviour
         // Logic for getting the food
         state = CustomerState.leaving;
         targetPosition = customerSpawner.exitPosition;
-        gameManager.WelpReview(Mathf.Min(CalculateReview(), 5));
+        finalRating = CalculateReview();
+        gameManager.WelpReview(finalRating);
     }
     public CustomerState GetState()
     {
@@ -147,6 +149,10 @@ public class CustomerController : MonoBehaviour
     private float CalculateReview()
     {
         //edit here for burger scoring effect on review
-        return maxRating * (MaxWaitTime - waitTimer) / MaxWaitTime;
+        return Mathf.Min(maxRating * (MaxWaitTime - waitTimer) / MaxWaitTime, 5f);
+    }
+    public float GetRating()
+    {
+        return finalRating;
     }
 }

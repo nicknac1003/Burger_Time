@@ -22,6 +22,8 @@ public class CustomerSpawner : MonoBehaviour
     public Transform orderQueueHead;
     public Transform serveQueueHead;
 
+    public GameObject ratingPopupPrefab;
+
     public void Start()
     {
         //space the queuepositions array based on queuehead 
@@ -79,9 +81,12 @@ public class CustomerSpawner : MonoBehaviour
     public void CustomerServed()
     {
         Transform customer = serveQueue.Dequeue();
-        customer.GetComponent<CustomerController>().Served();
+        CustomerController customerController = customer.GetComponent<CustomerController>();
+        customerController.Served();
         serveQueue.UpdateQueuePositions();
         gameManager.removeCustomer();
+        GameObject popup = Instantiate(ratingPopupPrefab, customer.position, Quaternion.identity);
+        popup.GetComponent<RatingPopup>().SetRating(customerController.GetRating());
 
         Destroy(customer.gameObject, 5f); //do somekind of walkout later
     }

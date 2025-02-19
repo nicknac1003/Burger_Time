@@ -378,6 +378,10 @@ PrefabInstance:
       propertyPath: waitingQueueHead
       value: 
       objectReference: {fileID: 1684911648}
+    - target: {fileID: 7646871234015480474, guid: 55ca31c5fc377634087f1089a186a8b1, type: 3}
+      propertyPath: ratingPopupPrefab
+      value: 
+      objectReference: {fileID: 1328764216328756072, guid: ae5d0cd6299aa9447838339cdecfc6f6, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

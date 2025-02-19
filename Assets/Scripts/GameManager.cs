@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
     public bool logTime = false;
     public float dayDelay = 6f;
 
+    public float initialRating = 5f;
+    private float rating;
+    public float ratingScale = 0.3f;
+
     public TextMeshProUGUI dayText;
     public TextMeshProUGUI timeText;
 
@@ -44,7 +48,7 @@ public class GameManager : MonoBehaviour
     {
         currentHour = startHour;
         currentMinute = startMinute;
-
+        rating = initialRating;
     }
 
     void Update()
@@ -115,7 +119,7 @@ public class GameManager : MonoBehaviour
      // Method to display the time as a 24-hour clock probably will eventual involve a UI element
     private void DisplayTime()
     {
-        string timeString = "";
+        string timeString;
         if (currentHour >= 24)
         {
             timeString = "12:00 PM";
@@ -168,6 +172,18 @@ public class GameManager : MonoBehaviour
         }
 
         text.color = new Color(color.r, color.g, color.b, endAlpha);
+    }
+    public void WelpReview(float review)
+    {
+        Debug.Log("Review: " + review);
+        float mid = 2.5f;
+        float diff = review - mid;
+        float scaledDiff = diff / (1 + Mathf.Abs(diff));
+        Debug.Log(scaledDiff);
+        rating += scaledDiff * ratingScale;
+        rating = Mathf.Clamp(rating, 0f, initialRating);
+        Debug.Log("Rating: " + rating);
+
     }
     public void addCustomer()
     {

@@ -8,7 +8,7 @@ public class ServeStation : Interactable
     {
         if (held)
         {   
-            if (customerSpawner.serveQueue.customerQueue.Count > 0 && customerSpawner.serveQueue.customerQueue.Peek().GetComponent<CustomerController>().GetState() == CustomerState.readyToBeServed)
+            if (customerSpawner.serveQueue.customerQueue.Count > 0 && customerSpawner.serveQueue.Peek().GetComponent<CustomerController>().GetState() == CustomerState.readyToBeServed)
             {
                 Debug.Log("Serving Customer");
                 customerSpawner.CustomerServed();

@@ -49,7 +49,7 @@ public class CustomerSpawner : MonoBehaviour
         gameManager.addCustomer();
         GameObject customer = Instantiate(customerPrefab, spawnPoint.position, spawnPoint.rotation);
         customer.GetComponent<CustomerController>().receiptGenerator = receiptGenerator;
-        orderQueue.customerQueue.Enqueue(customer.transform);
+        orderQueue.Enqueue(customer.transform);
         orderQueue.UpdateQueuePositions();
     }
 
@@ -70,19 +70,44 @@ public class CustomerSpawner : MonoBehaviour
     }
     public void CustomerOrderTaken()
     {
-        Transform customer = orderQueue.customerQueue.Dequeue();
+        Transform customer = orderQueue.Dequeue();
         orderQueue.UpdateQueuePositions();
-        serveQueue.customerQueue.Enqueue(customer);
+        serveQueue.Enqueue(customer);
         customer.GetComponent<CustomerController>().OrderTaken();
         serveQueue.UpdateQueuePositions();
     }
     public void CustomerServed()
     {
-        Transform customer = serveQueue.customerQueue.Dequeue();
+        Transform customer = serveQueue.Dequeue();
         customer.GetComponent<CustomerController>().Served();
         serveQueue.UpdateQueuePositions();
         gameManager.removeCustomer();
 
+        Destroy(customer.gameObject, 5f); //do somekind of walkout later
+    }
+    public void customerWaitTimeOut(CustomerController customerController)
+    {
+        Transform customer = null;
+        switch(customerController.GetState()){
+            case CustomerState.waitingToOrder:
+            case CustomerState.readyToOrder:
+            {
+                customer = orderQueue.Remove(customerController.transform);
+                orderQueue.UpdateQueuePositions();
+                break;
+            }
+
+            case CustomerState.waitingToBeServed:
+            case CustomerState.readyToBeServed:
+            {
+                customer = serveQueue.Remove(customerController.transform);
+                serveQueue.UpdateQueuePositions();
+                break;
+            }
+
+        }
+        
+        gameManager.removeCustomer();
         Destroy(customer.gameObject, 5f); //do somekind of walkout later
     }
 
@@ -91,7 +116,7 @@ public class CustomerSpawner : MonoBehaviour
 [System.Serializable]
 public class QueueType
 {
-    public Queue<Transform> customerQueue = new Queue<Transform>();
+    public List<Transform> customerQueue = new List<Transform>();
     public Transform[] queuePositions;
     public Transform lineHead;
     public int queueLength = 10; // Number of positions in the queue
@@ -121,6 +146,38 @@ public class QueueType
         if (position - 1 < queuePositions.Length)
         {
             return queuePositions[position - 1];
+        }
+        return null;
+    }
+
+    public void Enqueue(Transform customer)
+    {
+        customerQueue.Add(customer);
+    }
+    public Transform Dequeue()
+    {
+        if (customerQueue.Count == 0)
+        {
+            return null;
+        }
+        Transform customer = customerQueue[0];
+        customerQueue.RemoveAt(0);
+        return customer;
+    }
+    public Transform Peek()
+    {
+        if (customerQueue.Count == 0)
+        {
+            return null;
+        }
+        return customerQueue[0];
+    }
+    public Transform Remove(Transform customer)
+    {
+        if (customerQueue.Contains(customer))
+        {
+            customerQueue.Remove(customer);
+            return customer;
         }
         return null;
     }

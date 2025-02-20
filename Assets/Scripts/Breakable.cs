@@ -66,7 +66,7 @@ public class Breakable
             return;
         }
 
-        if(repairQTE.PerformQTE(pressed, false, false, Vector2.zero, parent) > 0f)
+        if(repairQTE.QTE(pressed, false, false, Vector2.zero, parent) > 0f)
         {
             Repair(parent);
         }

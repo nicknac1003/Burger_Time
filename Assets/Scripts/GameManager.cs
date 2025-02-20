@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI dayText;
     public TextMeshProUGUI timeText;
 
+    [SerializeField] private GameObject pauseMenu;
+
     void Awake()
     {
         if(Instance == null)
@@ -88,10 +90,12 @@ public class GameManager : MonoBehaviour
     }
     private void PauseGame()
     {
+        pauseMenu.SetActive(true);
         Time.timeScale = 0f;
     }
     private void UnpauseGame()
     {
+        pauseMenu.SetActive(false);
         Time.timeScale = 1f;
     }
 

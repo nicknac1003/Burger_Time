@@ -38,10 +38,27 @@ public class PlayerController : MonoBehaviour
     private Holdable holding;
 
     private bool lockedInPlace = false;
+    private Vector2 wishDirection;
+    private Vector2 lockedLastDirection; // prevent unwanted movement when leaving locked state
+    private bool    goodUnlock = true;   // prevent unwanted movement when leaving locked state
 
     public bool LockedInPlace() => lockedInPlace;
-    public void LockPlayer()    => lockedInPlace = true;
-    public void UnlockPlayer()  => lockedInPlace = false;
+    public void LockPlayer()
+    {
+        if(lockedInPlace) return;
+
+        lockedInPlace = true;
+        wishDirection = Vector2.zero;
+        velocity      = Vector3.zero;
+    }
+    public void UnlockPlayer()
+    {
+        if(lockedInPlace == false) return;
+
+        lockedInPlace       = false;
+        lockedLastDirection = wishDirection;
+        goodUnlock          = false;
+    }
 
     void Awake()
     {
@@ -86,12 +103,24 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
+        wishDirection = moveAction.ReadValue<Vector2>().normalized;
+
+        if(goodUnlock == false)
+        {
+            goodUnlock = UniqueDirection(lockedLastDirection, wishDirection);
+        }
+
+        if(closestInteractable != null)
+        {
+            closestInteractable.InteractMove(wishDirection);
+        }
+
         UpdateInteract();
     }
 
     void FixedUpdate()
     {
-        if(lockedInPlace == false)
+        if(lockedInPlace == false && goodUnlock)
         {
             UpdatePosition();
         }
@@ -116,11 +145,9 @@ public class PlayerController : MonoBehaviour
 
     private (Vector3 v, Vector3 a) CalculateMovement()
     {
-        Vector2 input = moveAction.ReadValue<Vector2>().normalized; // wish direction
-
         float magnitude = moveSpeed * velocityDecay / decayFactor;
 
-        Vector3 horizontalAcceleration = Vector3.forward * input.y * magnitude + Vector3.right * input.x * magnitude; // m/s^2
+        Vector3 horizontalAcceleration = Vector3.forward * wishDirection.y * magnitude + Vector3.right * wishDirection.x * magnitude; // m/s^2
 
         Vector3 horizontalVelocity = (new Vector3(velocity.x, 0f, velocity.z) + horizontalAcceleration * Time.fixedDeltaTime) * decayFactor; // m/s
 
@@ -162,6 +189,17 @@ public class PlayerController : MonoBehaviour
         Debug.DrawLine(origin, hit.point, Color.yellow, Time.fixedDeltaTime);
 
         return reducedDisplacement + CollideAndSlide(newOrigin, projectedDisplacement, bounceCount + 1);
+    }
+
+    private bool UniqueDirection(Vector3 a, Vector3 b)
+    {
+        // Are the vectors in a different enough direction?
+        bool uniqueDirection = Vector3.Angle(a, b) > 30f;
+
+        // Do the vectors differ enough in magnitude?
+        bool uniqueMagnitude = Mathf.Abs(a.magnitude - b.magnitude) > 0.25f;
+
+        return uniqueDirection || uniqueMagnitude;
     }
 
     public void AddInteractable(Interactable interactable)

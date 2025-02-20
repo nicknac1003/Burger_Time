@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MashQTE : QuickTimeEvent
 {
-    [Tooltip("The number of times the player must press the button to succeed.")]
-    [Range(3, 20)][SerializeField] private int mashCount = 10;
+    [Tooltip("The number of times the player must press Z to succeed.")]
+    [Range(5, 30)][SerializeField] private int mashCount = 10;
 
     private GameObject     fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
@@ -12,19 +12,20 @@ public class MashQTE : QuickTimeEvent
     private UIKeyAnimator keyZAnimator;
 
     private bool zReleased  = true;
-    private int  mashProgress = 0;
+    private int  mashProgress = -1;
 
     public MashQTE() : base(true) { mashCount = 10; }
     public MashQTE(int count) : base(true) { mashCount = count; }
 
-    private void ResetMashing() => mashProgress = 0;
+    private void ResetMashing() => mashProgress = -1;
+    private void StartMashing() => mashProgress = 0;
 
     public override bool InProgress()
     {
-        return mashProgress < mashCount && mashProgress > 0;
+        return mashProgress < mashCount && mashProgress >= 0;
     }
 
-    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
+    protected override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
         if(xPressed)
         {
@@ -34,7 +35,7 @@ public class MashQTE : QuickTimeEvent
 
         if(zPressed)
         {
-            if(mashProgress == 0)
+            if(mashProgress < 0)
             {
                 StartQTE(parent);
             }
@@ -93,6 +94,7 @@ public class MashQTE : QuickTimeEvent
     protected override void StartQTE(Interactable parent)
     {
         CreateUI(parent.transform);
+        StartMashing();
         zReleased = true;
     }
     public override void EndQTE(Interactable parent)

@@ -13,8 +13,8 @@ public class QTEDrawer : PropertyDrawer
         string type  = property.managedReferenceFullTypename;
         if(string.IsNullOrEmpty(type)) type = "HoldQTE"; // default value
 
-        Type[] types = new[] { typeof(HoldQTE), typeof(SliderQTE), typeof(MashQTE), typeof(AlternateQTE) };
-        string[] dropDownOptions = new[] {"Hold", "Slider", "Mash", "Alternate"};
+        Type[] types = new[] { typeof(HoldQTE), typeof(SliderQTE), typeof(MashQTE), typeof(AlternateQTE), typeof(WindmillQTE) };
+        string[] dropDownOptions = new[] {"Hold", "Slider", "Mash", "Alternate", "Windmill"};
 
         int index = 0; 
         for (int i = 0; i < types.Length; i++) 

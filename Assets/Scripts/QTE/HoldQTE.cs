@@ -46,7 +46,7 @@ public class HoldQTE : QuickTimeEvent
         return progress < time && progress >= 0f;
     }
 
-    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
+    protected override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
         if(zPressed == false)
         {

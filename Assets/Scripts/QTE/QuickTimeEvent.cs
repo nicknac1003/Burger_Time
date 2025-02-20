@@ -27,7 +27,26 @@ public abstract class QuickTimeEvent
     /// <returns>
     /// Float representing the score of the QTE  
     /// </returns>
-    public abstract float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent);
+    public float QTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
+    {
+        float score = PerformQTE(zPressed, xPressed, cPressed, moveInput, parent);
+
+        if(locksPlayerInPlace)
+        {
+            if(InProgress())
+            {
+                PlayerController.Instance.LockPlayer();
+            }
+            else
+            {
+                PlayerController.Instance.UnlockPlayer();
+            }
+        }
+
+        return score;
+    }
+
+    protected abstract float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent);
     
     protected abstract void CreateUI(Transform anchor);
     protected abstract void DestroyUI();

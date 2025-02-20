@@ -49,8 +49,8 @@ public class SliderQTE : QuickTimeEvent
     }
     public SliderQTE(int start, int end, float time, Ease inEase, Ease outEase) : base(true)
     {
-        sliderTargetStart = Mathf.Clamp(start, 0, 59);
-        sliderTargetEnd   = Mathf.Clamp(end,   1, 60);
+        sliderTargetStart = Mathf.Clamp(start, 1, 61);
+        sliderTargetEnd   = Mathf.Clamp(end,   2, 62);
         sliderTime        = Mathf.Clamp(time, 0.1f, 2f);
         easeIn            = inEase;
         easeOut           = outEase;
@@ -75,7 +75,7 @@ public class SliderQTE : QuickTimeEvent
         return timer < sliderTime && timer >= 0f;
     }
 
-    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
+    protected override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
         if(xPressed)
         {
@@ -104,7 +104,7 @@ public class SliderQTE : QuickTimeEvent
             return 0f;
         }
 
-        arrowPosition = timer < timeToReachTargetFromStart ? EaseFunctions.Interpolate(0, targetPosition, timer / timeToReachTargetFromStart, easeIn) : EaseFunctions.Interpolate(targetPosition, 60, (timer - timeToReachTargetFromStart) / timeToReachEndFromTarget, easeOut);
+        arrowPosition = timer < timeToReachTargetFromStart ? EaseFunctions.Interpolate(1, targetPosition, timer / timeToReachTargetFromStart, easeIn) : EaseFunctions.Interpolate(targetPosition, 62, (timer - timeToReachTargetFromStart) / timeToReachEndFromTarget, easeOut);
 
         if(arrowPosition >= sliderTargetStart - 2) // -2 for reaction time buffer
         {
@@ -137,7 +137,8 @@ public class SliderQTE : QuickTimeEvent
 
         sliderArrowInstance = Object.Instantiate(GlobalConstants.sliderArrow, sliderBarInstance.transform);
         Vector2 arrowSpriteSize = sliderArrowInstance.GetComponent<SpriteRenderer>().sprite.rect.size;
-        sliderArrowInstance.transform.position = sliderBarInstance.transform.position + new Vector3(GlobalConstants.pixelWorldSize * -30, GlobalConstants.pixelWorldSize * ((barSpriteSize.y + arrowSpriteSize.y) / 2f - 2f) * GlobalConstants.yDistortion, 0f);
+        sliderArrowInstance.transform.position = sliderBarInstance.transform.position + new Vector3(GlobalConstants.pixelWorldSize * -31, 0f, 0f);
+        sliderArrowInstance.GetComponent<SpriteRenderer>().sortingOrder = 1;
         
         arrowStartPosition = sliderArrowInstance.transform.position;
 
@@ -155,7 +156,7 @@ public class SliderQTE : QuickTimeEvent
         keyZ = new GameObject("KeyZ");
         keyZ.transform.parent = sliderBarInstance.transform;
         float xPos = GlobalConstants.pixelWorldSize * (targetPosition - 28);
-        keyZ.transform.localPosition = new Vector3(xPos, 0.6f, 0f); // instantiate over target position
+        keyZ.transform.localPosition = new Vector3(xPos, 0.4f, 0f); // instantiate over target position
         keyZ.transform.localScale = new Vector3(1f, 1f, 1f); // same as parent
         keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
         keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Up);

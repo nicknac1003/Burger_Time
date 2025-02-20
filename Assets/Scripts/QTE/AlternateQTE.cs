@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class AlternateQTE : QuickTimeEvent
 {
-    [Range(3, 20)][SerializeField] private int mashCount = 10;
+    [Tooltip("The number of times the player must press Z or C to succeed.")]
+    [Range(2, 15)][SerializeField] private int alternationCount = 5;
 
     private GameObject     fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
@@ -15,19 +16,21 @@ public class AlternateQTE : QuickTimeEvent
     private bool zReleased = true;
     private bool cReleased = true;
     private bool zLastPressed = false;
-    private int  mashProgress = 0;
+    private int  mashProgress = -1;
+    private int  mashCount;
 
-    public AlternateQTE() : base(true) { mashCount = 10; }
-    public AlternateQTE(int count) : base(true) { mashCount = count; }
+    public AlternateQTE() : base(true) { alternationCount = 5; }
+    public AlternateQTE(int count) : base(true) { alternationCount = count; }
 
-    private void ResetMashing() => mashProgress = 0;
+    private void ResetMashing() => mashProgress = -1;
+    private void StartMashing() => mashProgress = 0;
 
     public override bool InProgress()
     {
-        return mashProgress < mashCount && mashProgress > 0;
+        return mashProgress < mashCount && mashProgress >= 0;
     }
 
-    public override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
+    protected override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
         if(xPressed)
         {
@@ -37,7 +40,7 @@ public class AlternateQTE : QuickTimeEvent
 
         if(zPressed)
         {
-            if(mashProgress == 0)
+            if(mashProgress < 0)
             {
                 StartQTE(parent);
             }
@@ -50,7 +53,7 @@ public class AlternateQTE : QuickTimeEvent
         
         if(cPressed)
         {
-            if(mashProgress == 0)
+            if(mashProgress < 0)
             {
                 // Player is taking item out of Appliance before QTE starts
                 return 0f;
@@ -120,9 +123,11 @@ public class AlternateQTE : QuickTimeEvent
     protected override void StartQTE(Interactable parent)
     {
         CreateUI(parent.transform);
+        StartMashing();
         zReleased    = true;
         cReleased    = true;
         zLastPressed = false;
+        mashCount    = alternationCount * 2;
     }
     public override void EndQTE(Interactable parent)
     {

@@ -11,10 +11,8 @@ public class Storage : Interactable
     
     private Holdable holdable;
 
-    public override void InteractZ(bool pressed)
+    protected override void OnZ()
     {
-        if(pressed == false) return;
-
         if(PlayerController.Instance.HoldingItem())
         {
             if(PlaceItem(PlayerController.Instance.GetItem()))

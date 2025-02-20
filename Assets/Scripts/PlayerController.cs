@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -79,20 +80,20 @@ public class PlayerController : MonoBehaviour
         pauseAction.started += _ => GameManager.Instance.HandlePauseGame();
 
         ticketAction = playerInput.actions.FindAction("Ticket");
-        ticketAction.started  += _ => ticketManager.Open();
-        ticketAction.canceled += _ => ticketManager.Close();
+        ticketAction.started  += _ => { if(!GameManager.Instance.GamePaused()) ticketManager.Open(); };
+        ticketAction.canceled += _ => { if(!GameManager.Instance.GamePaused()) ticketManager.Close(); };
 
         zAction = playerInput.actions.FindAction("Z");
-        zAction.started  += _ => { if (closestInteractable != null) closestInteractable.InteractZ(true); };
-        zAction.canceled += _ => { if (closestInteractable != null) closestInteractable.InteractZ(false); };
+        zAction.started  += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(true); };
+        zAction.canceled += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(false); };
 
         xAction = playerInput.actions.FindAction("X");
-        xAction.started  += _ => { if (closestInteractable != null) closestInteractable.InteractX(true); };
-        xAction.canceled += _ => { if (closestInteractable != null) closestInteractable.InteractX(false); };
+        xAction.started  += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractX(true); };
+        xAction.canceled += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractX(false); };
 
         cAction = playerInput.actions.FindAction("C");
-        cAction.started  += _ => { if (closestInteractable != null) closestInteractable.InteractC(true); };
-        cAction.canceled += _ => { if (closestInteractable != null) closestInteractable.InteractC(false); };
+        cAction.started  += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractC(true); };
+        cAction.canceled += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractC(false); };
 
         decayFactor = 1 - velocityDecay * Time.fixedDeltaTime;
     }
@@ -103,6 +104,8 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
+        if(GameManager.Instance.GamePaused()) return;
+
         wishDirection = moveAction.ReadValue<Vector2>().normalized;
 
         if(goodUnlock == false)
@@ -120,6 +123,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(GameManager.Instance.GamePaused()) return;
+        
         if(lockedInPlace == false && goodUnlock)
         {
             UpdatePosition();

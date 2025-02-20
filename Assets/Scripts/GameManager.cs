@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timeText;
 
     [SerializeField] private GameObject pauseMenu;
+    private bool paused = false;
+    public bool GamePaused() => paused;
 
     void Awake()
     {
@@ -79,22 +81,24 @@ public class GameManager : MonoBehaviour
 
     public void HandlePauseGame()
     {
-        if(Mathf.Approximately(Time.timeScale, 1f))
+        if(GamePaused())
         {
-            PauseGame();
+            UnpauseGame();
         }
         else
         {
-            UnpauseGame();
+            PauseGame();
         }
     }
     private void PauseGame()
     {
+        paused = true;
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
     }
     private void UnpauseGame()
     {
+        paused = false;
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
     }

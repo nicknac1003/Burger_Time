@@ -20,7 +20,7 @@ public class UIBlink : MonoBehaviour
             canvasGroup.alpha = 1 - canvasGroup.alpha;
             timer = 0;
         }
-        
-        timer += Time.deltaTime * frequency;
+
+        timer += Time.unscaledDeltaTime * frequency;
     }
 }

@@ -90,7 +90,7 @@ public class CustomerSpawner : MonoBehaviour
 
         Destroy(customer.gameObject, 5f); //do somekind of walkout later
     }
-    public void customerWaitTimeOut(CustomerController customerController)
+    public void CustomerWaitTimeOut(CustomerController customerController)
     {
         Transform customer = null;
         switch(customerController.GetState()){

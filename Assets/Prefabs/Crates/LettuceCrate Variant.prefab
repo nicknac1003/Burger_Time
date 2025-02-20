@@ -12,10 +12,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: LettuceCrate Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4271814705388607039, guid: dded0f091429dcb42bb0a98859790a3a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 6908793369102987656, guid: dded0f091429dcb42bb0a98859790a3a, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 2f4b5a6f2e193124f883494e598504dc, type: 3}
+    - target: {fileID: 6908793369102987656, guid: dded0f091429dcb42bb0a98859790a3a, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7219234299306102767, guid: dded0f091429dcb42bb0a98859790a3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.669

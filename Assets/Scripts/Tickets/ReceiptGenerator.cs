@@ -1,24 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+
+[System.Serializable]
+public enum Ingredient {
+    Bun,
+    Patty,
+    Lettuce,
+    Tomato,
+    Cheese,
+
+}
 public class ReceiptGenerator : MonoBehaviour
 {
-    public List<string> ingredients;
     [SerializeField] private GameObject receiptChunk;
     [SerializeField] public float receiptSizeScale = 1f;
     [SerializeField] private TicketManager ticketManager;
 
     [Header("Serialize Dictionary -- Ignore")]
     [SerializeField] public List<Sprite> ingredientSprites;
-    [SerializeField] public List<string> ingredientNames;
+    [SerializeField] public List<Ingredient> ingredientNames;
 
-    private Dictionary<string, Sprite> ingredientImages;
+    private Dictionary<Ingredient, Sprite> ingredientImages;
     private float receiptWidth;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         // Popoulate Dictionary
-        ingredientImages = new Dictionary<string, Sprite>();
+        ingredientImages = new Dictionary<Ingredient, Sprite>();
         for (int i = 0; i < ingredientSprites.Count; i++)
         {
             ingredientImages.Add(ingredientNames[i], ingredientSprites[i]);
@@ -30,11 +39,13 @@ public class ReceiptGenerator : MonoBehaviour
         }
     }
 
-    public void GenerateReceipt(List<string> ingredients)
+    public GameObject GenerateReceipt(Burger burger)
     {
+        List<Ingredient> ingredients = burger.ingredients;
+        GameObject receiptParent = new GameObject();
         if (ticketManager != null)
         {
-            GameObject receiptParent = new GameObject();
+            
 
             //Determine total width of receipt and apply to preferredWidth of LayoutElement
             float totalReceiptWidth = (receiptWidth * receiptSizeScale) * ((ingredients.Count / 2) + ingredients.Count % 2);
@@ -44,16 +55,17 @@ public class ReceiptGenerator : MonoBehaviour
             PopulateReceipt(receiptParent, ingredients);
             ticketManager.AddTicket(receiptParent);
         }
+        return receiptParent;
     }
 
-    void PopulateReceipt(GameObject receiptParent, List<string> ingredients)
+    void PopulateReceipt(GameObject receiptParent, List<Ingredient> ingredients)
     {
         GameObject curReceipt = null;
         // Shift spawn of receipt left half of the receipt width for every receipt over 1
         float startX = (-1 * receiptWidth * receiptSizeScale) * (((ingredients.Count / 2) + ingredients.Count % 2) - 1) / 2;
         Vector2 spawnPosition = new Vector2(startX, 0);
 
-        foreach (string ingredient in ingredients)
+        foreach (Ingredient ingredient in ingredients)
         {
             if (curReceipt == null)
             {

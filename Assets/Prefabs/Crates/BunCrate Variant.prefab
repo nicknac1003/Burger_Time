@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BunCrate Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4271814705388607039, guid: dded0f091429dcb42bb0a98859790a3a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4271814705388607039, guid: dded0f091429dcb42bb0a98859790a3a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 6908793369102987656, guid: dded0f091429dcb42bb0a98859790a3a, type: 3}
       propertyPath: m_Sprite
       value: 

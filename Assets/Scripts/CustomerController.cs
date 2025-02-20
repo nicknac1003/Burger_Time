@@ -22,7 +22,7 @@ public class CustomerController : MonoBehaviour
     private CustomerSpawner customerSpawner;
     private CustomerState state = CustomerState.entering;
     public ReceiptGenerator receiptGenerator;
-    private List<string> order = new List<string>();
+    private Burger order = new Burger();
 
     public float MaxWaitTime = 10f;
     private float waitTimer = 0f;
@@ -33,6 +33,8 @@ public class CustomerController : MonoBehaviour
     private float finalRating = 0f;
 
     private GameManager gameManager;
+
+    private GameObject reciept;
     private void Awake()
     {
         customerSpawner = FindFirstObjectByType<CustomerSpawner>();
@@ -46,15 +48,10 @@ public class CustomerController : MonoBehaviour
 
     void GenerateOrder()
     {
-        List<string> ingredients = receiptGenerator.ingredientNames;
-        int numIngredients = Random.Range(minIngredients, maxIngredients + 1);
+        int numIngredients = Random.Range(minIngredients, maxIngredients);
+        order = Burger.GenerateRandomBurger(numIngredients, receiptGenerator.ingredientNames);
 
-        for (int i = 0; i < numIngredients; i++)
-        {
-            order.Add(ingredients[Random.Range(0, ingredients.Count)]);
-        }
-
-        receiptGenerator.GenerateReceipt(order);
+        reciept = receiptGenerator.GenerateReceipt(order);
     }
 
     public void SetQueuePosition(int position)
@@ -103,10 +100,11 @@ public class CustomerController : MonoBehaviour
     }
     public void CustomerWaitTimeOut()
     {
-        customerSpawner.customerWaitTimeOut(this);
+        customerSpawner.CustomerWaitTimeOut(this);
         state = CustomerState.leaving;
         targetPosition = customerSpawner.exitPosition;
         GameManager.Instance.WelpReview(0);
+        Destroy(reciept, 0.5f);
     }
     public void ReadyToOrder()
     {
@@ -132,6 +130,7 @@ public class CustomerController : MonoBehaviour
         targetPosition = customerSpawner.exitPosition;
         finalRating = CalculateReview();
         gameManager.WelpReview(finalRating);
+        Destroy(reciept, 0.5f);
     }
     public CustomerState GetState()
     {

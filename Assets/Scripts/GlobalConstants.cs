@@ -27,6 +27,16 @@ public class GlobalConstants
     public static UIKey keyLeft  = Resources.Load<UIKey>("UIKeys/Left");
     public static UIKey keyEsc   = Resources.Load<UIKey>("UIKeys/Esc");
 
+    public static IngredientObject bun     = Resources.Load<IngredientObject>("Ingredients/Bun");
+    public static IngredientObject patty   = Resources.Load<IngredientObject>("Ingredients/Patty");
+    public static IngredientObject lettuce = Resources.Load<IngredientObject>("Ingredients/Lettuce");
+    public static IngredientObject tomato  = Resources.Load<IngredientObject>("Ingredients/Tomato");
+    public static IngredientObject cheese  = Resources.Load<IngredientObject>("Ingredients/Cheese");
+    public static IngredientObject onion   = Resources.Load<IngredientObject>("Ingredients/Onion");
+    public static IngredientObject plate   = Resources.Load<IngredientObject>("Ingredients/Plate");
+
+    public static GameObject speechBubble = Resources.Load<GameObject>("SpeechBubble");
+
     public static float alternateAnimationTime = 0.25f;
     public static float mashingAnimationTime   = 0.15f;
     public static float sliderAnimationTime    = 0.01f;

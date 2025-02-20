@@ -32,19 +32,20 @@ public class OrderGenerator : MonoBehaviour
 
     public GameObject GenerateReceipt(Burger burger)
     {
-        List<IngredientType> ingredients = burger.ingredients;
-        GameObject receiptParent = new GameObject();
-        if (ticketManager != null)
-        {
-            //Determine total width of receipt and apply to preferredWidth of LayoutElement
-            float totalReceiptWidth = receiptWidth * receiptSizeScale * ((ingredients.Count / 2) + ingredients.Count % 2);
-            LayoutElement layoutElement = receiptParent.AddComponent<LayoutElement>();
-            layoutElement.preferredWidth = totalReceiptWidth;
-
-            PopulateReceipt(receiptParent, ingredients);
-            ticketManager.AddTicket(receiptParent);
-        }
-        return receiptParent;
+        return null;
+        //List<IngredientType> ingredients = burger.ingredients;
+        //GameObject receiptParent = new GameObject();
+        //if (ticketManager != null)
+        //{
+        //    //Determine total width of receipt and apply to preferredWidth of LayoutElement
+        //    float totalReceiptWidth = receiptWidth * receiptSizeScale * ((ingredients.Count / 2) + ingredients.Count % 2);
+        //    LayoutElement layoutElement = receiptParent.AddComponent<LayoutElement>();
+        //    layoutElement.preferredWidth = totalReceiptWidth;
+//
+        //    PopulateReceipt(receiptParent, ingredients);
+        //    ticketManager.AddTicket(receiptParent);
+        //}
+        //return receiptParent;
     }
 
     void PopulateReceipt(GameObject receiptParent, List<IngredientType> ingredients)

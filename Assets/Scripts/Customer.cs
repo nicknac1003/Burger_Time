@@ -91,18 +91,29 @@ public class Customer : MonoBehaviour
 
         PlayerController.LockPlayer();
 
-        // Create speech bubble
+        GameObject speechBubble = Instantiate(GlobalConstants.speechBubble, transform);
+        speechBubble.transform.localPosition = new Vector3(0.5f, 1.5f, 0);
 
-        foreach(IngredientType ingredient in order.ingredients)
+        IngredientObject ingredientObject = null;
+        foreach(Ingredient ingredient in order.GetIngredients())
         {
-            // Have ingredient sprite appear in speech bubble
+            if(ingredientObject == null)
+            {
+                ingredientObject = IngredientObject.Instantiate(ingredient);
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.15f); // Buffer for clear separation between ingredients
+
+                ingredientObject.ChangeIngredient(ingredient);
+                ingredientObject.enabled = true;
+            }
 
             yield return new WaitForSeconds(CustomerManager.RequestTime());
-
-            // Have ingredient sprite disappear
-
-            yield return new WaitForSeconds(0.2f); // Clear separation between ingredients
+            ingredientObject.enabled = false;
         }
+
+        Destroy(speechBubble);
 
         PlayerController.UnlockPlayer();
 

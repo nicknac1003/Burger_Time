@@ -17,6 +17,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private float customerMoveSpeed;
     [SerializeField] private float maxWaitTime;
     [SerializeField] private float requestIngredientTime;
+    [SerializeField] private int   maxToppings = 6;
 
     public static CustomerManager Instance { get; private set; }
 
@@ -29,6 +30,7 @@ public class CustomerManager : MonoBehaviour
     public static Vector3 Exit()              => Instance.exitPoint.position;
     public static float   MaxWaitTime()       => Instance.maxWaitTime;
     public static float   RequestTime()       => Instance.requestIngredientTime;
+    public static int     MaxToppings()       => Instance.maxToppings;
 
     void Awake()
     {
@@ -121,6 +123,8 @@ public class CustomerManager : MonoBehaviour
 
     public static void TakeOrder()
     {
+        if(OrderManager.CanTakeOrder() == false) return;
+        
         if (Instance.line.Count <= 0 || Vector3.Distance(Instance.line[0].transform.position, Instance.lineStart.position) > 0.1f) return;
         
         Customer customer = Instance.line[0];

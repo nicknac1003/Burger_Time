@@ -87,6 +87,31 @@ public class IngredientObject : Holdable
     public IngredientState State() => ingredient.State();
     public Ingredient      GetIngredient() => ingredient;
 
+    public static Sprite GetSprite(IngredientType t, IngredientState s)
+    {
+        return t switch
+        {
+            IngredientType.Bun     => GlobalConstants.bun.GetSprite(s),
+            IngredientType.Patty   => GlobalConstants.patty.GetSprite(s),
+            IngredientType.Lettuce => GlobalConstants.lettuce.GetSprite(s),
+            IngredientType.Tomato  => GlobalConstants.tomato.GetSprite(s),
+            IngredientType.Cheese  => GlobalConstants.cheese.GetSprite(s),
+            IngredientType.Onion   => GlobalConstants.onion.GetSprite(s),
+            IngredientType.Plate   => GlobalConstants.plate.GetSprite(s),
+            _ => null,
+        };
+    }
+    public Sprite GetSprite(IngredientState s)
+    {
+        return s switch
+        {
+            IngredientState.Raw    => raw,
+            IngredientState.Cooked => cooked,
+            IngredientState.Burnt  => burnt,
+            _ => null,
+        };
+    }
+
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -105,38 +130,6 @@ public class IngredientObject : Holdable
         UpdateSprite();
     }
 
-    public void ChangeIngredient(Ingredient newIngredient)
-    {
-        ingredient = newIngredient;
-
-        switch(ingredient.Type())
-        {
-            case IngredientType.Bun:
-                CopySpritesFrom(GlobalConstants.bun);
-            break;
-            case IngredientType.Patty:
-                CopySpritesFrom(GlobalConstants.patty);
-            break;
-            case IngredientType.Lettuce:
-                CopySpritesFrom(GlobalConstants.lettuce);
-            break;
-            case IngredientType.Tomato:
-                CopySpritesFrom(GlobalConstants.tomato);
-            break;
-            case IngredientType.Cheese:
-                CopySpritesFrom(GlobalConstants.cheese);
-            break;
-            case IngredientType.Onion:
-                CopySpritesFrom(GlobalConstants.onion);
-            break;
-            case IngredientType.Plate:
-                CopySpritesFrom(GlobalConstants.plate);
-            break;
-        }
-
-        UpdateSprite();
-    }
-
     private void UpdateSprite()
     {
         switch(ingredient.State())
@@ -151,16 +144,6 @@ public class IngredientObject : Holdable
                 spriteRenderer.sprite = onBurger ? onBurgerBurnt : burnt;
                 break;
         }
-    }
-
-    private void CopySpritesFrom(IngredientObject other)
-    {
-        raw            = other.raw;
-        cooked         = other.cooked;
-        burnt          = other.burnt;
-        onBurgerRaw    = other.onBurgerRaw;
-        onBurgerCooked = other.onBurgerCooked;
-        onBurgerBurnt  = other.onBurgerBurnt;
     }
 }
 
@@ -181,6 +164,11 @@ public class Ingredient
 
     public IngredientState State() => state;
     public IngredientType  Type()  => type;
+
+    public Sprite GetSprite()
+    {
+        return IngredientObject.GetSprite(type, state);
+    }
 
     public override string ToString()
     {

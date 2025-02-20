@@ -32,8 +32,6 @@ public class PlayerController : MonoBehaviour
     [Header("Gameplay Variables")]
     [SerializeField] private Transform holdAnchor;
 
-    public  OrderManager ticketManager;
-
     private List<Interactable> interactables = new();
     private Interactable closestInteractable;
     private Holdable holding;
@@ -80,8 +78,8 @@ public class PlayerController : MonoBehaviour
         pauseAction.started += _ => GameManager.Instance.HandlePauseGame();
 
         ticketAction = playerInput.actions.FindAction("Ticket");
-        ticketAction.started  += _ => { if(!GameManager.GamePaused()) ticketManager.Open(); };
-        ticketAction.canceled += _ => { if(!GameManager.GamePaused()) ticketManager.Close(); };
+        ticketAction.started  += _ => { if(!GameManager.GamePaused()) OrderManager.OpenTickets(); };
+        ticketAction.canceled += _ => { if(!GameManager.GamePaused()) OrderManager.CloseTickets(); };
 
         zAction = playerInput.actions.FindAction("Z");
         zAction.started  += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(true); };

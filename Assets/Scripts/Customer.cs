@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Customer : MonoBehaviour
@@ -12,6 +14,9 @@ public class Customer : MonoBehaviour
     private Vector3 waitInLinePosition;
     private bool startedOrdering;
     private bool doneOrdering;
+
+    public float GetTimeSpentInLine() => timeSpentInLine;
+    public float GetTimeSpentWaitingForOrder() => timeSpentWaitingForOrder;
 
     public void Init(int newID)
     {
@@ -87,30 +92,31 @@ public class Customer : MonoBehaviour
 
     private IEnumerator PlaceOrder()
     {
-        Burger order = Burger.GenerateRandomBurger(Random.Range(0, GameManager.GetDay()));
+        Burger order = Burger.GenerateRandomBurger(Random.Range(0, Mathf.Min(GameManager.GetDay(), CustomerManager.MaxToppings())));
 
         PlayerController.LockPlayer();
 
         GameObject speechBubble = Instantiate(GlobalConstants.speechBubble, transform);
         speechBubble.transform.localPosition = new Vector3(0.5f, 1.5f, 0);
 
-        IngredientObject ingredientObject = null;
-        foreach(Ingredient ingredient in order.GetIngredients())
-        {
-            if(ingredientObject == null)
-            {
-                ingredientObject = IngredientObject.Instantiate(ingredient);
-            }
-            else
-            {
-                yield return new WaitForSeconds(0.15f); // Buffer for clear separation between ingredients
+        GameObject inBubble = Object.Instantiate(speechBubble, speechBubble.transform);
+        SpriteRenderer spriteRenderer = inBubble.GetComponent<SpriteRenderer>();
+        inBubble.SetActive(false);
 
-                ingredientObject.ChangeIngredient(ingredient);
-                ingredientObject.enabled = true;
-            }
+        List<Ingredient> ingredients = order.GetIngredients();
+        int ingredientCount = ingredients.Count;
+        for(int i = 0; i < ingredientCount; i++)
+        {
+            spriteRenderer.sprite = ingredients[i].GetSprite();
+            inBubble.SetActive(true);
 
             yield return new WaitForSeconds(CustomerManager.RequestTime());
-            ingredientObject.enabled = false;
+            inBubble.SetActive(false);
+
+            if(i != ingredientCount - 1)
+            {
+                yield return new WaitForSeconds(0.15f); // Buffer for clear separation between ingredients except last
+            }
         }
 
         Destroy(speechBubble);
@@ -119,7 +125,7 @@ public class Customer : MonoBehaviour
 
         SetState(CustomerState.WaitingForFood);
 
-        // Generate ticket for order
+        OrderManager.NewTicket(order, this);
     }
 }
 

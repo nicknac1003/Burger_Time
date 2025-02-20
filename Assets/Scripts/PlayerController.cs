@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     [Header("Gameplay Variables")]
     [SerializeField] private Transform holdAnchor;
 
-    public  TicketManager ticketManager;
+    public  OrderManager ticketManager;
 
     private List<Interactable> interactables = new();
     private Interactable closestInteractable;

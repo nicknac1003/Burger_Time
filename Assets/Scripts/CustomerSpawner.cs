@@ -9,7 +9,7 @@ public class CustomerSpawner : MonoBehaviour
     public Transform spawnPoint;
     public Transform exitPosition;
     public float spawnInterval = 5f;
-    public ReceiptGenerator receiptGenerator;
+    public OrderGenerator receiptGenerator;
     private float spawnTimer = 0f;
 
     public int maxCustomers = 5;

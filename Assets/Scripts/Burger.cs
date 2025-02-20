@@ -7,6 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class Burger {
     public List<Ingredient> ingredients;
+    public bool hasPlate = false;
     public Burger() {
         ingredients = new List<Ingredient>();
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class TicketManager : MonoBehaviour
+public class OrderManager : MonoBehaviour
 {
     public List<GameObject> tickets;
     public bool isOpen = false;

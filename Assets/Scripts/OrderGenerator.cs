@@ -11,11 +11,11 @@ public enum Ingredient {
     Cheese,
 
 }
-public class ReceiptGenerator : MonoBehaviour
+public class OrderGenerator : MonoBehaviour
 {
     [SerializeField] private GameObject receiptChunk;
     [SerializeField] public float receiptSizeScale = 1f;
-    [SerializeField] private TicketManager ticketManager;
+    [SerializeField] private OrderManager ticketManager;
 
     [Header("Serialize Dictionary -- Ignore")]
     [SerializeField] public List<Sprite> ingredientSprites;

@@ -11,11 +11,11 @@ public class SliderQTE : QuickTimeEvent
     private GameObject    keyZ;
     private UIKeyAnimator keyZAnimator;
 
-    [Tooltip("Pixel position along slider from 0 to 59.")]
-    [Range(0, 59)][SerializeField] private int sliderTargetStart = 45;
+    [Tooltip("Pixel position along slider from 1 to 61.")]
+    [Range(1, 61)][SerializeField] private int sliderTargetStart = 45;
 
-    [Tooltip("Pixel position along slider from 1 to 60.")]
-    [Range(1, 60)][SerializeField] private int sliderTargetEnd   = 55;
+    [Tooltip("Pixel position along slider from 2 to 62.")]
+    [Range(2, 62)][SerializeField] private int sliderTargetEnd   = 55;
     
     [Tooltip("How long it takes for arrow to reach the end of the bar.")]
     [Range(0.1f, 2f)][SerializeField] private float sliderTime = 1.5f;

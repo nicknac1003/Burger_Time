@@ -7,6 +7,7 @@ using UnityEngine;
 public class Burger
 {
     public List<IngredientType> ingredients;
+    public bool hasPlate = false;
 
     public Burger()
     {

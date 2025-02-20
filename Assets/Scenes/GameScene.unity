@@ -4824,6 +4824,58 @@ PrefabInstance:
       propertyPath: ticketManager
       value: 
       objectReference: {fileID: 985012172}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: ingredients.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredients.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: ingredientNames.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: ingredientSprites.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredientNames.Array.data[1]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredientNames.Array.data[2]'
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredientNames.Array.data[3]'
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredientNames.Array.data[4]'
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredientSprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 18d5431b354227141b6b2953fbe0878a, type: 3}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredientSprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: 21300000, guid: af47b66df77b80d43989c24e578819ed, type: 3}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredientSprites.Array.data[2]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 75cc0599eeb571c4fa60b952f114bfbc, type: 3}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredientSprites.Array.data[3]'
+      value: 
+      objectReference: {fileID: 21300000, guid: f6a09d728842afe48ba341bc978322c4, type: 3}
+    - target: {fileID: 6498549621952763335, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
+      propertyPath: 'ingredientSprites.Array.data[4]'
+      value: 
+      objectReference: {fileID: 21300000, guid: ca333704a8dbd3e44af56f42972d4db9, type: 3}
     - target: {fileID: 7283105728222607955, guid: e6a202434e50f6a4bac8960ced2dcae2, type: 3}
       propertyPath: m_Name
       value: ReceiptGenerator

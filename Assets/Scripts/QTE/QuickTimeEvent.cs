@@ -35,11 +35,11 @@ public abstract class QuickTimeEvent
         {
             if(InProgress())
             {
-                PlayerController.Instance.LockPlayer();
+                PlayerController.LockPlayer();
             }
             else
             {
-                PlayerController.Instance.UnlockPlayer();
+                PlayerController.UnlockPlayer();
             }
         }
 

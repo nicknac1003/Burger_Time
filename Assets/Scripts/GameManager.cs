@@ -33,7 +33,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenu;
     private bool paused = false;
-    public bool GamePaused() => paused;
+
+    public static bool  GamePaused()        => Instance.paused;
+    public static int   GetHour()           => Instance.currentHour;
+    public static float GetHourCompletion() => Instance.currentMinute / 60f;
+    public static int   GetDay()            => Instance.day;
 
     void Awake()
     {

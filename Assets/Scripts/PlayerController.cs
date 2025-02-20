@@ -43,22 +43,22 @@ public class PlayerController : MonoBehaviour
     private Vector2 lockedLastDirection; // prevent unwanted movement when leaving locked state
     private bool    goodUnlock = true;   // prevent unwanted movement when leaving locked state
 
-    public bool LockedInPlace() => lockedInPlace;
-    public void LockPlayer()
+    public static bool LockedInPlace() => Instance.lockedInPlace;
+    public static void LockPlayer()
     {
-        if(lockedInPlace) return;
+        if(Instance.lockedInPlace) return;
 
-        lockedInPlace = true;
-        wishDirection = Vector2.zero;
-        velocity      = Vector3.zero;
+        Instance.lockedInPlace = true;
+        Instance.wishDirection = Vector2.zero;
+        Instance.velocity      = Vector3.zero;
     }
-    public void UnlockPlayer()
+    public static void UnlockPlayer()
     {
-        if(lockedInPlace == false) return;
+        if(Instance.lockedInPlace == false) return;
 
-        lockedInPlace       = false;
-        lockedLastDirection = wishDirection;
-        goodUnlock          = false;
+        Instance.lockedInPlace       = false;
+        Instance.lockedLastDirection = Instance.wishDirection;
+        Instance.goodUnlock          = false;
     }
 
     void Awake()
@@ -80,20 +80,20 @@ public class PlayerController : MonoBehaviour
         pauseAction.started += _ => GameManager.Instance.HandlePauseGame();
 
         ticketAction = playerInput.actions.FindAction("Ticket");
-        ticketAction.started  += _ => { if(!GameManager.Instance.GamePaused()) ticketManager.Open(); };
-        ticketAction.canceled += _ => { if(!GameManager.Instance.GamePaused()) ticketManager.Close(); };
+        ticketAction.started  += _ => { if(!GameManager.GamePaused()) ticketManager.Open(); };
+        ticketAction.canceled += _ => { if(!GameManager.GamePaused()) ticketManager.Close(); };
 
         zAction = playerInput.actions.FindAction("Z");
-        zAction.started  += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(true); };
-        zAction.canceled += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(false); };
+        zAction.started  += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(true); };
+        zAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(false); };
 
         xAction = playerInput.actions.FindAction("X");
-        xAction.started  += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractX(true); };
-        xAction.canceled += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractX(false); };
+        xAction.started  += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractX(true); };
+        xAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractX(false); };
 
         cAction = playerInput.actions.FindAction("C");
-        cAction.started  += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractC(true); };
-        cAction.canceled += _ => { if (!GameManager.Instance.GamePaused() && closestInteractable != null) closestInteractable.InteractC(false); };
+        cAction.started  += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractC(true); };
+        cAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractC(false); };
 
         decayFactor = 1 - velocityDecay * Time.fixedDeltaTime;
     }
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if(GameManager.Instance.GamePaused()) return;
+        if(GameManager.GamePaused()) return;
 
         wishDirection = moveAction.ReadValue<Vector2>().normalized;
 
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(GameManager.Instance.GamePaused()) return;
+        if(GameManager.GamePaused()) return;
         
         if(lockedInPlace == false && goodUnlock)
         {
@@ -207,11 +207,11 @@ public class PlayerController : MonoBehaviour
         return uniqueDirection || uniqueMagnitude;
     }
 
-    public void AddInteractable(Interactable interactable)
+    private void AddInteractable(Interactable interactable)
     {
         interactables.Add(interactable);
     }
-    public void RemoveInteractable(Interactable interactable)
+    private void RemoveInteractable(Interactable interactable)
     {
         interactables.Remove(interactable);
         interactable.ResetInteracts();
@@ -257,30 +257,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool HoldingItem()
+    public static bool HoldingItem()
     {
-        return holding != null;
+        return Instance.holding != null;
     }
-    public Holdable GetItem()
+    public static Holdable GetItem()
     {
-        return holding;
+        return Instance.holding;
     }
-    public bool GrabItem(Holdable item)
+    public static bool GrabItem(Holdable item)
     {
         if(HoldingItem()) return false;
 
-        holding = item;
-        holding.transform.SetParent(holdAnchor);
-        holding.transform.localPosition = Vector3.zero;
+        Instance.holding = item;
+        Instance.holding.transform.SetParent(Instance.holdAnchor);
+        Instance.holding.transform.localPosition = Vector3.zero;
         
         return true;
     }
-    public bool DestroyItem()
+    public static bool DestroyItem()
     {
         if(HoldingItem() == false) return false;
 
-        Destroy(holding.gameObject);
-        holding = null;
+        Destroy(Instance.holding.gameObject);
+        Instance.holding = null;
 
         return true;
     }

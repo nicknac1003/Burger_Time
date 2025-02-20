@@ -13,9 +13,9 @@ public class Storage : Interactable
 
     protected override void OnZ()
     {
-        if(PlayerController.Instance.HoldingItem())
+        if(PlayerController.HoldingItem())
         {
-            if(PlaceItem(PlayerController.Instance.GetItem()))
+            if(PlaceItem(PlayerController.GetItem()))
             {
                 // visual feedback for placing item?
             }
@@ -47,9 +47,9 @@ public class Storage : Interactable
     {
         if(holdable == null) return false;
 
-        if(PlayerController.Instance.HoldingItem()) return false;
+        if(PlayerController.HoldingItem()) return false;
 
-        if(PlayerController.Instance.GrabItem(holdable) == false) return false;
+        if(PlayerController.GrabItem(holdable) == false) return false;
             
         Debug.Log("Took " + holdable.name + " from " + name);
 

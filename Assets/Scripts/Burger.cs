@@ -1,80 +1,101 @@
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Compatibility;
 using UnityEngine;
 
-
-
 [System.Serializable]
-public class Burger {
-    public List<Ingredient> ingredients;
-    public Burger() {
-        ingredients = new List<Ingredient>();
+public class Burger
+{
+    public List<IngredientType> ingredients;
+
+    public Burger()
+    {
+        ingredients = new List<IngredientType>();
     }
-    public void AddIngredient(Ingredient ingredient) {
+
+    public void Add(IngredientType ingredient)
+    {
         ingredients.Add(ingredient);
     }
-    public void RemoveIngredient(Ingredient ingredient) {
+    public void Remove(IngredientType ingredient)
+    {
         ingredients.Remove(ingredient);
     }
-    public bool ContainsIngredient(Ingredient ingredient) {
+    public bool Contains(IngredientType ingredient)
+    {
         return ingredients.Contains(ingredient);
     }
-    public void ClearBurger() {
+    public void Clear()
+    {
         ingredients.Clear();
     }
-    public string GetBurgerString() {
+
+    public string GetBurgerString()
+    {
         string burgerString = "";
-        foreach (Ingredient ingredient in ingredients) {
+        foreach (IngredientType ingredient in ingredients)
+        {
             burgerString += ingredient.ToString() + " ";
         }
         return burgerString;
     }
-        public override bool Equals(object obj) {
-        if (obj == null || GetType() != obj.GetType()) {
+    
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
             return false;
         }
 
         Burger other = (Burger)obj;
-        var thisIngredientCounts = ingredients.GroupBy(i => i).ToDictionary(g => g.Key, g => g.Count());
+
+        var thisIngredientCounts  = ingredients.GroupBy(i => i).ToDictionary(g => g.Key, g => g.Count());
         var otherIngredientCounts = other.ingredients.GroupBy(i => i).ToDictionary(g => g.Key, g => g.Count());
 
-        return thisIngredientCounts.Count == otherIngredientCounts.Count &&
-               thisIngredientCounts.All(pair => otherIngredientCounts.TryGetValue(pair.Key, out int count) && count == pair.Value);
+        return thisIngredientCounts.Count == otherIngredientCounts.Count && thisIngredientCounts.All(pair => otherIngredientCounts.TryGetValue(pair.Key, out int count) && count == pair.Value);
     }
 
-    public override int GetHashCode() {
+    public override int GetHashCode()
+    {
         int hash = 17;
-        foreach (var ingredient in ingredients) {
+        foreach (var ingredient in ingredients)
+        {
             hash = hash * 31 + ingredient.GetHashCode();
         }
         return hash;
     }
 
-    public static bool operator ==(Burger lhs, Burger rhs) {
-        if (ReferenceEquals(lhs, rhs)) {
+    public static bool operator ==(Burger a, Burger b)
+    {
+        if (ReferenceEquals(a, b)) {
             return true;
         }
 
-        if (lhs is null || rhs is null) {
+        if (a is null || b is null) {
             return false;
         }
 
-        return lhs.Equals(rhs);
+        return a.Equals(b);
     }
 
-    public static bool operator !=(Burger lhs, Burger rhs) {
-        return !(lhs == rhs);
+    public static bool operator !=(Burger a, Burger b)
+    {
+        return !(a == b);
     }
 
-    public static Burger GenerateRandomBurger(int numIngredients, List<Ingredient> ingredientOptions) {
-        Burger burger = new Burger();
+    public static Burger GenerateRandomBurger(int toppings)
+    {
+        Burger burger = new();
 
-        burger.AddIngredient(ingredientOptions[0]); //must include Bun
-        burger.AddIngredient(ingredientOptions[1]); //must include Patty (atleast 1)
+        burger.Add(IngredientType.Bun);   // must include Bun
+        burger.Add(IngredientType.Patty); // must include Patty (at least 1)
 
-        for (int i = 0; i < numIngredients; i++)
+        List<IngredientType> options = Ingredient.ingredientList;
+        options.Remove(IngredientType.Bun);
+
+        for (int i = 0; i < toppings; i++)
         {
-            burger.AddIngredient(ingredientOptions[Random.Range(1, ingredientOptions.Count)]);
+            burger.Add(options[Random.Range(0, options.Count)]);
         }
 
         return burger;

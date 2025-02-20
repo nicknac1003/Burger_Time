@@ -1,0 +1,139 @@
+using System.Collections;
+using UnityEngine;
+using System.Collections.Generic;
+
+public class CustomerManager : MonoBehaviour
+{
+    [SerializeField] private Dictionary<int, float> popularityTable = new();
+    [SerializeField] private Transform   spawnPoint;
+    [SerializeField] private Transform   exitPoint;
+    [SerializeField] private Transform   lineStart;
+    [SerializeField] private BoxCollider waitingArea;
+    [SerializeField] private int   maxLineLength;
+    [SerializeField] private float lineSpacing;
+    [SerializeField] private int   maxCapacity;
+    [SerializeField] private float minBurgerTime;
+    [SerializeField] private float maxBurgerTime;
+    [SerializeField] private float customerMoveSpeed;
+    [SerializeField] private float maxWaitTime;
+    [SerializeField] private float requestIngredientTime;
+
+    public static CustomerManager Instance { get; private set; }
+
+    private int customerCount   = 0;
+    private int inBuilding      = 0;
+    private List<Customer> line = new();
+
+    public static (float, float) GetBurgerTimeRange() => (Instance.minBurgerTime, Instance.maxBurgerTime);
+    public static float   CustomerMoveSpeed() => Instance.customerMoveSpeed;
+    public static Vector3 Exit()              => Instance.exitPoint.position;
+    public static float   MaxWaitTime()       => Instance.maxWaitTime;
+    public static float   RequestTime()       => Instance.requestIngredientTime;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void SetPopularity(int hour, float popularity) => popularityTable[hour] = popularity;
+
+    private GameObject GenerateCustomer()
+    {
+        // Empty for now, will implement code to pick a random customer later
+        return new GameObject("Customer " + customerCount);
+    }
+
+    public Customer SpawnCustomer()
+    {
+        GameObject newCustomer = GenerateCustomer();
+        newCustomer.AddComponent<Customer>().Init(customerCount);
+        newCustomer.transform.position = spawnPoint.position;
+        return newCustomer.GetComponent<Customer>();
+    }
+
+    private bool AtCapacity()
+    {
+        return inBuilding >= maxCapacity;
+    }
+    private bool LineTooLong()
+    {
+        return line.Count >= maxLineLength;
+    }
+
+    private bool CustomerArrives()
+    {
+        if(LineTooLong() || AtCapacity()) return false;
+
+        int hour = GameManager.GetHour();
+        float popularity = Mathf.Lerp(popularityTable[hour], popularityTable[(hour + 1) % 24], GameManager.GetHourCompletion());
+
+        if(Random.value > popularity) return false;
+
+        customerCount++;
+        inBuilding++;
+
+        return true;
+    }
+
+    public void CustomerLeaves(Customer customer)
+    {
+        CustomerState state = customer.GetState();
+
+        if(state == CustomerState.WaitingToOrder) line.Remove(customer);
+        if(state == CustomerState.WaitingForFood) // remove order
+
+        customer.SetState(CustomerState.Leaving);
+
+        inBuilding--;
+    }
+
+    void Update()
+    {
+        if(CustomerArrives())
+        {
+            Customer newCustomer = SpawnCustomer();
+            line.Add(newCustomer);
+        }   
+    }
+
+    public Vector3 GetRandomWaitingPosition()
+    {
+        Vector3 center = waitingArea.bounds.center;
+        Vector3 size   = waitingArea.bounds.size;
+
+        return new Vector3(
+            center.x + Random.Range(-size.x / 2, size.x / 2),
+            center.y,
+            center.z + Random.Range(-size.z / 2, size.z / 2)
+        );
+    }
+    public Vector3 GetSpotInLine(Customer customer)
+    {
+        return lineStart.position + new Vector3(Random.Range(-0.5f, 0.5f), 0, -line.IndexOf(customer) * lineSpacing);
+    }
+
+    public static void TakeOrder()
+    {
+        if (Instance.line.Count <= 0 || Vector3.Distance(Instance.line[0].transform.position, Instance.lineStart.position) > 0.1f) return;
+        
+        Customer customer = Instance.line[0];
+        customer.SetState(CustomerState.Ordering);
+        Instance.line.RemoveAt(0);
+
+        //maybe add something here for during order taking
+        Debug.Log("Order Taken");
+    }
+
+    public static void ServeFood()
+    {
+        // New logic based on active ticket
+        Debug.LogError("Logic not implemented yet. Yell at Austin.");
+    }
+}

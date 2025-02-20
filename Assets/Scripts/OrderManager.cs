@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class OrderManager : MonoBehaviour
 {
+    public static OrderManager Instance { get; private set; }
+    public List<Burger> orders;
+
     public List<GameObject> tickets;
     public bool isOpen = false;
 
@@ -14,11 +17,20 @@ public class OrderManager : MonoBehaviour
     private Vector2 closedPosition = new Vector2(0.00f, -0.43f); // bottom center
     private float totalTicketWidth = 0.0f;
 
-    //Gameplay Variables
-    public CanvasGroup background;
-
     private RectTransform canavsTransform;
     private HorizontalLayoutGroup layoutGroup;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }   
+    }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -82,7 +94,7 @@ public class OrderManager : MonoBehaviour
         LeanTween.value(gameObject, scaleTickets, 1.0f, scaleSize, 1.0f).setEaseInCubic();
 
         ticketManagerTransform.LeanMoveLocal(targetPosition, 0.7f).setEaseInCirc();
-        LeanTween.alphaCanvas(background, 0.45f, 0.7f).setEaseInCirc();
+        // COMMENTING OUT FOR COMPILE // LeanTween.alphaCanvas(background, 0.45f, 0.7f).setEaseInCirc();
     }
 
     [ContextMenu("Close")]
@@ -100,7 +112,7 @@ public class OrderManager : MonoBehaviour
 
         ticketManagerTransform.LeanMoveLocal(targetPosition, 1f).setEaseInQuart();
 
-        LeanTween.alphaCanvas(background, 0f, 1.0f).setEaseInQuart();
+        // COMMENTING OUT FOR COMPILE // LeanTween.alphaCanvas(background, 0f, 1.0f).setEaseInQuart();
         LeanTween.value(gameObject, scaleTickets, scaleSize, 1.0f, 1.0f).setEaseInCubic();
     }
 

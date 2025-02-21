@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 public class CustomerManager : MonoBehaviour
 {
+    [SerializeField] private PopularityChart popularityChart;
     [SerializeField] private Dictionary<int, float> popularityTable = new();
     [SerializeField] private Transform   spawnPoint;
     [SerializeField] private Transform   exitPoint;

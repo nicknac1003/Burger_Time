@@ -101,10 +101,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemVFX: {fileID: 0}
+  ingredient:
+    type: 0
+    state: 0
   prepMethod: 1
   raw: {fileID: 1570294661, guid: 28aeb047b33752f41b350832199832df, type: 3}
   cooked: {fileID: 389670029, guid: 28aeb047b33752f41b350832199832df, type: 3}
   burnt: {fileID: 875140162, guid: 28aeb047b33752f41b350832199832df, type: 3}
-  onBurgerRaw: {fileID: -1236910069, guid: 046198740d2d4684784ef593f88732a5, type: 3}
-  onBurgerCooked: {fileID: -2266373, guid: 046198740d2d4684784ef593f88732a5, type: 3}
-  onBurgerBurnt: {fileID: 952674355, guid: 046198740d2d4684784ef593f88732a5, type: 3}
+  onBurgerRaw: {fileID: -1276214788, guid: 046198740d2d4684784ef593f88732a5, type: 3}
+  onBurgerCooked: {fileID: -873732140, guid: 046198740d2d4684784ef593f88732a5, type: 3}
+  onBurgerBurnt: {fileID: -316433741, guid: 046198740d2d4684784ef593f88732a5, type: 3}

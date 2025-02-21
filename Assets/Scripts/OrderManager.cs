@@ -9,9 +9,14 @@ public class OrderManager : MonoBehaviour
 
     [SerializeField] private GameObject ticketPrefab;
     [SerializeField] private Gradient pleasantGradient;
-    [SerializeField] private int maxTickets;
+    [SerializeField] private int maxTicketPosition = 1200;
 
-    private Ticket activeTicket;
+    private bool roomForTickets = false;
+
+    public static Color GetGradientColor(float percentRemaining)
+    {
+        return Instance.pleasantGradient.Evaluate(percentRemaining);
+    }
 
     void Awake()
     {
@@ -27,26 +32,74 @@ public class OrderManager : MonoBehaviour
 
     public static bool CanTakeOrder()
     {
-        return Instance.tickets.Count < Instance.maxTickets;
+        return Instance.roomForTickets == false;   
+    }
+    public static bool CanServeFood()
+    {
+        return Instance.tickets.Count > 0;
     }
 
     public static void NewTicket(Burger burger, Customer customer)
     {
-        GameObject ticketObj = Instantiate(Instance.ticketPrefab); // tweak this
+        GameObject ticketObj = Instantiate(Instance.ticketPrefab, Instance.transform);
         Ticket ticket = ticketObj.GetComponent<Ticket>();
         ticket.Init(burger, customer);
         Instance.tickets.Add(ticket);
+        Instance.UpdateTicketPositions();
     }
 
-    public static void OpenTickets()
+    public static void RemoveTicket(Ticket ticket)
     {
-        Debug.Log("Opening Tickets");
-        PlayerController.LockPlayer();
+        Instance.tickets.Remove(ticket);
+        Instance.StartCoroutine(ticket.KillTicket(1f));
     }
 
-    public static void CloseTickets()
+    private void UpdateTicketPositions()
     {
-        Debug.Log("Closing Tickets");
-        PlayerController.UnlockPlayer();
+        // Tickets pop in from right to left, so oldest ticket is furthest left as well as first in list
+        // Iterate through list backwards to ensure oldest ticket is furthest left
+        int ticketPosition = 10;
+        for(int i = tickets.Count - 1; i >= 0; i--)
+        {
+            tickets[i].StopAllCoroutines(); // Kill all coroutines so we stop sliding if we're already sliding
+            StartCoroutine(tickets[i].SlideTicket(-ticketPosition, 1f)); // negative since we're moving left
+            ticketPosition += tickets[i].GetWidth() + 10; // Figure out where next ticket should / would go
+        }
+        roomForTickets = ticketPosition < maxTicketPosition;
+    }
+
+    /// <summary>
+    /// Finds a customer's ticket -- useful when people get mad and leave
+    /// </summary>
+    public static Ticket FindTicket(Customer customer)
+    {
+        foreach(Ticket ticket in Instance.tickets)
+        {
+            if(ticket.GetCustomer() == customer)
+            {
+                return ticket;
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Finds the OLDEST ticket with a specific order -- useful for completing orders
+    /// </summary>
+    public static Ticket FindTicket(Burger order)
+    {
+        for(int i = 0; i < Instance.tickets.Count; i++)
+        {
+            if(Instance.tickets[i].GetOrder() == order)
+            {
+                return Instance.tickets[i];
+            }
+        }
+        return null;
+    }
+
+    public static Ticket OldestTicket()
+    {
+        return CanServeFood() ? Instance.tickets[0] : null;
     }
 }

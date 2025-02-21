@@ -15,6 +15,7 @@ public class Customer : MonoBehaviour
     private bool startedOrdering;
     private bool doneOrdering;
 
+    public int   GetID() => id;
     public float GetTimeSpentInLine() => timeSpentInLine;
     public float GetTimeSpentWaitingForOrder() => timeSpentWaitingForOrder;
 

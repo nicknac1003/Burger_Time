@@ -186,16 +186,15 @@ public class GameManager : MonoBehaviour
 
         text.color = new Color(color.r, color.g, color.b, endAlpha);
     }
-    public void WelpReview(float review)
+    public static void WelpReview(float review)
     {
-        Debug.Log("Review: " + review);
         float mid = 2.5f;
         float diff = review - mid;
         float scaledDiff = diff / (1 + Mathf.Abs(diff));
         Debug.Log(scaledDiff);
-        rating += scaledDiff * ratingScale;
-        rating = Mathf.Clamp(rating, 0f, initialRating);
-        Debug.Log("Rating: " + rating);
+        Instance.rating += scaledDiff * Instance.ratingScale;
+        Instance.rating = Mathf.Clamp(Instance.rating, 0f, Instance.initialRating);
+        Debug.Log("Rating: " + Instance.rating);
 
     }
     public void addCustomer()

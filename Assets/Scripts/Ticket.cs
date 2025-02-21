@@ -12,15 +12,20 @@ public class Ticket : MonoBehaviour
     public void SetOrder(Burger burger)      => order    = burger;
     public void SetCustomer(Customer person) => customer = person;
 
-    private RectTransform timer;
-    private Transform ingredients;
+    private RectTransform rectTransform;
+    private RectTransform timerRect;
+    private RectTransform ingredientsRect;
     
     private int width;
 
+    public int      GetWidth()    => width;
+    public Customer GetCustomer() => customer;
+    public Burger   GetOrder()    => order;
+
     void Awake()
     {
-        timer = transform.Find("Timer").GetComponent<RectTransform>();
-        ingredients = transform.Find("Ingredients");
+        timerRect = transform.Find("Timer").GetComponent<RectTransform>();
+        ingredientsRect = transform.Find("Ingredients").GetComponent<RectTransform>();
     }
 
     public void Init(Burger burger, Customer person)
@@ -31,15 +36,25 @@ public class Ticket : MonoBehaviour
         List<Ingredient> ingredientList = order.GetIngredients();
         int ingredientCount = ingredientList.Count;
 
-        width = 10 + 85 * ingredientCount;
-        GetComponent<RectTransform>().sizeDelta = new Vector2(width, 200);
+        width = 120 + 55 * Mathf.CeilToInt(ingredientCount / 2f);
+        rectTransform.sizeDelta = new Vector2(width, 200);
 
-        // Add ingredients to horizontal layout group
+        // Start ticket off screen
+        rectTransform.anchoredPosition = new Vector2(width, 0);
+
+        // Populate burger
+        BurgerObject burgerObject = new GameObject("Customer " + customer.GetID() + "'s Burger").AddComponent<BurgerObject>();
+        burgerObject.transform.SetParent(transform);
+
+        // Add ingredients to grid layout
         for(int i = 0; i < ingredientCount; i++)
         {
             GameObject ingredientSlot = new(ingredientList[i] + " Slot");
-            ingredientSlot.transform.SetParent(ingredients);
+            ingredientSlot.transform.SetParent(ingredientsRect);
             ingredientSlot.AddComponent<Image>().sprite = ingredientList[i].GetSprite();
+
+            // Add ingredient to burger
+            burgerObject.Add(IngredientObject.Instantiate(ingredientList[i]));
         }
     }
 
@@ -47,34 +62,31 @@ public class Ticket : MonoBehaviour
     {
         float percentRemaining = (CustomerManager.MaxWaitTime() - customer.GetTimeSpentWaitingForOrder()) / CustomerManager.MaxWaitTime();
 
-        timer.offsetMax = new(-Mathf.Lerp(width, 10, percentRemaining), timer.offsetMax.y); // Shrink timer bar to the left
-
-        // Change color based on time remaining?
+        timerRect.offsetMax = new(-Mathf.Lerp(width, 10, percentRemaining), timerRect.offsetMax.y); // Shrink timer bar to the left
+        timerRect.GetComponent<Image>().color = OrderManager.GetGradientColor(percentRemaining); // Change color of timer bar
     }
 
-    public IEnumerator Expand(float time)
+    public IEnumerator SlideTicket(float newX, float slideTime)
     {
-        float timer = 0f;
-        while(timer < time)
-        {
-            EaseFunctions.Interpolate(120, width, time / timer, EaseFunctions.Ease.OutQuadratic); // Change width from 120 to width (the variable)
-            EaseFunctions.Interpolate(0, 10, time / timer, EaseFunctions.Ease.OutQuadratic); // Change spacing of ingredients from 0 to 10
+        float oldX = rectTransform.anchoredPosition.x;
 
-            time += Time.deltaTime;
+        for(float t = 0; t < slideTime; t += Time.deltaTime)
+        {
+            rectTransform.anchoredPosition = new(EaseFunctions.Interpolate(oldX, newX, t / slideTime), rectTransform.anchoredPosition.y);
             yield return null;
         }
+        rectTransform.anchoredPosition = new(newX, rectTransform.anchoredPosition.y);
     }
 
-    public IEnumerator Shrink(float time)
+    public IEnumerator KillTicket(float leaveTime)
     {
-        float timer = 0f;
-        while(timer < time)
-        {
-            EaseFunctions.Interpolate(width, 120, time / timer, EaseFunctions.Ease.OutQuadratic); // Change width from width (the variable) to 120
-            EaseFunctions.Interpolate(10, 0, time / timer, EaseFunctions.Ease.OutQuadratic); // Change spacing of ingredients from 10 to 0
+        float oldY = rectTransform.anchoredPosition.y;
 
-            time += Time.deltaTime;
+        for(float t = 0; t < leaveTime; t += Time.deltaTime)
+        {
+            rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, EaseFunctions.Interpolate(oldY, 150, t / leaveTime, EaseFunctions.Ease.OutBounce));
             yield return null;
         }
+        Destroy(gameObject);
     }
 }

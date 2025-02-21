@@ -15,10 +15,12 @@ public class SpriteSpace
     }
 }
 
-public class BurgerObject : MonoBehaviour
+public class BurgerObject : Holdable
 {
     [SerializeField] private Burger burger;
     private List<IngredientObject> ingredientsOnBurger = new();
+
+    public Burger GetBurger() => burger;
 
     // Players can create a burger by combining any 2 ingredients
     // Burgers can only have 1 bun and 1 plate, never more
@@ -53,7 +55,7 @@ public class BurgerObject : MonoBehaviour
 
             IngredientObject secondBun = IngredientObject.Instantiate(new Ingredient(IngredientType.Bun, IngredientState.Burnt));
             ingredientsOnBurger.Add(secondBun); // Bun 2 ALWAYS goes at the top of list - burnt = top bun
-            
+
             secondBun.PutOnBurger();
             secondBun.transform.SetParent(transform);
             secondBun.transform.localScale = new Vector3(1f, 1f, 1f);

@@ -17,7 +17,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private float customerMoveSpeed;
     [SerializeField] private float maxWaitTime;
     [SerializeField] private float requestIngredientTime;
-    [SerializeField] private int   maxToppings = 6;
+    [SerializeField] private int   maxToppings = 8;
 
     public static CustomerManager Instance { get; private set; }
 
@@ -124,20 +124,33 @@ public class CustomerManager : MonoBehaviour
     public static void TakeOrder()
     {
         if(OrderManager.CanTakeOrder() == false) return;
-        
+
         if (Instance.line.Count <= 0 || Vector3.Distance(Instance.line[0].transform.position, Instance.lineStart.position) > 0.1f) return;
         
         Customer customer = Instance.line[0];
         customer.SetState(CustomerState.Ordering);
         Instance.line.RemoveAt(0);
-
-        //maybe add something here for during order taking
-        Debug.Log("Order Taken");
     }
 
     public static void ServeFood()
     {
-        // New logic based on active ticket
-        Debug.LogError("Logic not implemented yet. Yell at Austin.");
+        if(OrderManager.CanServeFood() == false) return;
+
+        Holdable item = PlayerController.GetItem();
+        if(item == null || item is not BurgerObject) return;
+
+        Burger order = (item as BurgerObject).GetBurger();
+
+        Ticket ticket = OrderManager.FindTicket(order);
+        if(ticket == null) ticket = OrderManager.OldestTicket();
+
+        OrderManager.RemoveTicket(ticket);
+
+        Customer serving = ticket.GetCustomer();
+        serving.SetState(CustomerState.Eating);
+        
+        float score = serving.GiveReview();
+        GameManager.WelpReview(score);
+        new GameObject(item + "'s Score").AddComponent<RatingPopup>().SetRating(score);
     }
 }

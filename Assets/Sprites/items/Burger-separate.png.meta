@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 957fe97e52a0a1b46818c1c0a4fec770
-      internalID: 1325454500
+      spriteID: 3a87dd3522ef6664b870c31c7349f015
+      internalID: -1983449707
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7d6215a95a7e9a4b8fb5a0a34e5d51e
-      internalID: 1297239330
+      spriteID: 5ad51062fe419b4449e829de79da1738
+      internalID: -858609107
       vertices: []
       indices: 
       edges: []
@@ -169,8 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e0da2c90afcebd045ac3ed01fd719b76
-      internalID: -2147043974
+      spriteID: c6bc7ec2b502b004eba10be0eeb03253
+      internalID: 972995183
       vertices: []
       indices: 
       edges: []
@@ -191,8 +191,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e9d9abd80574aa440b0a31c0dea22c7b
-      internalID: -215561733
+      spriteID: 59fd5a54f9a57a841b65687d0f03125b
+      internalID: -1892023381
       vertices: []
       indices: 
       edges: []
@@ -213,8 +213,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b33ccdc04a255a34a942169cac22d18b
-      internalID: -1236910069
+      spriteID: b7faf9694c6f4fc4b9738b4482c35de4
+      internalID: -1276214788
       vertices: []
       indices: 
       edges: []
@@ -235,8 +235,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a969c6eb9ddcf5e4bac45fdcfa20777d
-      internalID: -2266373
+      spriteID: 8e5846a630ad7934c88c4e323342dec9
+      internalID: -873732140
       vertices: []
       indices: 
       edges: []
@@ -257,8 +257,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 85103f3442418974986bfd0525a241d4
-      internalID: 952674355
+      spriteID: 8eae6acad16f3ac4db61f537f46c7afb
+      internalID: -316433741
       vertices: []
       indices: 
       edges: []
@@ -279,8 +279,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a571ba7bb4b48b48b58ef97b8f0a7a1
-      internalID: 511317562
+      spriteID: d2cf96ee017ee434db2eabeb4b212c42
+      internalID: 892108908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Burger-separate_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dab137e36d36f084dada588efc45234d
+      internalID: -1896029207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Burger-separate_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0cdd11aec6f0af4eb97c339db50f106
+      internalID: -694189316
       vertices: []
       indices: 
       edges: []
@@ -289,7 +333,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 52e10d4dbbce8c64f91ae6701413eba6
+    spriteID: 9091cd82990b2b848b392f56c689e8fe
     internalID: 0
     vertices: []
     indices: 
@@ -299,14 +343,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Burger-separate_0: 1325454500
-      Burger-separate_1: 1297239330
-      Burger-separate_2: -2147043974
-      Burger-separate_3: -215561733
-      Burger-separate_4: -1236910069
-      Burger-separate_5: -2266373
-      Burger-separate_6: 952674355
-      Burger-separate_7: 511317562
+      Burger-separate_0: -1983449707
+      Burger-separate_1: -858609107
+      Burger-separate_2: 972995183
+      Burger-separate_3: -1892023381
+      Burger-separate_4: -1276214788
+      Burger-separate_5: -873732140
+      Burger-separate_6: -316433741
+      Burger-separate_7: 892108908
+      Burger-separate_8: -1896029207
+      Burger-separate_9: -694189316
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

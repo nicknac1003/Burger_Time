@@ -78,10 +78,6 @@ public class PlayerController : MonoBehaviour
         pauseAction = playerInput.actions.FindAction("Pause");
         pauseAction.started += _ => GameManager.Instance.HandlePauseGame();
 
-        ticketAction = playerInput.actions.FindAction("Ticket");
-        ticketAction.started += _ => { if (!GameManager.GamePaused()) OrderManager.OpenTickets(); };
-        ticketAction.canceled += _ => { if (!GameManager.GamePaused()) OrderManager.CloseTickets(); };
-
         zAction = playerInput.actions.FindAction("Z");
         zAction.started += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(true); };
         zAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(false); };
@@ -118,6 +114,10 @@ public class PlayerController : MonoBehaviour
         }
 
         UpdateInteract();
+        if (holding != null && Input.GetKeyDown(KeyCode.C))
+        {
+            DestroyItem();
+        }
     }
 
     void FixedUpdate()
@@ -234,7 +234,7 @@ public class PlayerController : MonoBehaviour
         return reducedDisplacement + CollideAndSlide(newOrigin, projectedDisplacement, bounceCount + 1);
     }
 
-    private bool UniqueDirection(Vector3 a, Vector3 b)
+    public static bool UniqueDirection(Vector3 a, Vector3 b)
     {
         // Are the vectors in a different enough direction?
         bool uniqueDirection = Vector3.Angle(a, b) > 30f;

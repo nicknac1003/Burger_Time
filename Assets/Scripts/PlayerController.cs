@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Gameplay Variables")]
     [SerializeField] private Transform holdAnchor;
+    [SerializeField] private Animator animator;
 
     private List<Interactable> interactables = new();
     private Interactable closestInteractable;
@@ -39,24 +40,24 @@ public class PlayerController : MonoBehaviour
     private bool lockedInPlace = false;
     private Vector2 wishDirection;
     private Vector2 lockedLastDirection; // prevent unwanted movement when leaving locked state
-    private bool    goodUnlock = true;   // prevent unwanted movement when leaving locked state
-
+    private bool goodUnlock = true;   // prevent unwanted movement when leaving locked state
+    private Vector2 prevWishDirection;
     public static bool LockedInPlace() => Instance.lockedInPlace;
     public static void LockPlayer()
     {
-        if(Instance.lockedInPlace) return;
+        if (Instance.lockedInPlace) return;
 
         Instance.lockedInPlace = true;
         Instance.wishDirection = Vector2.zero;
-        Instance.velocity      = Vector3.zero;
+        Instance.velocity = Vector3.zero;
     }
     public static void UnlockPlayer()
     {
-        if(Instance.lockedInPlace == false) return;
+        if (Instance.lockedInPlace == false) return;
 
-        Instance.lockedInPlace       = false;
+        Instance.lockedInPlace = false;
         Instance.lockedLastDirection = Instance.wishDirection;
-        Instance.goodUnlock          = false;
+        Instance.goodUnlock = false;
     }
 
     void Awake()
@@ -78,19 +79,19 @@ public class PlayerController : MonoBehaviour
         pauseAction.started += _ => GameManager.Instance.HandlePauseGame();
 
         ticketAction = playerInput.actions.FindAction("Ticket");
-        ticketAction.started  += _ => { if(!GameManager.GamePaused()) OrderManager.OpenTickets(); };
-        ticketAction.canceled += _ => { if(!GameManager.GamePaused()) OrderManager.CloseTickets(); };
+        ticketAction.started += _ => { if (!GameManager.GamePaused()) OrderManager.OpenTickets(); };
+        ticketAction.canceled += _ => { if (!GameManager.GamePaused()) OrderManager.CloseTickets(); };
 
         zAction = playerInput.actions.FindAction("Z");
-        zAction.started  += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(true); };
+        zAction.started += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(true); };
         zAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(false); };
 
         xAction = playerInput.actions.FindAction("X");
-        xAction.started  += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractX(true); };
+        xAction.started += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractX(true); };
         xAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractX(false); };
 
         cAction = playerInput.actions.FindAction("C");
-        cAction.started  += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractC(true); };
+        cAction.started += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractC(true); };
         cAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractC(false); };
 
         decayFactor = 1 - velocityDecay * Time.fixedDeltaTime;
@@ -102,16 +103,16 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if(GameManager.GamePaused()) return;
+        if (GameManager.GamePaused()) return;
 
         wishDirection = moveAction.ReadValue<Vector2>().normalized;
 
-        if(goodUnlock == false)
+        if (goodUnlock == false)
         {
             goodUnlock = UniqueDirection(lockedLastDirection, wishDirection);
         }
 
-        if(closestInteractable != null)
+        if (closestInteractable != null)
         {
             closestInteractable.InteractMove(wishDirection);
         }
@@ -121,14 +122,53 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(GameManager.GamePaused()) return;
-        
-        if(lockedInPlace == false && goodUnlock)
+        if (GameManager.GamePaused()) return;
+
+        if (lockedInPlace == false && goodUnlock)
         {
             UpdatePosition();
+            UpdateAnimation();
         }
     }
+    private void UpdateAnimation()
+    {
+        if (velocityMagnitude > 0.1f)
+        {
+            if (animator.GetBool("Moving") == false)
+            {
+                animator.SetTrigger("DirectionChange");
+            }
 
+            animator.SetBool("Moving", true);
+
+            if (prevWishDirection.y <= -0.1 && wishDirection.y > -0.1)
+            {
+                animator.SetTrigger("DirectionChange");
+            }
+            else if (prevWishDirection.y >= 0.1 && wishDirection.y < 0.1)
+            {
+                animator.SetTrigger("DirectionChange");
+            }
+            else if (prevWishDirection.x <= -0.1 && wishDirection.x > -0.1)
+            {
+                animator.SetTrigger("DirectionChange");
+            }
+            else if (prevWishDirection.x >= 0.1 && wishDirection.x < 0.1)
+            {
+                animator.SetTrigger("DirectionChange");
+            }
+
+            animator.SetFloat("xVel", wishDirection.x);
+            animator.SetFloat("yVel", wishDirection.y);
+
+            prevWishDirection = wishDirection;
+
+        }
+        else
+        {
+            animator.SetBool("Moving", false);
+        }
+    }
     private void UpdatePosition()
     {
         (velocity, acceleration) = CalculateMovement();
@@ -143,7 +183,7 @@ public class PlayerController : MonoBehaviour
 
         transform.position += actualDisplacement;
 
-        transform.position = new Vector3(transform.position.x, 0, transform.transform.position.z); // ALWAYS on floor level (Y = 0)
+        //transform.position = new Vector3(transform.position.x, 0, transform.transform.position.z); // ALWAYS on floor level (Y = 0)
     }
 
     private (Vector3 v, Vector3 a) CalculateMovement()
@@ -265,17 +305,17 @@ public class PlayerController : MonoBehaviour
     }
     public static bool GrabItem(Holdable item)
     {
-        if(HoldingItem()) return false;
+        if (HoldingItem()) return false;
 
         Instance.holding = item;
         Instance.holding.transform.SetParent(Instance.holdAnchor);
         Instance.holding.transform.localPosition = Vector3.zero;
-        
+
         return true;
     }
     public static bool DestroyItem()
     {
-        if(HoldingItem() == false) return false;
+        if (HoldingItem() == false) return false;
 
         Destroy(Instance.holding.gameObject);
         Instance.holding = null;

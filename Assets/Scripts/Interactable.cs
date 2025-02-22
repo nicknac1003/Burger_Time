@@ -1,31 +1,31 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Collider2D))]
 public abstract class Interactable : MonoBehaviour
 {
     // Stores the interact state
-    protected bool    zPressed  = false;
-    private   bool    zReleased = true;
-    protected bool    xPressed  = false;
-    private   bool    xReleased = true;
-    protected bool    cPressed  = false;
-    private   bool    cReleased = true;
+    protected bool zPressed = false;
+    private bool zReleased = true;
+    protected bool xPressed = false;
+    private bool xReleased = true;
+    protected bool cPressed = false;
+    private bool cReleased = true;
     protected Vector2 moveInput = Vector2.zero;
 
     // Set from Player Controller
     public void InteractZ(bool held)
     {
         zPressed = held;
-        if(held && zReleased) 
+        if (held && zReleased)
         {
             OnZ();
         }
-        zReleased = !held; 
+        zReleased = !held;
     }
     public void InteractX(bool held)
-    { 
-        xPressed = held; 
-        if(held && xReleased)
+    {
+        xPressed = held;
+        if (held && xReleased)
         {
             OnX();
         }
@@ -34,7 +34,7 @@ public abstract class Interactable : MonoBehaviour
     public void InteractC(bool held)
     {
         cPressed = held;
-        if(held)
+        if (held)
         {
             OnC();
         }

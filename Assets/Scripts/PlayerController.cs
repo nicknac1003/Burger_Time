@@ -23,15 +23,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float velocityDecay; // m/s^2
     private float decayFactor;
 
-    [Header("Physics Debug Data")]
-    public Vector3 acceleration; // m/s^2
-    public Vector3 velocity;     // m/s
-    public float velocityMagnitude;
-    public float accelerationMagnitude;
-
     [Header("Gameplay Variables")]
     [SerializeField] private Transform holdAnchor;
     [SerializeField] private Animator animator;
+    private Rigidbody2D rb;
 
     private GameObject holdingPosition;
     private List<Interactable> interactables = new();
@@ -53,7 +48,6 @@ public class PlayerController : MonoBehaviour
 
         Instance.lockedInPlace = true;
         Instance.wishDirection = Vector2.zero;
-        Instance.velocity = Vector3.zero;
     }
     public static void UnlockPlayer()
     {
@@ -76,6 +70,7 @@ public class PlayerController : MonoBehaviour
         }
 
         playerInput = GetComponent<PlayerInput>();
+        rb = GetComponent<Rigidbody2D>();
 
         moveAction = playerInput.actions.FindAction("Move");
 
@@ -138,7 +133,7 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateAnimation()
     {
-        if (velocityMagnitude > 0.1f)
+        if (wishDirection.magnitude > 0.1f)
         {
             if (animator.GetBool("Moving") == false)
             {
@@ -177,73 +172,14 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdatePosition()
     {
-        (velocity, acceleration) = CalculateMovement();
-
-        velocityMagnitude = velocity.magnitude;
-        accelerationMagnitude = acceleration.magnitude;
-
-        Vector3 actualDisplacement = CollideAndSlide(transform.position, velocity * Time.fixedDeltaTime);
-        actualDisplacement.y = 0;
-
-        _ = CollideAndSlide(transform.position, velocity); // debug draw
-
-        transform.position += actualDisplacement;
-
-        //transform.position = new Vector3(transform.position.x, 0, transform.transform.position.z); // ALWAYS on floor level (Y = 0)
+        rb.MovePosition(rb.position + wishDirection * moveSpeed * Time.fixedDeltaTime);
     }
 
-    private (Vector3 v, Vector3 a) CalculateMovement()
-    {
-        float magnitude = moveSpeed * velocityDecay / decayFactor;
 
-        Vector3 horizontalAcceleration = Vector3.forward * wishDirection.y * magnitude + Vector3.right * wishDirection.x * magnitude; // m/s^2
-
-        Vector3 horizontalVelocity = (new Vector3(velocity.x, 0f, velocity.z) + horizontalAcceleration * Time.fixedDeltaTime) * decayFactor; // m/s
-
-        return (horizontalVelocity, horizontalAcceleration);
-    }
-
-    private Vector3 CollideAndSlide(Vector3 origin, Vector3 displacement, int bounceCount = 0)
-    {
-        if (bounceCount >= 5)
-        {
-            return Vector3.zero; // prevent infinite recursion - return zero vector
-        }
-
-        // Shoot capsule cast and see if displacement will cause collision - return displacement if no collision
-        if (Physics.SphereCast(origin + Vector3.up * playerRadius, playerRadius - Physics.defaultContactOffset, displacement.normalized, out RaycastHit hit, displacement.magnitude + Physics.defaultContactOffset, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) == false)
-        {
-            Debug.DrawLine(origin, origin + displacement, Color.blue, Time.fixedDeltaTime);
-            return displacement;
-        }
-
-        // Find new origin point (where the collision occurred)
-        Vector3 reducedDisplacement = displacement.normalized * (hit.distance - Physics.defaultContactOffset);
-
-        // Calculate leftover displacement after collision
-        Vector3 leftoverDisplacement = displacement - reducedDisplacement;
-
-        // Ensure there is enough room for collision check to work, otherwise set reducedDisplacement to zero
-        if (reducedDisplacement.magnitude <= Physics.defaultContactOffset)
-        {
-            reducedDisplacement = Vector3.zero;
-        }
-
-        Vector3 projectedDisplacement = Vector3.ProjectOnPlane(leftoverDisplacement, hit.normal);
-
-        Vector3 newOrigin = origin + displacement.normalized * hit.distance;
-
-        Debug.DrawLine(origin + reducedDisplacement, origin + displacement, Color.red, Time.fixedDeltaTime);
-        Debug.DrawLine(origin, origin + reducedDisplacement, Color.green, Time.fixedDeltaTime);
-        Debug.DrawLine(origin, hit.point, Color.yellow, Time.fixedDeltaTime);
-
-        return reducedDisplacement + CollideAndSlide(newOrigin, projectedDisplacement, bounceCount + 1);
-    }
-
-    public static bool UniqueDirection(Vector3 a, Vector3 b)
+    public static bool UniqueDirection(Vector2 a, Vector2 b)
     {
         // Are the vectors in a different enough direction?
-        bool uniqueDirection = Vector3.Angle(a, b) > 30f;
+        bool uniqueDirection = Vector2.Angle(a, b) > 30f;
 
         // Do the vectors differ enough in magnitude?
         bool uniqueMagnitude = Mathf.Abs(a.magnitude - b.magnitude) > 0.25f;

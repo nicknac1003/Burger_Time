@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class Appliance : Storage
 {
     [SerializeField] protected Breakable breakable;
@@ -13,7 +13,7 @@ public class Appliance : Storage
 
     protected virtual void Update()
     {
-        if(breakable.CanBreak())
+        if (breakable.CanBreak())
         {
             breakable.HandleBreaking(this);
             breakable.HandleRepairing(zPressed, this);

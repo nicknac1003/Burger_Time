@@ -1701,6 +1701,7 @@ GameObject:
   - component: {fileID: 414117539}
   - component: {fileID: 414117537}
   - component: {fileID: 414117541}
+  - component: {fileID: 414117542}
   m_Layer: 0
   m_Name: Oven
   m_TagString: Interactable
@@ -1804,7 +1805,12 @@ MonoBehaviour:
     - rid: 3140745567763431494
       type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
       data:
+        progressSounds: []
+        errorSounds: []
+        audioSource: {fileID: 414117542}
         locksPlayerInPlace: 0
+        progressVolume: 0.75
+        errorVolume: 0.45
         time: 4
         drain: 0.5
 --- !u!1 &421825435

@@ -8,15 +8,15 @@ public class SliderQTE : QuickTimeEvent
     private GameObject sliderBarInstance; // instance of slider bar
     private GameObject sliderArrowInstance; // instance of slider arrow
 
-    private GameObject    keyZ;
+    private GameObject keyZ;
     private UIKeyAnimator keyZAnimator;
 
     [Tooltip("Pixel position along slider from 1 to 61.")]
     [Range(1, 61)][SerializeField] private int sliderTargetStart = 45;
 
     [Tooltip("Pixel position along slider from 2 to 62.")]
-    [Range(2, 62)][SerializeField] private int sliderTargetEnd   = 55;
-    
+    [Range(2, 62)][SerializeField] private int sliderTargetEnd = 55;
+
     [Tooltip("How long it takes for arrow to reach the end of the bar.")]
     [Range(0.1f, 2f)][SerializeField] private float sliderTime = 1.5f;
 
@@ -42,30 +42,30 @@ public class SliderQTE : QuickTimeEvent
     public SliderQTE() : base(true)
     {
         sliderTargetStart = 45;
-        sliderTargetEnd   = 55;
-        sliderTime        = 1.5f;
-        easeIn            = Ease.InCubic;
-        easeOut           = Ease.OutCubic;
+        sliderTargetEnd = 55;
+        sliderTime = 1.5f;
+        easeIn = Ease.InCubic;
+        easeOut = Ease.OutCubic;
     }
     public SliderQTE(int start, int end, float time, Ease inEase, Ease outEase) : base(true)
     {
         sliderTargetStart = Mathf.Clamp(start, 1, 61);
-        sliderTargetEnd   = Mathf.Clamp(end,   2, 62);
-        sliderTime        = Mathf.Clamp(time, 0.1f, 2f);
-        easeIn            = inEase;
-        easeOut           = outEase;
+        sliderTargetEnd = Mathf.Clamp(end, 2, 62);
+        sliderTime = Mathf.Clamp(time, 0.1f, 2f);
+        easeIn = inEase;
+        easeOut = outEase;
     }
 
     public void SetTargetPosition(int start, int end)
     {
-        if(InProgress()) return;
+        if (InProgress()) return;
 
         sliderTargetStart = Mathf.Clamp(start, 0, 59);
-        sliderTargetEnd   = Mathf.Clamp(end,   1, 60);
+        sliderTargetEnd = Mathf.Clamp(end, 1, 60);
     }
     public void SetSliderTime(float time)
     {
-        if(InProgress()) return;
+        if (InProgress()) return;
 
         sliderTime = Mathf.Clamp(time, 0.1f, 2f);
     }
@@ -77,28 +77,37 @@ public class SliderQTE : QuickTimeEvent
 
     protected override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        if(xPressed)
+        if (xPressed)
         {
             EndQTE(parent);
             return 0f;
         }
 
-        if(zPressed)
+        if (zPressed)
         {
-            if(timer < 0f)
+            if (timer < 0f)
             {
                 StartQTE(parent);
             }
             else
             {
                 EndQTE(parent);
-                return Mathf.Clamp01(1 - Mathf.Abs(arrowPosition - targetPosition) / targetRange);
+                float score = Mathf.Clamp01(1 - Mathf.Abs(arrowPosition - targetPosition) / targetRange);
+                if (score > 0.0f)
+                {
+                    PlayProgressSound();
+                }
+                else
+                {
+                    PlayErrorSound();
+                }
+                return score;
             }
 
             return 0f;
         }
-        
-        if(InProgress() == false)
+
+        if (InProgress() == false)
         {
             EndQTE(parent);
             return 0f;
@@ -106,9 +115,9 @@ public class SliderQTE : QuickTimeEvent
 
         arrowPosition = timer < timeToReachTargetFromStart ? EaseFunctions.Interpolate(1, targetPosition, timer / timeToReachTargetFromStart, easeIn) : EaseFunctions.Interpolate(targetPosition, 62, (timer - timeToReachTargetFromStart) / timeToReachEndFromTarget, easeOut);
 
-        if(arrowPosition >= sliderTargetStart - 2) // -2 for reaction time buffer
+        if (arrowPosition >= sliderTargetStart - 2) // -2 for reaction time buffer
         {
-            if(arrowPosition < sliderTargetEnd)
+            if (arrowPosition < sliderTargetEnd)
             {
                 keyZAnimator.PushKey(GlobalConstants.sliderAnimationTime);
             }
@@ -139,12 +148,12 @@ public class SliderQTE : QuickTimeEvent
         Vector2 arrowSpriteSize = sliderArrowInstance.GetComponent<SpriteRenderer>().sprite.rect.size;
         sliderArrowInstance.transform.position = sliderBarInstance.transform.position + new Vector3(GlobalConstants.pixelWorldSize * -31, 0f, 0f);
         sliderArrowInstance.GetComponent<SpriteRenderer>().sortingOrder = 1;
-        
+
         arrowStartPosition = sliderArrowInstance.transform.position;
 
         // Update Shader
         sliderTargetStart = Mathf.Clamp(sliderTargetStart, 0, 59);
-        sliderTargetEnd   = Mathf.Clamp(sliderTargetEnd,   1, 60);
+        sliderTargetEnd = Mathf.Clamp(sliderTargetEnd, 1, 60);
 
         SpriteRenderer sliderSpriteRenderer = sliderBarInstance.GetComponent<SpriteRenderer>();
         sliderSpriteRenderer.material = new Material(sliderSpriteRenderer.material);
@@ -166,7 +175,7 @@ public class SliderQTE : QuickTimeEvent
         Object.Destroy(sliderBarInstance);
         Object.Destroy(sliderArrowInstance);
 
-        sliderBarInstance   = null;
+        sliderBarInstance = null;
         sliderArrowInstance = null;
     }
 
@@ -176,11 +185,11 @@ public class SliderQTE : QuickTimeEvent
         StartTimer();
 
         targetPosition = (sliderTargetStart + sliderTargetEnd) / 2f;
-        targetRange    = (sliderTargetEnd - sliderTargetStart) / 2f; // technically half the range
-        ratio          = targetPosition / 60f;
+        targetRange = (sliderTargetEnd - sliderTargetStart) / 2f; // technically half the range
+        ratio = targetPosition / 60f;
         timeToReachTargetFromStart = sliderTime * ratio;
-        timeToReachEndFromTarget   = sliderTime - timeToReachTargetFromStart;
-        arrowPosition  = 0f;
+        timeToReachEndFromTarget = sliderTime - timeToReachTargetFromStart;
+        arrowPosition = 0f;
 
         CreateUI(parent.transform);
     }

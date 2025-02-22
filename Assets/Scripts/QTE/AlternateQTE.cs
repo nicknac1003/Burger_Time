@@ -5,19 +5,19 @@ public class AlternateQTE : QuickTimeEvent
     [Tooltip("The number of times the player must press Z or C to succeed.")]
     [Range(2, 15)][SerializeField] private int alternationCount = 5;
 
-    private GameObject     fillBarInstance;
+    private GameObject fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
-    private GameObject    keyZ;
-    private GameObject    keyC;
+    private GameObject keyZ;
+    private GameObject keyC;
     private UIKeyAnimator keyZAnimator;
     private UIKeyAnimator keyCAnimator;
 
     private bool zReleased = true;
     private bool cReleased = true;
     private bool zLastPressed = false;
-    private int  mashProgress = -1;
-    private int  mashCount;
+    private int mashProgress = -1;
+    private int mashCount;
 
     public AlternateQTE() : base(true) { alternationCount = 5; }
     public AlternateQTE(int count) : base(true) { alternationCount = count; }
@@ -32,40 +32,50 @@ public class AlternateQTE : QuickTimeEvent
 
     protected override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        if(xPressed)
+        if (xPressed)
         {
             EndQTE(parent);
             return 0f;
         }
 
-        if(zPressed)
+        if (zPressed)
         {
-            if(mashProgress < 0)
+            if (mashProgress < 0)
             {
                 StartQTE(parent);
             }
-            if(zReleased && zLastPressed == false)
+            if (zReleased && zLastPressed == false)
             {
                 zLastPressed = true;
                 mashProgress++;
+                PlayProgressSound();
+            }
+            else if (zReleased && zLastPressed)
+            {
+                PlayErrorSound();
             }
         }
-        
-        if(cPressed)
+
+        if (cPressed)
         {
-            if(mashProgress < 0)
+            if (mashProgress < 0)
             {
                 // Player is taking item out of Appliance before QTE starts
                 return 0f;
             }
-            if(cReleased && zLastPressed)
+            if (cReleased && zLastPressed)
             {
                 zLastPressed = false;
                 mashProgress++;
+                PlayProgressSound();
+            }
+            else if (cReleased && zLastPressed == false)
+            {
+                PlayErrorSound();
             }
         }
 
-        if(InProgress() == false)
+        if (InProgress() == false)
         {
             float score = mashProgress >= mashCount ? 1f : 0f;
             EndQTE(parent);
@@ -113,10 +123,10 @@ public class AlternateQTE : QuickTimeEvent
     }
     protected override void DestroyUI()
     {
-        if(fillBarInstance == null) return;
+        if (fillBarInstance == null) return;
 
         Object.Destroy(fillBarInstance);
-        fillBarInstance       = null;
+        fillBarInstance = null;
         fillBarSpriteRenderer = null;
     }
 
@@ -124,10 +134,10 @@ public class AlternateQTE : QuickTimeEvent
     {
         CreateUI(parent.transform);
         StartMashing();
-        zReleased    = true;
-        cReleased    = true;
+        zReleased = true;
+        cReleased = true;
         zLastPressed = false;
-        mashCount    = alternationCount * 2;
+        mashCount = alternationCount * 2;
     }
     public override void EndQTE(Interactable parent)
     {

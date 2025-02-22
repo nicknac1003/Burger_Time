@@ -5,14 +5,14 @@ public class MashQTE : QuickTimeEvent
     [Tooltip("The number of times the player must press Z to succeed.")]
     [Range(5, 30)][SerializeField] private int mashCount = 10;
 
-    private GameObject     fillBarInstance;
+    private GameObject fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
-    private GameObject    keyZ;
+    private GameObject keyZ;
     private UIKeyAnimator keyZAnimator;
 
-    private bool zReleased  = true;
-    private int  mashProgress = -1;
+    private bool zReleased = true;
+    private int mashProgress = -1;
 
     public MashQTE() : base(true) { mashCount = 10; }
     public MashQTE(int count) : base(true) { mashCount = count; }
@@ -27,25 +27,26 @@ public class MashQTE : QuickTimeEvent
 
     protected override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        if(xPressed)
+        if (xPressed)
         {
             EndQTE(parent);
             return 0f;
         }
 
-        if(zPressed)
+        if (zPressed)
         {
-            if(mashProgress < 0)
+            if (mashProgress < 0)
             {
                 StartQTE(parent);
             }
-            if(zReleased)
+            if (zReleased)
             {
                 mashProgress++;
+                PlayProgressSound();
             }
         }
 
-        if(InProgress() == false)
+        if (InProgress() == false)
         {
             float score = mashProgress >= mashCount ? 1f : 0f;
             EndQTE(parent);
@@ -84,10 +85,10 @@ public class MashQTE : QuickTimeEvent
     }
     protected override void DestroyUI()
     {
-        if(fillBarInstance == null) return;
+        if (fillBarInstance == null) return;
 
         Object.Destroy(fillBarInstance);
-        fillBarInstance       = null;
+        fillBarInstance = null;
         fillBarSpriteRenderer = null;
     }
 

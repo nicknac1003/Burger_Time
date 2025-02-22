@@ -7,20 +7,20 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public int day = 1;
-    public bool canCreateCustomers = true;
-    private int currentCustomerCount = 0;
     private float totalMinutes = 0f;
+
     private int currentHour = 0;
     private int currentMinute = 0;
+
     public int startHour = 9;
     public int startMinute = 00;
+
     public int endHour = 21;
     public int endMinute = 00;
+
     public float dayDurationMinutes = 5;
-    private  float dayDuration; // Duration of a day in seconds 
+    private float dayDuration; // Duration of a day in seconds 
     private float elapsedTime = 0f;
-    private bool dayOver = false;
-    private bool dayStarting = false;
     public bool logTime = false;
     public float dayDelay = 6f;
 
@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour
     public static int   GetHour()           => Instance.currentHour;
     public static float GetHourCompletion() => Instance.currentMinute / 60f;
     public static int   GetDay()            => Instance.day;
+    public static bool  Open()              => BetweenTimes(Instance.currentHour, Instance.currentMinute, Instance.startHour, Instance.startMinute, Instance.endHour, Instance.endMinute);
+
+    public static float TimeAsFloat(int hour, float minutes) => hour + minutes / 60f;
+    public static bool  BetweenTimes(int hour, float minutes, int hourA, float minutesA, int hourB, float minutesB) => TimeAsFloat(hour, minutes) >= TimeAsFloat(hourA, minutesA) && TimeAsFloat(hour, minutes) <= TimeAsFloat(hourB, minutesB);
 
     void Awake()
     {
@@ -62,25 +66,15 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Update the elapsed time
-        elapsedTime += Time.deltaTime;
-
-        totalMinutes = elapsedTime / dayDuration * (endHour * 60f + endMinute - (startHour * 60f + startMinute)); // 1440 minutes in a day
-        currentHour = startHour + Mathf.FloorToInt((totalMinutes + startMinute) / 60f);
-        currentMinute =  Mathf.FloorToInt((startMinute + totalMinutes) % 60f);
+        elapsedTime  += Time.deltaTime;
+        totalMinutes  = elapsedTime / dayDuration * (endHour * 60f + endMinute - (startHour * 60f + startMinute)); // 1440 minutes in a day
+        currentHour   = startHour + Mathf.FloorToInt((totalMinutes + startMinute) / 60f);
+        currentMinute = Mathf.FloorToInt((startMinute + totalMinutes) % 60f);
         DisplayTime();
 
-        // Check if the day duration has been exceeded
-        if (elapsedTime >= dayDuration)
+        if (Open() == false && CustomerManager.Customers() == 0)
         {
-            dayOver = true;
-            canCreateCustomers = false;
-        }
-        if (dayOver && currentCustomerCount == 0 && !dayStarting)
-        {
-            dayStarting = true;
-            endDay();
-
+            EndDay();
         }
     }
 
@@ -108,14 +102,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void endDay()
+    public void EndDay()
     {
         // End of the day logic
         Debug.Log("End of Day " + day);
         
         //start new day after daydelay seconds
         Invoke(nameof(StartNewDay), dayDelay);
-
     }
 
     // Call this method to start a new day
@@ -123,9 +116,6 @@ public class GameManager : MonoBehaviour
     {
         day++;
         elapsedTime = 0f;
-        canCreateCustomers = true;
-        dayOver = false;
-        dayStarting = false;
         DisplayDay();
     }
 
@@ -164,9 +154,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < fadeCount; i++)
         {
-            // Fade out
             yield return StartCoroutine(Fade(text, 1f, 0f, duration));
-            // Fade in
             yield return StartCoroutine(Fade(text, 0f, 1f, duration));
         }
     }
@@ -196,18 +184,6 @@ public class GameManager : MonoBehaviour
         Instance.rating = Mathf.Clamp(Instance.rating, 0f, Instance.initialRating);
         Debug.Log("Rating: " + Instance.rating);
 
-    }
-    public void addCustomer()
-    {
-        currentCustomerCount++;
-    }
-    public void removeCustomer()
-    {
-        currentCustomerCount--;
-    }
-    public int getCurrentCustomerCount()
-    {
-        return currentCustomerCount;
     }
 }
  

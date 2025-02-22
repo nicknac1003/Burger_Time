@@ -5,7 +5,8 @@ using UnityEngine.Rendering;
 
 public class CustomerManager : MonoBehaviour
 {
-    [SerializeField] private float[] popularity = new float[24];
+    [SerializeField] private float[]     popularity = new float[24];
+    [SerializeField] private float       spawnTimer;
     [SerializeField] private Transform   spawnPoint;
     [SerializeField] private Transform   exitPoint;
     [SerializeField] private Transform   lineStart;
@@ -22,6 +23,7 @@ public class CustomerManager : MonoBehaviour
 
     public static CustomerManager Instance { get; private set; }
 
+    private float timeSinceLastSpawn = 0;
     private int customerCount   = 0;
     private int inBuilding      = 0;
     private List<Customer> line = new();
@@ -32,6 +34,7 @@ public class CustomerManager : MonoBehaviour
     public static float   MaxWaitTime()       => Instance.maxWaitTime;
     public static float   RequestTime()       => Instance.requestIngredientTime;
     public static int     MaxToppings()       => Instance.maxToppings;
+    public static int     Customers()         => Instance.customerCount;
 
     void Awake()
     {
@@ -42,6 +45,17 @@ public class CustomerManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    void Update()
+    {
+        timeSinceLastSpawn += Time.deltaTime;
+
+        if(timeSinceLastSpawn > spawnTimer && CustomerArrives())
+        {
+            timeSinceLastSpawn = 0;
+            line.Add(SpawnCustomer());
         }
     }
 
@@ -70,6 +84,8 @@ public class CustomerManager : MonoBehaviour
 
     private bool CustomerArrives()
     {
+        if(GameManager.Open() == false) return false;
+
         if(LineTooLong() || AtCapacity()) return false;
 
         int hour = GameManager.GetHour();
@@ -93,15 +109,6 @@ public class CustomerManager : MonoBehaviour
         customer.SetState(CustomerState.Leaving);
 
         inBuilding--;
-    }
-
-    void Update()
-    {
-        if(CustomerArrives())
-        {
-            Customer newCustomer = SpawnCustomer();
-            line.Add(newCustomer);
-        }   
     }
 
     public Vector3 GetRandomWaitingPosition()

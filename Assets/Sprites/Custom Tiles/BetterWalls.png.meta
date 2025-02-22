@@ -1354,7 +1354,7 @@ TextureImporter:
       name: BetterWalls_57
       rect:
         serializedVersion: 2
-        x: 112
+        x: 48
         y: 0
         width: 16
         height: 16
@@ -1368,6 +1368,94 @@ TextureImporter:
       bones: []
       spriteID: 5d873d53528be864487645ef0c98d58d
       internalID: 660621088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BetterWalls_58
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4545fa820a5c5f94bad2c474d0089042
+      internalID: 268583614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BetterWalls_59
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acb2af46c26a2b14286764024eeb21ec
+      internalID: 216482784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BetterWalls_60
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 946f0e6f5ad6f88409a44aa525372ff3
+      internalID: 747778962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BetterWalls_61
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9952de4cbfcae38419a99dad9102f4bf
+      internalID: -343382190
       vertices: []
       indices: 
       edges: []
@@ -1440,7 +1528,11 @@ TextureImporter:
       BetterWalls_55: -1833665612
       BetterWalls_56: 1785205676
       BetterWalls_57: 660621088
+      BetterWalls_58: 268583614
+      BetterWalls_59: 216482784
       BetterWalls_6: -489915285
+      BetterWalls_60: 747778962
+      BetterWalls_61: -343382190
       BetterWalls_7: -370508214
       BetterWalls_8: -473733376
       BetterWalls_9: -986612542

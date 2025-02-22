@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class CuttingBoard : Appliance {
+public class CuttingBoard : Appliance
+{
     [SerializeReference] private QuickTimeEvent useApplianceQTE = new MashQTE();
+    private bool QTEInProgress = false;
 
     // private void Start() {
     //     useApplianceQTE = new MashQTE();
@@ -10,11 +12,11 @@ public class CuttingBoard : Appliance {
 
     protected override void Update()
     {
-        base.Update();    
+        base.Update();
 
-        if(working)
+        if (working)
         {
-            if(useApplianceQTE.QTE(zPressed, xPressed, cPressed, moveInput, this) > 0f)
+            if (useApplianceQTE.QTE(zPressed, xPressed, cPressed, moveInput, this) > 0f)
             {
                 Debug.Log("Success!");
             }

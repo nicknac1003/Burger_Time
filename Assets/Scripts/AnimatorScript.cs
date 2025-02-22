@@ -3,21 +3,19 @@ using UnityEngine;
 public class AnimatorScript : MonoBehaviour
 {
     // This butt ass script ONLY calls functions on player controller but it's easier than keeping the animator controller on the player!!!!!!!!!!!
+    public void LockPlayer()
+    {
+        Debug.Log("lockign player!!!!!!!!!");
+        PlayerController.LockPlayer();
+    }
+    public void UnlockPlayer()
+    {
+        Debug.Log("Heheh i unliock");
+        PlayerController.UnlockPlayer();
+    }
 
-    public void holdingPosDown()
+    public void SetPlayerDirection(int dir)
     {
-        PlayerController.Instance.holdingPosDown();
-    }
-    public void holdingPosUp()
-    {
-        PlayerController.Instance.holdingPosUp();
-    }
-    public void holdingPosLeft()
-    {
-        PlayerController.Instance.holdingPosLeft();
-    }
-    public void holdingPosRight()
-    {
-        PlayerController.Instance.holdingPosRight();
+        PlayerController.Instance.SetPlayerDirection(dir);
     }
 }

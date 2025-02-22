@@ -48,7 +48,8 @@ public abstract class QuickTimeEvent
             }
             else
             {
-                PlayerController.UnlockPlayer();
+                //Debug.Log($"QTE performed by: {parent.gameObject.name}");
+                //PlayerController.UnlockPlayer();
             }
         }
 

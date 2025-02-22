@@ -56,6 +56,7 @@ public abstract class QuickTimeEvent
     }
     public void PlayProgressSound()
     {
+        audioSource.Stop();
         audioSource.PlayOneShot(progressSounds[Random.Range(0, progressSounds.Count)], progressVolume);
     }
     public void PlayErrorSound()

@@ -28,13 +28,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     private Rigidbody2D rb;
 
-    private GameObject holdingPosition;
     private List<Interactable> interactables = new();
     private Interactable closestInteractable;
     private Holdable holding;
 
     private bool lockedInPlace = false;
-    private Vector2 wishDirection;
+    public Vector2 wishDirection { get; private set; }
+    public string direction { get; private set; } = "Down";
     private Vector2 lockedLastDirection; // prevent unwanted movement when leaving locked state
     private bool goodUnlock = true;   // prevent unwanted movement when leaving locked state
     private Vector2 prevWishDirection;
@@ -202,11 +202,11 @@ public class PlayerController : MonoBehaviour
         if (interactables.Count <= 0) return null;
 
         Interactable closest = interactables[0];
-        Vector3 closestToPlayer = Vector3.Scale(closest.transform.position - transform.position, new Vector3(1, 0, 1)); // ignore Y axis
+        Vector3 closestToPlayer = Vector3.Scale(closest.transform.position - transform.position, new Vector3(1, 1, 0)); // ignore Y axis
 
         for (int i = 1; i < interactables.Count; i++)
         {
-            Vector3 toPlayer = Vector3.Scale(interactables[i].transform.position - transform.position, new Vector3(1, 0, 1)); // ignore Y axis
+            Vector3 toPlayer = Vector3.Scale(interactables[i].transform.position - transform.position, new Vector3(1, 1, 0)); // ignore Y axis
 
             if (toPlayer.magnitude < closestToPlayer.magnitude)
             {
@@ -222,14 +222,14 @@ public class PlayerController : MonoBehaviour
     {
         closestInteractable = GetClosestInteractable();
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Interactable"))
         {
             AddInteractable(other.GetComponent<Interactable>());
         }
     }
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Interactable"))
         {
@@ -269,17 +269,21 @@ public class PlayerController : MonoBehaviour
     public void holdingPosDown()
     {
         holdAnchor.localPosition = new Vector3(0.37f, -0.654f, -0.05f);
+        direction = "Down";
     }
     public void holdingPosUp()
     {
         holdAnchor.localPosition = new Vector3(-0.35f, -0.5f, 0.1f);
+        direction = "Up";
     }
     public void holdingPosLeft()
     {
         holdAnchor.localPosition = new Vector3(0.0f, -0.71f, -0.05f);
+        direction = "Left";
     }
     public void holdingPosRight()
     {
         holdAnchor.localPosition = new Vector3(0.0f, -0.71f, 0.1f);
+        direction = "Right";
     }
 }

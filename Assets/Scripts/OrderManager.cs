@@ -5,13 +5,14 @@ using UnityEngine.UI;
 public class OrderManager : MonoBehaviour
 {
     public static OrderManager Instance { get; private set; }
-    private List<Ticket> tickets;
+    private List<Ticket> tickets = new();
 
     [SerializeField] private GameObject ticketPrefab;
     [SerializeField] private Gradient pleasantGradient;
     [SerializeField] private int maxTicketPosition = 1200;
+    [SerializeField] private float ticketSlideTime = 0.25f;
 
-    private bool roomForTickets = false;
+    private bool roomForTickets = true;
 
     public static Color GetGradientColor(float percentRemaining)
     {
@@ -32,7 +33,7 @@ public class OrderManager : MonoBehaviour
 
     public static bool CanTakeOrder()
     {
-        return Instance.roomForTickets == false;   
+        return Instance.roomForTickets;   
     }
     public static bool CanServeFood()
     {
@@ -50,8 +51,11 @@ public class OrderManager : MonoBehaviour
 
     public static void RemoveTicket(Ticket ticket)
     {
+        Instance.StartCoroutine(ticket.KillTicket(Instance.ticketSlideTime));
+    }
+    public static void RemoveTicketFromList(Ticket ticket) // callback
+    {
         Instance.tickets.Remove(ticket);
-        Instance.StartCoroutine(ticket.KillTicket(1f));
     }
 
     private void UpdateTicketPositions()
@@ -62,7 +66,7 @@ public class OrderManager : MonoBehaviour
         for(int i = tickets.Count - 1; i >= 0; i--)
         {
             tickets[i].StopAllCoroutines(); // Kill all coroutines so we stop sliding if we're already sliding
-            StartCoroutine(tickets[i].SlideTicket(-ticketPosition, 1f)); // negative since we're moving left
+            StartCoroutine(tickets[i].SlideTicket(-ticketPosition, ticketSlideTime)); // negative since we're moving left
             ticketPosition += tickets[i].GetWidth() + 10; // Figure out where next ticket should / would go
         }
         roomForTickets = ticketPosition < maxTicketPosition;

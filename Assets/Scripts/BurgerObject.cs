@@ -161,12 +161,19 @@ public class Burger
     /// <returns></returns>
     public static Burger GenerateRandomBurger(int toppings)
     {
+        bool hasBun   = toppings > 0 && Random.value > 0.05f; // 5% chance of no bun, only if toppings are present
+        bool hasPatty = (!hasBun && toppings <= 0) || Random.value > 0.05f; // 5% chance of no patty. If no bun or toppings, patty is required
+
         Burger burger = new();
 
-        burger.Add(new Ingredient(IngredientType.Bun, IngredientState.Cooked));   // must include Bun
         burger.Add(new Ingredient(IngredientType.Plate, IngredientState.Cooked)); // must include Plate
 
-        if(Random.Range(0f, 1f) > 0.05f) // 5% chance of no patty, 19% chance of burnt patty, 76% chance of cooked patty
+        if(hasBun)
+        {
+            burger.Add(new Ingredient(IngredientType.Bun, IngredientState.Cooked));
+        }
+
+        if(hasPatty) // 20% chance of burnt patty, 80% chance of cooked patty (if patty is present)
         {
             burger.Add(new Ingredient(IngredientType.Patty, Random.Range(0f, 1f) > 0.2f ? IngredientState.Cooked : IngredientState.Burnt));
         }
@@ -179,7 +186,7 @@ public class Burger
         {
             IngredientType topping = options[Random.Range(0, options.Count)];
             
-            IngredientState state = topping != IngredientType.Patty ? IngredientState.Cooked : Random.Range(0f, 1f) > 0.2f ? IngredientState.Cooked : IngredientState.Burnt;
+            IngredientState state = topping != IngredientType.Patty ? IngredientState.Cooked : Random.value > 0.2f ? IngredientState.Cooked : IngredientState.Burnt;
 
             burger.Add(new Ingredient(topping, state));
         }
@@ -233,5 +240,15 @@ public class Burger
             hashCodes.Add(ingredient.GetHashCode());
         }
         return hashCodes.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        string str = "Burger: ";
+        foreach(Ingredient ingredient in ingredients)
+        {
+            str += ingredient + ", ";
+        }
+        return str;
     }
 }

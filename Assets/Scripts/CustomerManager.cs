@@ -5,8 +5,10 @@ using UnityEngine.Rendering;
 
 public class CustomerManager : MonoBehaviour
 {
+    [SerializeField] GameObject[] customerPrefabs;
     [SerializeField] private float[]     popularity = new float[24];
-    [SerializeField] private float       spawnTimer;
+    [SerializeField] private float       minSpawnAttemptTime;
+    [SerializeField] private float       maxSpawnAttemptTime;
     [SerializeField] private Transform   spawnPoint;
     [SerializeField] private Transform   exitPoint;
     [SerializeField] private Transform   lineStart;
@@ -24,6 +26,7 @@ public class CustomerManager : MonoBehaviour
     public static CustomerManager Instance { get; private set; }
 
     private float timeSinceLastSpawn = 0;
+    private float trySpawnAt = 0;
     private int customerCount   = 0;
     private int inBuilding      = 0;
     private List<Customer> line = new();
@@ -36,6 +39,8 @@ public class CustomerManager : MonoBehaviour
     public static int     MaxToppings()       => Instance.maxToppings;
     public static int     Customers()         => Instance.customerCount;
 
+    public List<Customer> lineDebugView;
+
     void Awake()
     {
         if (Instance == null)
@@ -46,28 +51,35 @@ public class CustomerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        trySpawnAt = Random.Range(minSpawnAttemptTime, maxSpawnAttemptTime);
     }
 
     void Update()
     {
+        lineDebugView = line;
+
         timeSinceLastSpawn += Time.deltaTime;
 
-        if(timeSinceLastSpawn > spawnTimer && CustomerArrives())
+        if(timeSinceLastSpawn > trySpawnAt && CustomerArrives())
         {
             timeSinceLastSpawn = 0;
             line.Add(SpawnCustomer());
+            trySpawnAt = Random.Range(minSpawnAttemptTime, maxSpawnAttemptTime);
         }
     }
 
     private GameObject GenerateCustomer()
     {
-        // Empty for now, will implement code to pick a random customer later
-        return new GameObject("Customer " + customerCount);
+        GameObject customerObject = Instantiate(customerPrefabs[Random.Range(0, customerPrefabs.Length)]);
+        customerObject.name = "Customer " + customerCount;
+        return customerObject;
     }
 
     public Customer SpawnCustomer()
     {
         GameObject newCustomer = GenerateCustomer();
+        newCustomer.transform.SetParent(transform);
         newCustomer.AddComponent<Customer>().Init(customerCount);
         newCustomer.transform.position = spawnPoint.position;
         return newCustomer.GetComponent<Customer>();
@@ -124,18 +136,27 @@ public class CustomerManager : MonoBehaviour
     }
     public Vector3 GetSpotInLine(Customer customer)
     {
-        return lineStart.position + new Vector3(Random.Range(-0.5f, 0.5f), 0, -line.IndexOf(customer) * lineSpacing);
+        return lineStart.position + new Vector3(customer.LineOffset(), -line.IndexOf(customer) * lineSpacing, 0);
+    }
+    private bool AtLineStart(Customer customer)
+    {
+        return Instance.line.IndexOf(customer) == 0 && Mathf.Abs(customer.transform.position.y - Instance.lineStart.position.y) < 0.1f;
     }
 
     public static void TakeOrder()
     {
+        Debug.Log("Attempting to take order");
+
         if(OrderManager.CanTakeOrder() == false) return;
 
-        if (Instance.line.Count <= 0 || Vector3.Distance(Instance.line[0].transform.position, Instance.lineStart.position) > 0.1f) return;
-        
-        Customer customer = Instance.line[0];
-        customer.SetState(CustomerState.Ordering);
-        Instance.line.RemoveAt(0);
+        if (Instance.line.Count <= 0 || Instance.AtLineStart(Instance.line[0]) == false) return;
+
+        Instance.line[0].SetState(CustomerState.Ordering);
+    }
+
+    public static void RemoveCustomerFromLine(Customer customer) // callback
+    {
+        Instance.line.Remove(customer);
     }
 
     public static void ServeFood()

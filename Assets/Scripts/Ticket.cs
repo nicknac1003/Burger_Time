@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 [RequireComponent(typeof(Image))]
 public class Ticket : MonoBehaviour
@@ -24,6 +25,7 @@ public class Ticket : MonoBehaviour
 
     void Awake()
     {
+        rectTransform = GetComponent<RectTransform>();
         timerRect = transform.Find("Timer").GetComponent<RectTransform>();
         ingredientsRect = transform.Find("Ingredients").GetComponent<RectTransform>();
     }
@@ -33,11 +35,12 @@ public class Ticket : MonoBehaviour
         order    = burger;
         customer = person;
 
-        List<Ingredient> ingredientList = order.GetIngredients();
+        // Remove plates from list
+        List<Ingredient> ingredientList = order.GetIngredients().Where(ingredient => ingredient.Type() != IngredientType.Plate).ToList();
         int ingredientCount = ingredientList.Count;
 
         width = 120 + 55 * Mathf.CeilToInt(ingredientCount / 2f);
-        rectTransform.sizeDelta = new Vector2(width, 200);
+        rectTransform.sizeDelta = new Vector2(width, rectTransform.sizeDelta.y);
 
         // Start ticket off screen
         rectTransform.anchoredPosition = new Vector2(width, 0);
@@ -63,7 +66,7 @@ public class Ticket : MonoBehaviour
         float percentRemaining = (CustomerManager.MaxWaitTime() - customer.GetTimeSpentWaitingForOrder()) / CustomerManager.MaxWaitTime();
 
         timerRect.offsetMax = new(-Mathf.Lerp(width, 10, percentRemaining), timerRect.offsetMax.y); // Shrink timer bar to the left
-        timerRect.GetComponent<Image>().color = OrderManager.GetGradientColor(percentRemaining); // Change color of timer bar
+        timerRect.GetComponent<Image>().color = OrderManager.GetGradientColor(1 - percentRemaining); // Change color of timer bar
     }
 
     public IEnumerator SlideTicket(float newX, float slideTime)
@@ -72,7 +75,7 @@ public class Ticket : MonoBehaviour
 
         for(float t = 0; t < slideTime; t += Time.deltaTime)
         {
-            rectTransform.anchoredPosition = new(EaseFunctions.Interpolate(oldX, newX, t / slideTime), rectTransform.anchoredPosition.y);
+            rectTransform.anchoredPosition = new(EaseFunctions.Interpolate(oldX, newX, t / slideTime, EaseFunctions.Ease.OutBack), rectTransform.anchoredPosition.y);
             yield return null;
         }
         rectTransform.anchoredPosition = new(newX, rectTransform.anchoredPosition.y);
@@ -84,9 +87,12 @@ public class Ticket : MonoBehaviour
 
         for(float t = 0; t < leaveTime; t += Time.deltaTime)
         {
-            rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, EaseFunctions.Interpolate(oldY, 150, t / leaveTime, EaseFunctions.Ease.OutBounce));
+            rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, EaseFunctions.Interpolate(oldY, 150, t / leaveTime, EaseFunctions.Ease.InBack));
             yield return null;
         }
+
+        OrderManager.RemoveTicketFromList(this);
+
         Destroy(gameObject);
     }
 }

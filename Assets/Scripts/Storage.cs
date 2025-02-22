@@ -8,41 +8,54 @@ public class Storage : Interactable
 
     [Tooltip("The anchor point where the holdable item will be placed.")]
     [SerializeField] private Transform anchor;
-    
+
     [SerializeField] private bool canHoldBurgers = false;
     protected Holdable holdable;
 
     protected override void OnZ()
     {
-        if(PlayerController.HoldingItem())
+        Debug.Log(PlayerFacingThis());
+        if (PlayerController.HoldingItem())
         {
             Holdable playerHolding = PlayerController.GetItem();
-            if (holdable != null){
+            if (holdable != null)
+            {
                 TryCombine(playerHolding);
             }
-            if(PlaceItem(playerHolding))
+            if (PlaceItem(playerHolding))
             {
                 // visual feedback for placing item?
             }
         }
         else
         {
-            if(TakeItem())
+            if (TakeItem())
             {
                 // visual feedback for taking item?
             }
         }
     }
+    private bool PlayerFacingThis()
+    {
+        Debug.Log(PlayerController.Instance.direction);
+        Debug.Log(PlayerController.Instance.transform.position.y + " vs object: " + transform.position.y);
+        if (transform.position.y > PlayerController.Instance.transform.position.y && PlayerController.Instance.direction == "Up") return true;
+
+        if (transform.position.y < PlayerController.Instance.transform.position.y && PlayerController.Instance.direction == "Down") return true;
+
+        return false;
+    }
 
     private bool PlaceItem(Holdable item)
     {
-        if(holdable != null) return false;
+        if (holdable != null) return false;
         Debug.Log(item is IngredientObject);
         if (item is IngredientObject ingredientObject)
         {
-            if (acceptedHoldables.Count > 0 && !acceptedHoldables.Contains(ingredientObject.Type())) 
+            if (acceptedHoldables.Count > 0 && !acceptedHoldables.Contains(ingredientObject.Type()))
                 return false;
-        } else if (!canHoldBurgers) return false;
+        }
+        else if (!canHoldBurgers) return false;
 
         holdable = item;
         holdable.transform.position = anchor.position;
@@ -56,9 +69,9 @@ public class Storage : Interactable
 
     private bool TakeItem()
     {
-        if(holdable == null) return false;
-        if(PlayerController.HoldingItem()) return false;
-        if(PlayerController.GrabItem(holdable) == false) return false;
+        if (holdable == null) return false;
+        if (PlayerController.HoldingItem()) return false;
+        if (PlayerController.GrabItem(holdable) == false) return false;
         Debug.Log("Took " + holdable.name + " from " + name);
 
         holdable = null;
@@ -66,22 +79,28 @@ public class Storage : Interactable
         return true;
     }
 
-    private void TryCombine(Holdable playerHolding){
-        if (holdable is BurgerObject burger && playerHolding is IngredientObject ingredient) {
+    private void TryCombine(Holdable playerHolding)
+    {
+        if (holdable is BurgerObject burger && playerHolding is IngredientObject ingredient)
+        {
             if (burger.Add(ingredient))
                 PlayerController.Instance.SetHolding(null);
         }
-        if (holdable is IngredientObject ingredient1 && playerHolding is IngredientObject ingredient2 && canHoldBurgers) {
+        if (holdable is IngredientObject ingredient1 && playerHolding is IngredientObject ingredient2 && canHoldBurgers)
+        {
             GameObject gameObject = new GameObject("Burger", typeof(BurgerObject));
             gameObject.transform.position = anchor.position;
             BurgerObject newBurger = gameObject.GetComponent<BurgerObject>();
-            if (newBurger.Add(ingredient1) && newBurger.Add(ingredient2)) {
+            if (newBurger.Add(ingredient1) && newBurger.Add(ingredient2))
+            {
                 PlayerController.Instance.SetHolding(null);
                 holdable = newBurger;
             }
         }
-        if (holdable is IngredientObject ingredient3 && playerHolding is BurgerObject burger2) {
-            if (burger2.Add(ingredient3)) {
+        if (holdable is IngredientObject ingredient3 && playerHolding is BurgerObject burger2)
+        {
+            if (burger2.Add(ingredient3))
+            {
                 holdable = null;
             }
         }

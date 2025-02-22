@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform holdAnchor;
     [SerializeField] private Animator animator;
 
+    private GameObject holdingPosition;
     private List<Interactable> interactables = new();
     private Interactable closestInteractable;
     private Holdable holding;
@@ -96,6 +97,8 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        holdAnchor = transform.Find("HoldingPos").transform;
     }
     void Update()
     {
@@ -321,5 +324,23 @@ public class PlayerController : MonoBehaviour
         Instance.holding = null;
 
         return true;
+    }
+
+    // hard coded positions for holding item in hand
+    public void holdingPosDown()
+    {
+        holdAnchor.localPosition = new Vector3(0.37f, -0.654f, -0.05f);
+    }
+    public void holdingPosUp()
+    {
+        holdAnchor.localPosition = new Vector3(-0.35f, -0.5f, 0.1f);
+    }
+    public void holdingPosLeft()
+    {
+        holdAnchor.localPosition = new Vector3(0.0f, -0.71f, -0.05f);
+    }
+    public void holdingPosRight()
+    {
+        holdAnchor.localPosition = new Vector3(0.0f, -0.71f, 0.1f);
     }
 }

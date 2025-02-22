@@ -5,8 +5,7 @@ using UnityEngine.Rendering;
 
 public class CustomerManager : MonoBehaviour
 {
-    [SerializeField] private PopularityChart popularityChart;
-    [SerializeField] private Dictionary<int, float> popularityTable = new();
+    [SerializeField] private float[] popularity = new float[24];
     [SerializeField] private Transform   spawnPoint;
     [SerializeField] private Transform   exitPoint;
     [SerializeField] private Transform   lineStart;
@@ -46,8 +45,6 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    public void SetPopularity(int hour, float popularity) => popularityTable[hour] = popularity;
-
     private GameObject GenerateCustomer()
     {
         // Empty for now, will implement code to pick a random customer later
@@ -76,9 +73,9 @@ public class CustomerManager : MonoBehaviour
         if(LineTooLong() || AtCapacity()) return false;
 
         int hour = GameManager.GetHour();
-        float popularity = Mathf.Lerp(popularityTable[hour], popularityTable[(hour + 1) % 24], GameManager.GetHourCompletion());
+        float currentPopularity = Mathf.Lerp(popularity[hour], popularity[(hour + 1) % 24], GameManager.GetHourCompletion());
 
-        if(Random.value > popularity) return false;
+        if(Random.value > currentPopularity) return false;
 
         customerCount++;
         inBuilding++;

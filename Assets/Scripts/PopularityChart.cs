@@ -5,11 +5,16 @@ using UnityEngine;
 public class PopularityChart
 {
     [SerializeField] private List<Popularity> popularityChart;
+
+    public float GetPopularity(int hour)
+    {
+        return popularityChart.Find(popularity => popularity.hour == hour).popularity;
+    }
 }
 
 [System.Serializable]
 public class Popularity
 {
-    [SerializeField] private int hour;
-    [SerializeField] private float popularity;
+    [SerializeField] public int hour;
+    [SerializeField] public float popularity;
 }

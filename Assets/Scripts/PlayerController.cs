@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
     private bool goodUnlock = true;   // prevent unwanted movement when leaving locked state
     private Vector2 prevWishDirection;
     public static bool LockedInPlace() => Instance.lockedInPlace;
+
+    public void SetHolding(Holdable holdable) => holding = holdable;
+
     public static void LockPlayer()
     {
         if (Instance.lockedInPlace) return;

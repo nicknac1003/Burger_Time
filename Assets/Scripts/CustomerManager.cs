@@ -9,7 +9,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private Transform   spawnPoint;
     [SerializeField] private Transform   exitPoint;
     [SerializeField] private Transform   lineStart;
-    [SerializeField] private BoxCollider waitingArea;
+    [SerializeField] private BoxCollider2D waitingArea;
     [SerializeField] private int   maxLineLength;
     [SerializeField] private float lineSpacing;
     [SerializeField] private int   maxCapacity;
@@ -111,8 +111,8 @@ public class CustomerManager : MonoBehaviour
 
         return new Vector3(
             center.x + Random.Range(-size.x / 2, size.x / 2),
-            center.y,
-            center.z + Random.Range(-size.z / 2, size.z / 2)
+            center.y + Random.Range(-size.y / 2, size.y / 2),
+            0
         );
     }
     public Vector3 GetSpotInLine(Customer customer)

@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     private Rigidbody2D rb;
 
-    private GameObject holdingPosition;
     private List<Interactable> interactables = new();
     private Interactable closestInteractable;
     private Holdable holding;
@@ -222,14 +221,14 @@ public class PlayerController : MonoBehaviour
     {
         closestInteractable = GetClosestInteractable();
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Interactable"))
         {
             AddInteractable(other.GetComponent<Interactable>());
         }
     }
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Interactable"))
         {

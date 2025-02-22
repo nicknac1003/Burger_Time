@@ -189,10 +189,12 @@ public class PlayerController : MonoBehaviour
 
     private void AddInteractable(Interactable interactable)
     {
+        if (interactable == null) return;
         interactables.Add(interactable);
     }
     private void RemoveInteractable(Interactable interactable)
     {
+        if (interactable == null) return;
         interactables.Remove(interactable);
         interactable.ResetInteracts();
     }
@@ -224,8 +226,10 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log($"collided with {other.name}");
         if (other.CompareTag("Interactable"))
         {
+            
             AddInteractable(other.GetComponent<Interactable>());
         }
     }

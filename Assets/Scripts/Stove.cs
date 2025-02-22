@@ -23,14 +23,15 @@ public class Stove : Appliance
 
     public void Cooking()
     {
-
+        
         IngredientObject patty = holdable as IngredientObject;
         if (patty.Type() != IngredientType.Patty) return;
+        
 
         //increase cooktimer. faster if broken
         float cookTimeAdd = working ? Time.deltaTime : Time.deltaTime * BrokenCookTimeMultiplier;
         if (patty != null && holdable != null)
-        {
+        {     
             PlayClip(false);
             patty.UpdateCookTime(cookTimeAdd);
             if (patty.GetCookTime() >= BurntTime)
@@ -48,6 +49,7 @@ public class Stove : Appliance
 
     public void PlayClip(bool force)
     {
+        if (audioSource == null || cookingClip == null) return;
         if (force)
         {
             audioSource.Stop();

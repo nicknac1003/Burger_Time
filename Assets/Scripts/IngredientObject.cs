@@ -53,6 +53,11 @@ public class IngredientObject : Holdable
     [Tooltip("Burnt sprite for burger")]
     [SerializeField] private Sprite onBurgerBurnt;
 
+    [SerializeField] private float cookTime = 0f;
+
+    public float GetCookTime() => cookTime;
+    public float UpdateCookTime(float added) => cookTime += added;
+
     private SpriteRenderer spriteRenderer;
     private bool onBurger = false;
 
@@ -145,6 +150,7 @@ public class IngredientObject : Holdable
                 break;
         }
     }
+    
 }
 
 [System.Serializable]

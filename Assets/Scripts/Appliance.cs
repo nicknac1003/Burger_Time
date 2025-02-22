@@ -2,15 +2,16 @@ using UnityEngine;
 using System.Collections.Generic;
 public class Appliance : Storage
 {
-    [SerializeField] private Breakable breakable;
+    [SerializeField] protected Breakable breakable;
 
     [Tooltip("The QuickTimeEvent to use when interacting with this appliance.")]
-    [SerializeReference] private QuickTimeEvent useApplianceQTE = new SliderQTE();
-    private bool working = true;
 
-    public bool InUse() => useApplianceQTE.InProgress();
+    [SerializeField] private bool inUse = false;
+    protected bool working  = true;
 
-    void Update()
+    public bool InUse() => inUse;
+
+    protected virtual void Update()
     {
         if (breakable.CanBreak())
         {
@@ -18,13 +19,6 @@ public class Appliance : Storage
             breakable.HandleRepairing(zPressed, this);
             working = breakable.IsBroken() == false;
         }
-
-        if (working)
-        {
-            if (useApplianceQTE.QTE(zPressed, xPressed, cPressed, moveInput, this) > 0f)
-            {
-                Debug.Log("Success!");
-            }
-        }
+        
     }
 }

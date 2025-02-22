@@ -17,7 +17,7 @@ public class SpriteSpace
 
 public class BurgerObject : Holdable
 {
-    [SerializeField] private Burger burger;
+    [SerializeField] private Burger burger = new();
     private List<IngredientObject> ingredientsOnBurger = new();
 
     public Burger GetBurger() => burger;
@@ -39,7 +39,7 @@ public class BurgerObject : Holdable
     {
         Ingredient ingredient = ingredientObj.GetIngredient();
 
-        if(ingredient.State() == IngredientState.Raw) return false;
+        if(ingredient.State() == IngredientState.Raw && ingredient.Type() != IngredientType.Patty) return false;
 
         if(ingredient.Type() == IngredientType.Plate)
         {
@@ -62,7 +62,9 @@ public class BurgerObject : Holdable
         }
         else
         {
-            ingredientsOnBurger.Insert(ingredientsOnBurger.Count - 1, ingredientObj); // Add ingredient before top bun
+            int index = ingredientsOnBurger.Count==0? 0: burger.Contains(new Ingredient(IngredientType.Bun, IngredientState.Cooked))?ingredientsOnBurger.Count - 1: ingredientsOnBurger.Count;
+            Debug.Log("Index: " + index);
+            ingredientsOnBurger.Insert(index, ingredientObj); // Add ingredient before top bun
         }
 
         ingredientObj.PutOnBurger();
@@ -86,20 +88,20 @@ public class BurgerObject : Holdable
     }
 
     // DEBUG ONLY
-    void Awake()
-    {
-        List<Ingredient> workingList = new(burger.GetIngredients());
-        burger = new Burger();
+    // void Awake()
+    // {
+    //     List<Ingredient> workingList = new(burger.GetIngredients());
+    //     burger = new Burger();
 
-        foreach(Ingredient ingredient in workingList)
-        {
-            Debug.Log("Adding " + ingredient + " to " + this);
-            if(Add(IngredientObject.Instantiate(ingredient)) == false)
-            {
-                Debug.LogError("Failed to add " + ingredient + " to " + this);
-            }
-        }   
-    }
+    //     foreach(Ingredient ingredient in workingList)
+    //     {
+    //         Debug.Log("Adding " + ingredient + " to " + this);
+    //         if(Add(IngredientObject.Instantiate(ingredient)) == false)
+    //         {
+    //             Debug.LogError("Failed to add " + ingredient + " to " + this);
+    //         }
+    //     }   
+    // }
 }
 
 [System.Serializable]

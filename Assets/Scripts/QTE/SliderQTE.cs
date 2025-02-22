@@ -166,7 +166,6 @@ public class SliderQTE : QuickTimeEvent
         keyZ.transform.parent = sliderBarInstance.transform;
         float xPos = GlobalConstants.pixelWorldSize * (targetPosition - 28);
         keyZ.transform.localPosition = new Vector3(xPos, 0.4f, 0f); // instantiate over target position
-        keyZ.transform.localScale = new Vector3(1f, 1f, 1f); // same as parent
         keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
         keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Up);
     }

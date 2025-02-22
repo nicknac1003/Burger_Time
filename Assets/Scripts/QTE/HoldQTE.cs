@@ -129,7 +129,6 @@ public class HoldQTE : QuickTimeEvent
         keyZ = new GameObject("KeyZ");
         keyZ.transform.parent = circle.transform;
         keyZ.transform.localPosition = new Vector3(0f, 0.5f, 0f);
-        keyZ.transform.localScale = new Vector3(1f, 1f, 1f); // same as parent
         keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
         keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Up);
     }

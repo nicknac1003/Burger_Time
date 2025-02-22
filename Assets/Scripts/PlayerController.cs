@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     private Rigidbody2D rb;
 
-    private GameObject holdingPosition;
     private List<Interactable> interactables = new();
     private Interactable closestInteractable;
     private Holdable holding;

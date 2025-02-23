@@ -90,30 +90,17 @@ public class IngredientObject : Holdable
     }
     public static IngredientObject Instantiate(Ingredient data, Transform transform)
     {
-        GameObject obj = data.Type() switch
-        {
-            IngredientType.Bun => Instantiate(GlobalConstants.bun.gameObject),
-            IngredientType.Patty => Instantiate(GlobalConstants.patty.gameObject),
-            IngredientType.Lettuce => Instantiate(GlobalConstants.lettuce.gameObject),
-            IngredientType.Tomato => Instantiate(GlobalConstants.tomato.gameObject),
-            IngredientType.Cheese => Instantiate(GlobalConstants.cheese.gameObject),
-            IngredientType.Onion => Instantiate(GlobalConstants.onion.gameObject),
-            IngredientType.Plate => Instantiate(GlobalConstants.plate.gameObject),
-            _ => null
-        };
+        IngredientObject ingredientObject = Instantiate(data);
 
-        if (obj == null)
-        {
-            Debug.LogError("Could not instantiate " + data + ". Does the ingredient exist in Resources/Ingredients? Is it being loaded in GlobalConstants?");
-            return null;
-        }
+        ingredientObject.transform.SetParent(transform);
 
-        IngredientObject ingredientObject = obj.GetComponent<IngredientObject>();
-        ingredientObject.ingredient = data;
-        ingredientObject.ChangeState(data.State());
-        ingredientObject.transform.position = transform.position;
+        return ingredientObject;
+    }
+    public static IngredientObject Instantiate(Ingredient data, Vector3 position)
+    {
+        IngredientObject ingredientObject = Instantiate(data);
 
-
+        ingredientObject.transform.position = position;
 
         return ingredientObject;
     }

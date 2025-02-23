@@ -108,6 +108,7 @@ public class IngredientObject : Holdable
     }
     public Sprite GetSprite(IngredientState s, bool b = false)
     {
+
         return s switch
         {
             IngredientState.Raw    => b ? onBurgerRaw : raw,
@@ -137,7 +138,7 @@ public class IngredientObject : Holdable
 
     private void UpdateSprite()
     {
-        GetSprite(ingredient.State(), onBurger);
+        spriteRenderer.sprite = GetSprite(ingredient.State(), onBurger);
     }
     
 }

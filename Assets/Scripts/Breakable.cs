@@ -88,7 +88,6 @@ public class Breakable
         broken = true;
         Createvfx();
         ToggleBreakSound(true);
-        Debug.Log(parent.name + " broke!");
     }
 
     private void Repair(Appliance parent)
@@ -97,7 +96,6 @@ public class Breakable
         breakTimer = -safetyTime; // set to negative safety time so we can reset to 0 for interval checks
         Destroyvfx();
         ToggleBreakSound(false);
-        Debug.Log(parent.name + " repaired!");
     }
     private void Createvfx()
     {

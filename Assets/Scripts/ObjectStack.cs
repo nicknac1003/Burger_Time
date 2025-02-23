@@ -35,9 +35,14 @@ public class ObjectStack : Interactable
     {
         for(int i = 0; i < startingCount; i++)
         {
-            IngredientObject ingredientObject = IngredientObject.Instantiate(ingredient, transform);
-            ingredientObject.transform.localPosition = new Vector3(0, i * spacing, 0);
-            inStack.Add(ingredientObject);
+            AddToStack();
         }
-    } 
+    }
+
+    public void AddToStack() // creates a new object to add to stack
+    {
+        IngredientObject ingredientObject = IngredientObject.Instantiate(ingredient, transform);
+        ingredientObject.transform.localPosition = new Vector3(0, inStack.Count * spacing, 0);
+        inStack.Add(ingredientObject);
+    }
 }

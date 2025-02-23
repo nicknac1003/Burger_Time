@@ -26,6 +26,5 @@ public class RatingUI : MonoBehaviour
     public static void UpdateRating(float rating)
     {
         Instance.mask.padding = new Vector4(0, 0, Instance.width * (1 - rating), 0);
-        Debug.Log("Rating: " + rating + " Width: " + Instance.width + " Padding: " + Instance.mask.padding);
     }
 }

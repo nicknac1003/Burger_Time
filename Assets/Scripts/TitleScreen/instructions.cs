@@ -62,7 +62,7 @@ public class instructions : MonoBehaviour
         {
             nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "Next";
         }
-        if (currentPage <= 5 || currentPage > 11)
+        if (currentPage <= 5 || currentPage > 9)
         {
             grid.SetActive(false);
         }

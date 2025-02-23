@@ -13,7 +13,8 @@ public class Customer : MonoBehaviour
     private Vector3 waitForFoodPosition;
     private bool startedOrdering;
     private float lineOffset;
-    private Vector3 prevFramePos = Vector3.zero;
+    private Vector3 goal;
+    private Vector3 prevGoal;
 
     [SerializeField] private CustomerState debugStateView;
     [SerializeField] private Animator animator;
@@ -46,6 +47,7 @@ public class Customer : MonoBehaviour
             case CustomerState.Entering:
                 // We dont want time to tick up until the customer stops moving and is in line
                 transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+                goal = CustomerManager.Instance.GetSpotInLine(this);
                 if (Vector3.Distance(transform.position, CustomerManager.Instance.GetSpotInLine(this)) < 0.1f)
                 {
                     SetState(CustomerState.WaitingToOrder);
@@ -54,6 +56,7 @@ public class Customer : MonoBehaviour
 
             case CustomerState.WaitingToOrder:
                 transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+                goal = CustomerManager.Instance.GetSpotInLine(this);
                 timeSpentInLine += Time.deltaTime;
                 break;
 
@@ -68,6 +71,7 @@ public class Customer : MonoBehaviour
             case CustomerState.WaitingForFood:
                 timeSpentWaitingForOrder += Time.deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, waitForFoodPosition, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+                goal = waitForFoodPosition;
                 break;
 
             case CustomerState.Eating:
@@ -77,49 +81,64 @@ public class Customer : MonoBehaviour
 
             case CustomerState.Leaving:
                 transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Exit(), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+                goal = CustomerManager.Exit();
                 if (Vector3.Distance(transform.position, CustomerManager.Exit()) < 0.1f)
                 {
                     CustomerManager.Instance.CustomerLeaves(this);
                 }
                 break;
         }
-
         if (timeSpentInLine > CustomerManager.MaxWaitTime() || timeSpentWaitingForOrder > CustomerManager.MaxWaitTime())
         {
             CustomerManager.Instance.CustomerRefusedService(this);
         }
+        AdjustAnimation();
     }
 
     private void AdjustAnimation()
     {
-        Vector2 diff = transform.position - prevFramePos;
-        Direction direction = PlayerController.GetDirection(diff, 0.1f);
-
-        if (direction != Direction.None)
+        Vector2 diff = transform.position - goal;
+        float xDiff = Mathf.Abs(diff.x);
+        float yDiff = Mathf.Abs(diff.y);
+        if (diff.magnitude > 0.1f)
         {
-            animator.SetBool("Walking", true);
-            if (direction == Direction.Left)
+            animator.SetBool("Moving", true);
+            if (prevGoal != goal)
             {
-                animator.SetFloat("xVel", -1);
+                animator.SetTrigger("DirectionChange");
+                if (xDiff > yDiff)
+                {
+                    if (diff.x > 0)
+                    {
+                        animator.SetFloat("xVel", 1);
+                        animator.SetFloat("yVel", 0);
+                    }
+                    else
+                    {
+                        animator.SetFloat("xVel", -1);
+                        animator.SetFloat("yVel", 0);
+                    }
+                }
+                else
+                {
+                    if (diff.y > 0)
+                    {
+                        animator.SetFloat("yVel", -1);
+                        animator.SetFloat("xVel", 0);
+                    }
+                    else
+                    {
+                        animator.SetFloat("yVel", 1);
+                        animator.SetFloat("xVel", 0);
+                    }
+                }
             }
-            else if (direction == Direction.Right)
-            {
-                animator.SetFloat("xVel", 1);
-            }
-            else if (direction == Direction.Up)
-            {
-                animator.SetFloat("yVel", 1);
-            }
-            else if (direction == Direction.Down)
-            {
-                animator.SetFloat("yVel", -1);
-            }
-            prevFramePos = transform.position;
         }
         else
         {
-            animator.SetBool("Walking", false);
+            animator.SetBool("Moving", false);
         }
+        prevGoal = goal;
     }
 
     public float GiveReview()

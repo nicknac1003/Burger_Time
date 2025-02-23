@@ -63,9 +63,6 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: DirectionChange
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
     m_ConditionEvent: Moving
     m_EventTreshold: 0
   - m_ConditionMode: 4
@@ -155,7 +152,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7ccefdacd66962c45b8bf2edfd65e9de, type: 2}
+  m_Motion: {fileID: 7400000, guid: 34f77717fda25014c8d1fa6f40900897, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -182,7 +179,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 686e1356cfa1f554eb91fef348f80ab5, type: 2}
+  m_Motion: {fileID: 7400000, guid: 4310090328567df4a9f91ab0fea416c5, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -427,12 +424,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: DirectionChange
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
   - m_Name: xVel
     m_Type: 1
     m_DefaultFloat: 0
@@ -491,7 +482,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 011eb8b707584804fb5775148b091567, type: 2}
+  m_Motion: {fileID: 7400000, guid: 7dc78cf720752634bb5090a3c678b624, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -518,7 +509,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 06dd2fd945ed2cf4d8228479e523312c, type: 2}
+  m_Motion: {fileID: 7400000, guid: 09ac684d5c9fc52488f329fc0dacf7b1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -532,9 +523,6 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: DirectionChange
-    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Moving
     m_EventTreshold: 0
@@ -589,9 +577,6 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: DirectionChange
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
     m_ConditionEvent: Moving
     m_EventTreshold: 0
   - m_ConditionMode: 3
@@ -631,7 +616,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6c048ef34340d4b43ac280da469f90ee, type: 2}
+  m_Motion: {fileID: 7400000, guid: fbb4485fc03efd24e9f1bb86b36c7e00, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -658,7 +643,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2d12153bac1e48640b5f5985e9c46f14, type: 2}
+  m_Motion: {fileID: 7400000, guid: b2899191479dea349bc49deab7fcff6b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -722,9 +707,6 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: DirectionChange
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
     m_ConditionEvent: Moving
     m_EventTreshold: 0
   - m_ConditionMode: 3
@@ -764,7 +746,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 65dbd019b43c44340a7f319b021c812f, type: 2}
+  m_Motion: {fileID: 7400000, guid: 76241293f5ca07046a54473563ca2d38, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -812,7 +794,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2cfa881cb7dbbdc4fad689842ca1937e, type: 2}
+  m_Motion: {fileID: 7400000, guid: a526d2edaec8c18459e7a8b01b628c5c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

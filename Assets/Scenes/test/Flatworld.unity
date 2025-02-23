@@ -78780,7 +78780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e45c77505a772248b3e99c04e075ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 6
   playerRadius: 0.5
   velocityDecay: 15
   holdAnchor: {fileID: 938113042}

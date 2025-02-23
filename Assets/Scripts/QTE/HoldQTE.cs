@@ -113,7 +113,7 @@ public class HoldQTE : QuickTimeEvent
             PlayProgressSound();
             played75 = true;
         }
-        if (progress / time > 0.99 && !played100)
+        if (progress / time > 0.90 && !played100)
         {
             PlayProgressSound();
             played100 = true;

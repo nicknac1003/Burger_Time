@@ -13,7 +13,7 @@ public abstract class QuickTimeEvent
     [Range(0f, 1f)][SerializeField] private float progressVolume = 0.75f;
 
     [Range(0f, 1f)][SerializeField] private float errorVolume = 0.45f;
-    
+
     protected bool isActive = false;
 
     public QuickTimeEvent(bool locksPlayer = true)
@@ -70,7 +70,7 @@ public abstract class QuickTimeEvent
     {
         if (audioSource == null) return;
         if (progressSounds.Count == 0) return;
-        if (audioSource.isPlaying) return;
+        //if (audioSource.isPlaying) return;
         audioSource.Stop();
     }
     public void PlayErrorSound()

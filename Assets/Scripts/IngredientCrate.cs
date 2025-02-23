@@ -12,7 +12,7 @@ public class IngredientCrate : Interactable
     protected override void OnZ()
     {
         if (PlayerController.HoldingItem()) return;
-
+        PlayerController.LockPlayer();
         IngredientObject ingredient = IngredientObject.Instantiate(new Ingredient(ingredientType, IngredientState.Raw), transform.position);
         ingredient.transform.localScale = new Vector3(ingredientScale, ingredientScale, ingredientScale);
         ingredient.StartMovementAnimation(PlayerController.Instance.holdAnchor.transform, 0.5f, 1f);

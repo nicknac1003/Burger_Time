@@ -29,6 +29,7 @@ public class instructions : MonoBehaviour
             Debug.Log("Return to title screen");
             gameObject.SetActive(false);
             titleScreen.SetActive(true);
+            grid.SetActive(false);
         }
         if (currentPage < pages.Count - 1)
         {
@@ -56,13 +57,17 @@ public class instructions : MonoBehaviour
         if (currentPage == pages.Count - 1)
         {
             nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "Return";
-        } else {
+        }
+        else
+        {
             nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "Next";
         }
-        if (currentPage == 0)
+        if (currentPage <= 5 || currentPage > 11)
         {
             grid.SetActive(false);
-        } else {
+        }
+        else
+        {
             grid.SetActive(true);
         }
     }

@@ -147,6 +147,10 @@ PrefabInstance:
       propertyPath: timeTextShadow
       value: 
       objectReference: {fileID: 866997689}
+    - target: {fileID: 865474330569445239, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
+      propertyPath: dayDurationMinutes
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2311425413845875805, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -76680,6 +76684,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1464096133}
     m_Modifications:
+    - target: {fileID: 1112586260364131653, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 364.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1112586260364131653, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 172.05005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359855992167729157, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 354.0128
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359855992167729157, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 167.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359855992167729157, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867518786718203389, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
+      propertyPath: m_margin.z
+      value: 0.9902344
+      objectReference: {fileID: 0}
+    - target: {fileID: 4118167374672919657, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
+      propertyPath: m_text
+      value: <mspace=mspace=48>9:00AM</mspace>
+      objectReference: {fileID: 0}
     - target: {fileID: 5443393729012449211, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -76763,6 +76795,10 @@ PrefabInstance:
     - target: {fileID: 5584308532844122317, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
       propertyPath: m_Name
       value: Calendar Group
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591822272354581200, guid: a7130185f6ddbfc41946f6c57f8ba0dc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 115
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

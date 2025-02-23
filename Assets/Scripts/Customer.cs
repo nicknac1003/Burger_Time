@@ -17,6 +17,8 @@ public class Customer : MonoBehaviour
     private Vector3 goal;
     private Vector3 prevGoal;
 
+    private BurgerObject burger;
+
     [SerializeField] private CustomerState debugStateView;
     [SerializeField] private Animator animator;
 
@@ -100,7 +102,15 @@ public class Customer : MonoBehaviour
             case CustomerState.Eating:
                 goal = eatFoodPosition;
                 transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
-                if (timeToEatBurger <= 0) SetState(CustomerState.Leaving);
+                if (timeToEatBurger <= 0)
+                {
+                    // destroy burger and return plate to dirty stack
+                    Destroy(burger.gameObject);
+
+                    CustomerManager.ReturnPlate();
+
+                    SetState(CustomerState.Leaving);
+                }
                 timeToEatBurger -= Time.deltaTime;
             break;
 
@@ -163,12 +173,19 @@ public class Customer : MonoBehaviour
         prevGoal = goal;
     }
 
-    public float GiveReview(bool refusedService = false)
+    public float GiveReview()
     {
         float lineSpeed = 1 - timeSpentInLine / CustomerManager.MaxWaitTime();
         float orderSpeed = 1 - timeSpentWaitingForOrder / CustomerManager.MaxWaitTime();
         float normalized = (lineSpeed + orderSpeed) / 2;
         return normalized;
+    }
+
+    public void GrabBurger(BurgerObject newBurger)
+    {
+        burger = newBurger;
+        burger.transform.SetParent(transform);
+        burger.transform.localPosition = new(0f, 1f, 0f);
     }
 
     private IEnumerator PlaceOrder()

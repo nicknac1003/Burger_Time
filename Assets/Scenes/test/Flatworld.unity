@@ -72307,7 +72307,7 @@ MonoBehaviour:
   ingredient:
     type: 6
     state: 1
-  startingCount: 10
+  startingCount: 3
   spacing: 0.125
 --- !u!4 &684334857
 Transform:
@@ -83498,7 +83498,7 @@ MonoBehaviour:
   ingredient:
     type: 6
     state: 0
-  startingCount: 5
+  startingCount: 7
   spacing: 0.125
 --- !u!61 &2141855316
 BoxCollider2D:

@@ -80,13 +80,14 @@ public class ServeStation : Interactable
     public static void PickUpBurger(Customer customer)
     {
         Debug.Log("Burger: " + Instance.burgerToServe + " Customer: " + customer);
+
         if(customer == null || Instance.burgerToServe == null)
         {
             Debug.LogError("Customer is null or no burger to serve");
             return;
         }
-        Instance.burgerToServe.transform.SetParent(customer.transform);
-        Instance.burgerToServe.transform.localPosition = new(0f, 1f, 0f);
+
+        customer.GrabBurger(Instance.burgerToServe);
         Instance.burgerToServe = null;
     }
 }

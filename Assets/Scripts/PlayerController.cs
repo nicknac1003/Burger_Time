@@ -110,10 +110,6 @@ public class PlayerController : MonoBehaviour
         }
 
         UpdateInteract();
-        if (holding != null && Input.GetKeyDown(KeyCode.C))
-        {
-            DestroyItem();
-        }
     }
 
     void FixedUpdate()

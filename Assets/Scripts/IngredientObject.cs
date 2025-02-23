@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -65,17 +66,17 @@ public class IngredientObject : Holdable
     {
         GameObject obj = data.Type() switch
         {
-            IngredientType.Bun     => Instantiate(GlobalConstants.bun.gameObject),
-            IngredientType.Patty   => Instantiate(GlobalConstants.patty.gameObject),
+            IngredientType.Bun => Instantiate(GlobalConstants.bun.gameObject),
+            IngredientType.Patty => Instantiate(GlobalConstants.patty.gameObject),
             IngredientType.Lettuce => Instantiate(GlobalConstants.lettuce.gameObject),
-            IngredientType.Tomato  => Instantiate(GlobalConstants.tomato.gameObject),
-            IngredientType.Cheese  => Instantiate(GlobalConstants.cheese.gameObject),
-            IngredientType.Onion   => Instantiate(GlobalConstants.onion.gameObject),
-            IngredientType.Plate   => Instantiate(GlobalConstants.plate.gameObject),
+            IngredientType.Tomato => Instantiate(GlobalConstants.tomato.gameObject),
+            IngredientType.Cheese => Instantiate(GlobalConstants.cheese.gameObject),
+            IngredientType.Onion => Instantiate(GlobalConstants.onion.gameObject),
+            IngredientType.Plate => Instantiate(GlobalConstants.plate.gameObject),
             _ => null
         };
 
-        if(obj == null)
+        if (obj == null)
         {
             Debug.LogError("Could not instantiate " + data + ". Does the ingredient exist in Resources/Ingredients? Is it being loaded in GlobalConstants?");
             return null;
@@ -87,22 +88,51 @@ public class IngredientObject : Holdable
 
         return ingredientObject;
     }
+    public static IngredientObject Instantiate(Ingredient data, Transform transform)
+    {
+        GameObject obj = data.Type() switch
+        {
+            IngredientType.Bun => Instantiate(GlobalConstants.bun.gameObject),
+            IngredientType.Patty => Instantiate(GlobalConstants.patty.gameObject),
+            IngredientType.Lettuce => Instantiate(GlobalConstants.lettuce.gameObject),
+            IngredientType.Tomato => Instantiate(GlobalConstants.tomato.gameObject),
+            IngredientType.Cheese => Instantiate(GlobalConstants.cheese.gameObject),
+            IngredientType.Onion => Instantiate(GlobalConstants.onion.gameObject),
+            IngredientType.Plate => Instantiate(GlobalConstants.plate.gameObject),
+            _ => null
+        };
 
-    public IngredientType  Type()  => ingredient.Type();
+        if (obj == null)
+        {
+            Debug.LogError("Could not instantiate " + data + ". Does the ingredient exist in Resources/Ingredients? Is it being loaded in GlobalConstants?");
+            return null;
+        }
+
+        IngredientObject ingredientObject = obj.GetComponent<IngredientObject>();
+        ingredientObject.ingredient = data;
+        ingredientObject.ChangeState(data.State());
+        ingredientObject.transform.position = transform.position;
+
+
+
+        return ingredientObject;
+    }
+
+    public IngredientType Type() => ingredient.Type();
     public IngredientState State() => ingredient.State();
-    public Ingredient      GetIngredient() => ingredient;
+    public Ingredient GetIngredient() => ingredient;
 
     public static Sprite GetSprite(IngredientType t, IngredientState s)
     {
         return t switch
         {
-            IngredientType.Bun     => GlobalConstants.bun.GetSprite(s),
-            IngredientType.Patty   => GlobalConstants.patty.GetSprite(s),
+            IngredientType.Bun => GlobalConstants.bun.GetSprite(s),
+            IngredientType.Patty => GlobalConstants.patty.GetSprite(s),
             IngredientType.Lettuce => GlobalConstants.lettuce.GetSprite(s),
-            IngredientType.Tomato  => GlobalConstants.tomato.GetSprite(s),
-            IngredientType.Cheese  => GlobalConstants.cheese.GetSprite(s),
-            IngredientType.Onion   => GlobalConstants.onion.GetSprite(s),
-            IngredientType.Plate   => GlobalConstants.plate.GetSprite(s),
+            IngredientType.Tomato => GlobalConstants.tomato.GetSprite(s),
+            IngredientType.Cheese => GlobalConstants.cheese.GetSprite(s),
+            IngredientType.Onion => GlobalConstants.onion.GetSprite(s),
+            IngredientType.Plate => GlobalConstants.plate.GetSprite(s),
             _ => null,
         };
     }
@@ -110,9 +140,9 @@ public class IngredientObject : Holdable
     {
         return s switch
         {
-            IngredientState.Raw    => raw,
+            IngredientState.Raw => raw,
             IngredientState.Cooked => cooked,
-            IngredientState.Burnt  => burnt,
+            IngredientState.Burnt => burnt,
             _ => null,
         };
     }
@@ -137,7 +167,7 @@ public class IngredientObject : Holdable
 
     private void UpdateSprite()
     {
-        switch(ingredient.State())
+        switch (ingredient.State())
         {
             case IngredientState.Raw:
                 spriteRenderer.sprite = onBurger ? onBurgerRaw : raw;
@@ -150,7 +180,34 @@ public class IngredientObject : Holdable
                 break;
         }
     }
-    
+
+    public void StartMovementAnimation(Transform target, float duration, float arcHeight)
+    {
+        StartCoroutine(MoveToTarget(target, duration, arcHeight));
+    }
+    IEnumerator MoveToTarget(Transform target, float duration, float arcHeight)
+    {
+        Vector3 startPosition = transform.position;
+        Vector3 endPosition = target.position;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+
+            // Calculate arc movement if arcHeight is specified
+            float height = arcHeight * Mathf.Sin(t * Mathf.PI);
+            Vector3 currentPos = Vector3.Lerp(startPosition, endPosition, t);
+            currentPos.y += height;
+
+            transform.position = currentPos;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPosition;
+    }
+
 }
 
 [System.Serializable]
@@ -159,17 +216,17 @@ public class Ingredient
     public static int ingredientCount = System.Enum.GetValues(typeof(IngredientType)).Length;
     public static List<IngredientType> ingredientList = System.Enum.GetValues(typeof(IngredientType)).Cast<IngredientType>().ToList();
 
-    [SerializeField] private IngredientType  type;
+    [SerializeField] private IngredientType type;
     [SerializeField] private IngredientState state;
 
     public Ingredient(IngredientType t, IngredientState s)
     {
-        type  = t;
+        type = t;
         state = s;
     }
 
     public IngredientState State() => state;
-    public IngredientType  Type()  => type;
+    public IngredientType Type() => type;
 
     public Sprite GetSprite()
     {
@@ -192,9 +249,9 @@ public class Ingredient
 
     public override bool Equals(object other)
     {
-        if(ReferenceEquals(this, other)) return true;
+        if (ReferenceEquals(this, other)) return true;
 
-        if(other == null || other is not Ingredient) return false;
+        if (other == null || other is not Ingredient) return false;
 
         Ingredient comp = (Ingredient)other;
 

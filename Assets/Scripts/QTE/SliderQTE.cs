@@ -195,6 +195,8 @@ public class SliderQTE : QuickTimeEvent
     public override void EndQTE(Interactable parent)
     {
         parent.ResetInteracts();
+
+        isActive = false;
         ResetTimer();
         DestroyUI();
     }

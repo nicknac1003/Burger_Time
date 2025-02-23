@@ -14,6 +14,7 @@ public abstract class QuickTimeEvent
     [Range(0f, 1f)]
     [SerializeField]
     private float errorVolume = 0.45f;
+    protected bool isActive = false;
 
     public QuickTimeEvent(bool locksPlayer = true)
     {
@@ -38,8 +39,10 @@ public abstract class QuickTimeEvent
     /// </returns>
     public float QTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        float score = PerformQTE(zPressed, xPressed, cPressed, moveInput, parent);
+        if (!isActive && !zPressed) return 0f;
+        if (!isActive && zPressed) isActive = true;
 
+        float score = PerformQTE(zPressed, xPressed, cPressed, moveInput, parent);
         if (locksPlayerInPlace)
         {
             if (InProgress())
@@ -48,8 +51,7 @@ public abstract class QuickTimeEvent
             }
             else
             {
-                //Debug.Log($"QTE performed by: {parent.gameObject.name}");
-                //PlayerController.UnlockPlayer();
+                PlayerController.UnlockPlayer();
             }
         }
 

@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour
     }
     public static void UnlockPlayer()
     {
-        Debug.Log("Unlocking player");
         if (Instance.lockedInPlace == false) return;
         Instance.lockedInPlace = false;
         Instance.lockedLastDirection = Instance.wishDirection;

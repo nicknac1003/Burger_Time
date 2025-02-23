@@ -30,13 +30,10 @@ public class CringeAppliance : Appliance
 
     protected override void OnZ()
     {
-        Debug.Log("OnZ");
         if (!QTEInProgress)
         {
-            Debug.Log("Not in QTE");
             if (PlayerController.HoldingItem())
             {
-                Debug.Log("Player holding item");
                 if (PlaceItem(PlayerController.GetItem()))
                 {
                     // visual feedback for placing item?
@@ -44,10 +41,8 @@ public class CringeAppliance : Appliance
             }
             else
             {
-                Debug.Log("Player not holding item");
                 if (holdable != null && holdable is IngredientObject ig)
                 {
-                    Debug.Log("Holdable is ingredient object");
                     if (ig.State() == IngredientState.Cooked) TakeItem();
                     else QTEInProgress = true;
                 }

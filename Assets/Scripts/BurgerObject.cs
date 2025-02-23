@@ -61,7 +61,6 @@ public class BurgerObject : Holdable
         else
         {
             int index = ingredientsOnBurger.Count==0? 0: burger.Contains(new Ingredient(IngredientType.Bun, IngredientState.Cooked))?ingredientsOnBurger.Count - 1: ingredientsOnBurger.Count;
-            Debug.Log("Index: " + index);
             ingredientsOnBurger.Insert(index, ingredientObj); // Add ingredient before top bun
         }
 
@@ -69,7 +68,6 @@ public class BurgerObject : Holdable
         ingredientObj.transform.SetParent(transform);
         ingredientObj.transform.localScale = new Vector3(1f, 1f, 1f);
 
-        Debug.Log("Adding " + ingredientObj + " to " + this);
         burger.Add(ingredient);
 
         UpdateBurger();

@@ -14,7 +14,6 @@ public class FireExtinguisher: Holdable {
         hitbox = GetComponent<Collider2D>();
     }
     public void Taken(){
-        Debug.Log("Taken");
         held = true;
         hitbox.enabled = false;
         spriteRenderer.sortingOrder = 3;

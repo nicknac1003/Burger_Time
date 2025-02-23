@@ -32,7 +32,6 @@ public class Stove : Appliance
 
     public void Cooking()
     {
-        Debug.Log("cooking");
         IngredientObject patty = holdable as IngredientObject;
         if (patty.Type() != IngredientType.Patty) return;
 
@@ -68,10 +67,8 @@ public class Stove : Appliance
     public void PlayClip(bool force)
     {
         if (audioSource == null || cookingClip == null) return;
-        Debug.Log("Playing");
         if (force)
         {
-            Debug.Log("Forcing");
             audioSource.Stop();
             audioSource.Play();
         }

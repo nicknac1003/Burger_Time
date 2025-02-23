@@ -43,18 +43,10 @@ public class Storage : Interactable
 
     protected virtual bool PlaceItem(Holdable item)
     {
-        Debug.Log("Trying to place item in " + name);
-
         if (holdable != null) return false;
 
         if (item is IngredientObject ingredientObject)
         {
-            Debug.Log("Item is ingredient object");
-
-            if(acceptedHoldables.Count > 0) Debug.Log("Holdables are restricted.");
-            if(acceptedHoldables.Contains(ingredientObject.Type())) Debug.Log("Item is an accepted holdable.");
-            if(acceptedStates.Contains(ingredientObject.State())) Debug.Log("Item is in an accepted state.");
-
             if (acceptedHoldables.Count > 0 && (!acceptedHoldables.Contains(ingredientObject.Type()) || !acceptedStates.Contains(ingredientObject.State()))) return false;
             if (acceptedHoldables.Count > 0 && !acceptedHoldables.Contains(ingredientObject.Type()))
                 return false;
@@ -69,8 +61,6 @@ public class Storage : Interactable
         holdable.transform.localPosition = Vector3.zero;
         PlayerController.SetHolding(null);
 
-        Debug.Log("Placed " + holdable.name + " in " + name);
-
         return true;
     }
 
@@ -80,7 +70,6 @@ public class Storage : Interactable
         if (PlayerController.HoldingItem()) return false;
         if (PlayerController.GrabItem(holdable) == false) return false;
         if (holdable is FireExtinguisher fe) fe.Taken();
-        Debug.Log("Took " + holdable.name + " from " + name);
 
         holdable = null;
 

@@ -5,16 +5,16 @@ public class WindmillQTE : QuickTimeEvent
     [Tooltip("The number of times the player has to press Up, Right, Down, Left in order.")]
     [Range(1, 10)][SerializeField] private int revolutions = 3;
 
-    private GameObject     fillBarInstance;
+    private GameObject fillBarInstance;
     private SpriteRenderer fillBarSpriteRenderer;
 
-    private GameObject    keyUp;
+    private GameObject keyUp;
     private UIKeyAnimator keyUpAnimator;
-    private GameObject    keyRight;
+    private GameObject keyRight;
     private UIKeyAnimator keyRightAnimator;
-    private GameObject    keyDown;
+    private GameObject keyDown;
     private UIKeyAnimator keyDownAnimator;
-    private GameObject    keyLeft;
+    private GameObject keyLeft;
     private UIKeyAnimator keyLeftAnimator;
 
     private enum Direction { Up, Right, Down, Left, None };
@@ -36,30 +36,30 @@ public class WindmillQTE : QuickTimeEvent
 
     protected override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
-        if(xPressed)
+        if (xPressed)
         {
             EndQTE(parent);
             return 0f;
         }
 
-        if(zPressed)
+        if (zPressed)
         {
-            if(mashProgress < 0)
+            if (mashProgress < 0)
             {
                 StartQTE(parent);
             }
         }
 
-        if(cPressed)
+        if (cPressed)
         {
-            if(mashProgress < 0)
+            if (mashProgress < 0)
             {
                 // Player is taking item out of Appliance before QTE starts
                 return 0f;
             }
         }
 
-        if(InProgress() == false)
+        if (InProgress() == false)
         {
             float score = mashProgress >= mashCount ? 1f : 0f;
             EndQTE(parent);
@@ -68,73 +68,73 @@ public class WindmillQTE : QuickTimeEvent
 
         Direction direction = GetDirection(moveInput);
 
-        switch(nextDirection)
+        switch (nextDirection)
         {
             case Direction.Up:
-            {
-                if(direction == Direction.Up)
                 {
-                    nextDirection = Direction.Right;
-                    mashProgress++;
+                    if (direction == Direction.Up)
+                    {
+                        nextDirection = Direction.Right;
+                        mashProgress++;
+                    }
+                    else
+                    {
+                        keyUpAnimator.PushKey(GlobalConstants.alternateAnimationTime);
+                        keyRightAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                        keyDownAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                        keyLeftAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                    }
+                    break;
                 }
-                else
-                {
-                    keyUpAnimator.PushKey(GlobalConstants.alternateAnimationTime);
-                    keyRightAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    keyDownAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    keyLeftAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                }
-                break;
-            }
             case Direction.Right:
-            {
-                if(direction == Direction.Right)
                 {
-                    nextDirection = Direction.Down;
-                    mashProgress++;
+                    if (direction == Direction.Right)
+                    {
+                        nextDirection = Direction.Down;
+                        mashProgress++;
+                    }
+                    else
+                    {
+                        keyUpAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                        keyRightAnimator.PushKey(GlobalConstants.alternateAnimationTime);
+                        keyDownAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                        keyLeftAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                    }
+                    break;
                 }
-                else
-                {
-                    keyUpAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    keyRightAnimator.PushKey(GlobalConstants.alternateAnimationTime);
-                    keyDownAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    keyLeftAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                }
-                break;
-            }
             case Direction.Down:
-            {
-                if(direction == Direction.Down)
                 {
-                    nextDirection = Direction.Left;
-                    mashProgress++;
+                    if (direction == Direction.Down)
+                    {
+                        nextDirection = Direction.Left;
+                        mashProgress++;
+                    }
+                    else
+                    {
+                        keyUpAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                        keyRightAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                        keyDownAnimator.PushKey(GlobalConstants.alternateAnimationTime);
+                        keyLeftAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+
+                    }
+                    break;
                 }
-                else
-                {
-                    keyUpAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    keyRightAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    keyDownAnimator.PushKey(GlobalConstants.alternateAnimationTime);
-                    keyLeftAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    
-                }
-                break;
-            }
             case Direction.Left:
-            {
-                if(direction == Direction.Left)
                 {
-                    nextDirection = Direction.Up;
-                    mashProgress++;
+                    if (direction == Direction.Left)
+                    {
+                        nextDirection = Direction.Up;
+                        mashProgress++;
+                    }
+                    else
+                    {
+                        keyUpAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                        keyRightAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                        keyDownAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
+                        keyLeftAnimator.PushKey(GlobalConstants.alternateAnimationTime);
+                    }
+                    break;
                 }
-                else
-                {
-                    keyUpAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    keyRightAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    keyDownAnimator.ReleaseKey(GlobalConstants.alternateAnimationTime);
-                    keyLeftAnimator.PushKey(GlobalConstants.alternateAnimationTime);
-                }
-                break;
-            }
         }
 
         float progress = mashProgress / (float)mashCount;
@@ -183,10 +183,10 @@ public class WindmillQTE : QuickTimeEvent
     }
     protected override void DestroyUI()
     {
-        if(fillBarInstance == null) return;
+        if (fillBarInstance == null) return;
 
         Object.Destroy(fillBarInstance);
-        fillBarInstance       = null;
+        fillBarInstance = null;
         fillBarSpriteRenderer = null;
     }
 
@@ -195,21 +195,22 @@ public class WindmillQTE : QuickTimeEvent
         CreateUI(parent.transform);
         StartMashing();
         nextDirection = Direction.Up;
-        mashCount     = revolutions * 4;
+        mashCount = revolutions * 4;
     }
     public override void EndQTE(Interactable parent)
     {
         parent.ResetInteracts();
+        isActive = false;
         ResetMashing();
         DestroyUI();
     }
 
     private Direction GetDirection(Vector2 moveInput)
     {
-        if(moveInput.sqrMagnitude <= 0.25)                return Direction.None;
-        if(Vector2.Angle(Vector2.up,    moveInput) <= 45) return Direction.Up;
-        if(Vector2.Angle(Vector2.right, moveInput) <= 45) return Direction.Right;
-        if(Vector2.Angle(Vector2.down,  moveInput) <= 45) return Direction.Down;
+        if (moveInput.sqrMagnitude <= 0.25) return Direction.None;
+        if (Vector2.Angle(Vector2.up, moveInput) <= 45) return Direction.Up;
+        if (Vector2.Angle(Vector2.right, moveInput) <= 45) return Direction.Right;
+        if (Vector2.Angle(Vector2.down, moveInput) <= 45) return Direction.Down;
         return Direction.Left;
     }
 }

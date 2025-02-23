@@ -151,6 +151,7 @@ public class HoldQTE : QuickTimeEvent
     public override void EndQTE(Interactable parent)
     {
         parent.ResetInteracts();
+        isActive = false;
         ResetProgress();
         DestroyUI();
     }

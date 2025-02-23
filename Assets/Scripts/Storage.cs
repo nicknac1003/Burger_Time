@@ -57,7 +57,7 @@ public class Storage : Interactable
         return true;
     }
 
-    private bool TakeItem()
+    protected virtual bool TakeItem()
     {
         if (holdable == null) return false;
         if (PlayerController.HoldingItem()) return false;

@@ -102,6 +102,7 @@ public class MashQTE : QuickTimeEvent
     {
         parent.ResetInteracts();
         ResetMashing();
+        isActive = false;
         DestroyUI();
     }
 }

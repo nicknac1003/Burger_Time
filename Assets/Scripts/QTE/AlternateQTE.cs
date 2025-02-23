@@ -141,6 +141,7 @@ public class AlternateQTE : QuickTimeEvent
     public override void EndQTE(Interactable parent)
     {
         parent.ResetInteracts();
+        isActive = false;
         ResetMashing();
         DestroyUI();
     }

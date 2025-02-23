@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
     {
         gameEnded = true;
         Time.timeScale = 0f;
-        MusicPlayer.ToggleMusic();
+        Jukebox.ToggleMusic();
         MusicPlayer.SetOn(false);
         MainGameUI.SetActive(false);
         SetEndText();

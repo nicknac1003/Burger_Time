@@ -48,7 +48,6 @@ public class Jukebox : Interactable
 
     protected override void OnZ()
     {
-        Debug.Log("Jukebox was interacted with");
         // Play the current clip
         ToggleMusic();
     }

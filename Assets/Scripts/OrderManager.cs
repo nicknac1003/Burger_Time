@@ -95,7 +95,6 @@ public class OrderManager : MonoBehaviour
     {
         for(int i = 0; i < Instance.tickets.Count; i++)
         {
-            Debug.Log("Comparing " + Instance.tickets[i].GetOrder() + " to " + order);
             if(Instance.tickets[i].GetOrder() == order)
             {
                 return Instance.tickets[i];

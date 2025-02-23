@@ -307,7 +307,7 @@ MonoBehaviour:
   minBurgerTime: 20
   maxBurgerTime: 40
   customerMoveSpeed: 4
-  maxWaitTime: 60
+  maxWaitTime: 45
   requestIngredientTime: 0.75
   maxToppings: 8
   lineDebugView: []

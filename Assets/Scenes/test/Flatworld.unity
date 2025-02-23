@@ -83858,10 +83858,6 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
-      propertyPath: maxWaitTime
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: pickupPoint
       value: 
       objectReference: {fileID: 1980827876}

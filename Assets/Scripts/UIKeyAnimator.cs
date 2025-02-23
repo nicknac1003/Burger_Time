@@ -16,6 +16,7 @@ public class UIKeyAnimator : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.sprite = key.GetSprite(state);
+        spriteRenderer.sortingOrder = 10;
     }
 
     public void Init(UIKey inKey, KeyState initialState)

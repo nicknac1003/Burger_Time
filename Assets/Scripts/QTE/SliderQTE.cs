@@ -147,7 +147,7 @@ public class SliderQTE : QuickTimeEvent
         sliderArrowInstance = Object.Instantiate(GlobalConstants.sliderArrow, sliderBarInstance.transform);
         Vector2 arrowSpriteSize = sliderArrowInstance.GetComponent<SpriteRenderer>().sprite.rect.size;
         sliderArrowInstance.transform.position = sliderBarInstance.transform.position + new Vector3(GlobalConstants.pixelWorldSize * -31, 0f, 0f);
-        sliderArrowInstance.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        sliderArrowInstance.GetComponent<SpriteRenderer>().sortingOrder = 11;
 
         arrowStartPosition = sliderArrowInstance.transform.position;
 
@@ -156,6 +156,7 @@ public class SliderQTE : QuickTimeEvent
         sliderTargetEnd = Mathf.Clamp(sliderTargetEnd, 1, 60);
 
         SpriteRenderer sliderSpriteRenderer = sliderBarInstance.GetComponent<SpriteRenderer>();
+        sliderSpriteRenderer.sortingOrder = 10;
         sliderSpriteRenderer.material = new Material(sliderSpriteRenderer.material);
         sliderSpriteRenderer.material.SetFloat("_targetStartPosition", sliderTargetStart);
         sliderSpriteRenderer.material.SetFloat("_targetEndPosition", sliderTargetEnd);
@@ -165,7 +166,7 @@ public class SliderQTE : QuickTimeEvent
         keyZ = new GameObject("KeyZ");
         keyZ.transform.parent = sliderBarInstance.transform;
         float xPos = GlobalConstants.pixelWorldSize * (targetPosition - 28);
-        keyZ.transform.localPosition = new Vector3(xPos, 0.4f, 0f); // instantiate over target position
+        keyZ.transform.localPosition = new Vector3(xPos, 0.75f, 0f); // instantiate over target position
         keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
         keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Up);
     }

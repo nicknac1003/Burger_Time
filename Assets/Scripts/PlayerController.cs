@@ -273,4 +273,13 @@ public class PlayerController : MonoBehaviour
         animator.SetInteger("Direction", dir);
     }
 
+    public static Direction GetDirection(Vector2 moveInput, float squaredThreshold = 0.25f)
+    {
+        if (moveInput.sqrMagnitude <= squaredThreshold) return Direction.None;
+        if (Vector2.Angle(Vector2.up, moveInput) <= 45) return Direction.Up;
+        if (Vector2.Angle(Vector2.right, moveInput) <= 45) return Direction.Right;
+        if (Vector2.Angle(Vector2.down, moveInput) <= 45) return Direction.Down;
+        return Direction.Left;
+    }
+
 }

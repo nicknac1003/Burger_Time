@@ -79,7 +79,8 @@ public class Storage : Interactable
         if (holdable is IngredientObject ingredient1 && playerHolding is IngredientObject ingredient2 && canHoldBurgers)
         {
             GameObject gameObject = new GameObject("Burger", typeof(BurgerObject));
-            gameObject.transform.position = anchor.position;
+            gameObject.transform.SetParent(anchor);
+            gameObject.transform.localPosition = Vector3.zero;
             BurgerObject newBurger = gameObject.GetComponent<BurgerObject>();
             if (newBurger.Add(ingredient1) && newBurger.Add(ingredient2))
             {

@@ -258,7 +258,7 @@ SortingGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3646981617563563805}
-  m_Enabled: 1
+  m_Enabled: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
@@ -277,6 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemVFX: {fileID: 0}
   hitbox: {fileID: 5430179228012107445}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &3934128371152782836
 GameObject:
   m_ObjectHideFlags: 0

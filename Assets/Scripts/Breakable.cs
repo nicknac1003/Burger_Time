@@ -70,7 +70,8 @@ public class Breakable
             return;
         }
 
-        if( (requireHoldable &&requiredHoldable != null && PlayerController.GetItem() == requiredHoldable) || !requireHoldable){
+        if( (requireHoldable && requiredHoldable != null && PlayerController.GetItem() == requiredHoldable) || !requireHoldable){
+            Debug.Log("QTE");
             if(repairQTE.QTE(pressed, false, false, Vector2.zero, parent) > 0f)
             {
                 Repair(parent);
@@ -106,4 +107,7 @@ public class Breakable
         Object.Destroy(vfxInScene.gameObject);
         vfxInScene = null;
     }
+
+    public void SetRequiredHoldable(Holdable holdable) => requiredHoldable = holdable;
+
 }

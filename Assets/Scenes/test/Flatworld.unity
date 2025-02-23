@@ -10871,6 +10871,10 @@ PrefabInstance:
       propertyPath: cookingClip
       value: 
       objectReference: {fileID: 8300000, guid: 69e4033b85576694ab299ecf559267da, type: 3}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: breakable.requiredHoldable
+      value: 
+      objectReference: {fileID: 1414485661}
     - target: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: m_Name
       value: Stove3
@@ -10880,6 +10884,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+--- !u!1 &467375217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+  m_PrefabInstance: {fileID: 789720936}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &481791498 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8668060042612286937, guid: e5c42aaaf64980e4c8540cb6b023a9cf, type: 3}
@@ -10941,6 +10950,10 @@ PrefabInstance:
       propertyPath: cookingClip
       value: 
       objectReference: {fileID: 8300000, guid: 69e4033b85576694ab299ecf559267da, type: 3}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: breakable.requiredHoldable
+      value: 
+      objectReference: {fileID: 1414485661}
     - target: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: m_Name
       value: Stove4
@@ -72028,6 +72041,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: breakable.requiredHoldable
+      value: 
+      objectReference: {fileID: 1414485661}
     - target: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: m_Name
       value: Stove1
@@ -76414,6 +76431,10 @@ PrefabInstance:
       propertyPath: cookingClip
       value: 
       objectReference: {fileID: 8300000, guid: 69e4033b85576694ab299ecf559267da, type: 3}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: breakable.requiredHoldable
+      value: 
+      objectReference: {fileID: 1414485661}
     - target: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: m_Name
       value: Stove2
@@ -77472,6 +77493,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1401375668}
   m_CullTransparentMesh: 1
+--- !u!114 &1414485661 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4025663937910472906, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+  m_PrefabInstance: {fileID: 7151834742013487512}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e22f170072ba149a558eafbdb39caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1464096132
 GameObject:
   m_ObjectHideFlags: 0
@@ -78270,6 +78302,11 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &1664111993 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+  m_PrefabInstance: {fileID: 502723460}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1678162828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78627,6 +78664,11 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
+--- !u!1 &1811809774 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+  m_PrefabInstance: {fileID: 444211900}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1819513376
 GameObject:
   m_ObjectHideFlags: 0
@@ -79615,6 +79657,11 @@ Transform:
   - {fileID: 1027744735}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1924025700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+  m_PrefabInstance: {fileID: 1009794158}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1925342190
 GameObject:
   m_ObjectHideFlags: 0
@@ -82242,6 +82289,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: cookingClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 69e4033b85576694ab299ecf559267da, type: 3}
+    - target: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: m_Name
+      value: Stove1
+      objectReference: {fileID: 0}
     - target: {fileID: 8630777521895514013, guid: f692edf24d9034649ad31ecce8025927, type: 3}
       propertyPath: m_Name
       value: Order Station
@@ -82285,18 +82344,6 @@ PrefabInstance:
     - target: {fileID: 8707393419364661499, guid: f692edf24d9034649ad31ecce8025927, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
-      propertyPath: cookingClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 69e4033b85576694ab299ecf559267da, type: 3}
-    - target: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
-      propertyPath: m_Name
-      value: Stove1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -82354,6 +82401,50 @@ PrefabInstance:
     - target: {fileID: 1140171990406829590, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
       propertyPath: m_Name
       value: FireExtinguisherSpot
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: stoves.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: 'stoves.Array.data[0]'
+      value: 
+      objectReference: {fileID: 467375217}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: 'stoves.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1924025700}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: 'stoves.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1811809774}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: 'stoves.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1664111993}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: stoves.Array.data[0].canBreak
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: stoves.Array.data[0].repairQTE
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: stoves.Array.data[1].repairQTE
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: stoves.Array.data[2].repairQTE
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419443110905408885, guid: c4be748e9d793b9438c16391ea68ed50, type: 3}
+      propertyPath: stoves.Array.data[3].repairQTE
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

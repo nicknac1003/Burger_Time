@@ -15,6 +15,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private Transform pickupPoint;
     [SerializeField] private BoxCollider2D waitingArea;
     [SerializeField] private BoxCollider2D eatingArea;
+    [SerializeField] private ObjectStack returnPlateStack;
     [SerializeField] private int maxLineLength;
     [SerializeField] private float lineSpacing;
     [SerializeField] private int maxCapacity;
@@ -41,6 +42,8 @@ public class CustomerManager : MonoBehaviour
     public static float RequestTime() => Instance.requestIngredientTime;
     public static int MaxToppings() => Instance.maxToppings;
     public static int Customers() => Instance.customerCount;
+
+    public static void ReturnPlate() => Instance.returnPlateStack.AddToStack();
 
     public List<Customer> lineDebugView;
 
@@ -123,6 +126,8 @@ public class CustomerManager : MonoBehaviour
 
         if (state == CustomerState.WaitingToOrder) line.Remove(customer);
         if (state == CustomerState.WaitingForFood) OrderManager.RemoveTicket(OrderManager.FindTicket(customer));
+
+        GameManager.WelpReview(customer, 0f);
 
         customer.SetState(CustomerState.Leaving);
     }

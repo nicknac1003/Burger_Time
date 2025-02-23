@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
 
     public float initialRating = 5f;
     private float rating;
-    public float ratingScale = 0.3f;
 
     public TextMeshProUGUI dayText;
     public TextMeshProUGUI dayTextShadow;
@@ -34,9 +33,16 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timeTextShadow;
 
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject MainGameUI;
+    [SerializeField] private GameObject GameOverUI;
+    [SerializeField] private TextMeshProUGUI daysLastedText;
+    [SerializeField] private Jukebox MusicPlayer;
     private bool paused = false;
 
+    private bool gameEnded = false;
+
     public static bool GamePaused() => Instance.paused;
+    public static bool GameEnded() => Instance.gameEnded;
     public static int GetHour() => Instance.currentHour;
     public static float GetHourCompletion() => Instance.currentMinute / 60f;
     public static int GetDay() => Instance.day;
@@ -64,10 +70,12 @@ public class GameManager : MonoBehaviour
         currentHour = startHour;
         currentMinute = startMinute;
         rating = initialRating;
+        RatingUI.UpdateRating(rating / 5f);
     }
 
     void Update()
     {
+        if (gameEnded) return;
         elapsedTime += Time.deltaTime;
         totalMinutes = elapsedTime / dayDuration * (endHour * 60f + endMinute - (startHour * 60f + startMinute)); // 1440 minutes in a day
         currentHour = startHour + Mathf.FloorToInt((totalMinutes + startMinute) / 60f);
@@ -77,6 +85,10 @@ public class GameManager : MonoBehaviour
         if (Open() == false && CustomerManager.Customers() == 0)
         {
             EndDay();
+        }
+        if (rating <= 0f && !gameEnded)
+        {
+            EndGame();
         }
     }
 
@@ -191,16 +203,55 @@ public class GameManager : MonoBehaviour
 
         text.color = new Color(color.r, color.g, color.b, endAlpha);
     }
-    public static void WelpReview(float review)
-    {
-        float mid = 2.5f;
-        float diff = review - mid;
-        float scaledDiff = diff / (1 + Mathf.Abs(diff));
-        Debug.Log(scaledDiff);
-        Instance.rating += scaledDiff * Instance.ratingScale;
-        Instance.rating = Mathf.Clamp(Instance.rating, 0f, Instance.initialRating);
-        Debug.Log("Rating: " + Instance.rating);
 
+    public static void WelpReview(Customer customer, float review)
+    {
+        Instantiate(GlobalConstants.reviewPopup, customer.transform.position, Quaternion.identity).GetComponent<RatingPopup>().SetRating(review);
+        
+        float diff       = review - 2.5f;
+        float scaledDiff = diff / (1 + Mathf.Abs(diff));
+        Instance.rating += scaledDiff * 1.4f; // 0 = -1 star, 5 = +1 star
+        Instance.rating  = Mathf.Clamp(Instance.rating, 0f, Instance.initialRating);
+
+        RatingUI.UpdateRating(Instance.rating / 5f); // normalize for the rating bar
+    }
+    private void EndGame()
+    {
+        gameEnded = true;
+        Time.timeScale = 0f;
+        MusicPlayer.ToggleMusic();
+        MusicPlayer.SetOn(false);
+        MainGameUI.SetActive(false);
+        SetEndText();
+        //fade in game over screen
+        StartCoroutine(FadeInGameOverUI());
+    }
+    private IEnumerator FadeInGameOverUI()
+    {
+        CanvasGroup canvasGroup = GameOverUI.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            yield break;
+        }
+
+        GameOverUI.SetActive(true);
+        float duration = 1f; // Duration of the fade-in
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.unscaledDeltaTime; // Use unscaled time to keep the fade effect working even when Time.timeScale is 0
+            canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / duration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 1f;
+
+    }
+    private void SetEndText()
+    {
+        string newText = "Lost on Day: " + day;
+        daysLastedText.text = newText;
     }
 }
 

@@ -14,11 +14,10 @@ public class FireExtinguisher: Holdable {
         spriteRenderer.sortingOrder = 3;
     }
 
-    public void Dropped(){
-        Debug.Log("Dropped");
+    public void Dropped(Storage storage){
         held = false;
-        hitbox.enabled = true;
         spriteRenderer.sortingOrder = 2;
+        if (storage.name == "FireExtinguisherSpot") hitbox.enabled = true;
     }
 
 }

@@ -59,6 +59,7 @@ public class Stove : Appliance
     protected override bool TakeItem()
     {
         if (holdable == null) return false;
+        if (!working) return false;
         if (PlayerController.HoldingItem()) return false;
         if (PlayerController.GrabItem(holdable) == false) return false;
         Debug.Log("Took " + holdable.name + " from " + name);

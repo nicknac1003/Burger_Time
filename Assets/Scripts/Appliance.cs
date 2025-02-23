@@ -19,4 +19,16 @@ public class Appliance : Storage
             working = breakable.IsBroken() == false;
         }
     }
+    protected override bool TakeItem()
+    {
+        if (!working) return false;
+
+        return base.TakeItem();
+    }
+    protected override bool PlaceItem(Holdable item)
+    {
+        if (!working) return false;
+
+        return base.PlaceItem(item);
+    }
 }

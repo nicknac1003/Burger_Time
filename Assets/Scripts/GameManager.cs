@@ -29,23 +29,25 @@ public class GameManager : MonoBehaviour
     public float ratingScale = 0.3f;
 
     public TextMeshProUGUI dayText;
+    public TextMeshProUGUI dayTextShadow;
     public TextMeshProUGUI timeText;
+    public TextMeshProUGUI timeTextShadow;
 
     [SerializeField] private GameObject pauseMenu;
     private bool paused = false;
 
-    public static bool  GamePaused()        => Instance.paused;
-    public static int   GetHour()           => Instance.currentHour;
+    public static bool GamePaused() => Instance.paused;
+    public static int GetHour() => Instance.currentHour;
     public static float GetHourCompletion() => Instance.currentMinute / 60f;
-    public static int   GetDay()            => Instance.day;
-    public static bool  Open()              => BetweenTimes(Instance.currentHour, Instance.currentMinute, Instance.startHour, Instance.startMinute, Instance.endHour, Instance.endMinute);
+    public static int GetDay() => Instance.day;
+    public static bool Open() => BetweenTimes(Instance.currentHour, Instance.currentMinute, Instance.startHour, Instance.startMinute, Instance.endHour, Instance.endMinute);
 
     public static float TimeAsFloat(int hour, float minutes) => hour + minutes / 60f;
-    public static bool  BetweenTimes(int hour, float minutes, int hourA, float minutesA, int hourB, float minutesB) => TimeAsFloat(hour, minutes) >= TimeAsFloat(hourA, minutesA) && TimeAsFloat(hour, minutes) <= TimeAsFloat(hourB, minutesB);
+    public static bool BetweenTimes(int hour, float minutes, int hourA, float minutesA, int hourB, float minutesB) => TimeAsFloat(hour, minutes) >= TimeAsFloat(hourA, minutesA) && TimeAsFloat(hour, minutes) <= TimeAsFloat(hourB, minutesB);
 
     void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -66,9 +68,9 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        elapsedTime  += Time.deltaTime;
-        totalMinutes  = elapsedTime / dayDuration * (endHour * 60f + endMinute - (startHour * 60f + startMinute)); // 1440 minutes in a day
-        currentHour   = startHour + Mathf.FloorToInt((totalMinutes + startMinute) / 60f);
+        elapsedTime += Time.deltaTime;
+        totalMinutes = elapsedTime / dayDuration * (endHour * 60f + endMinute - (startHour * 60f + startMinute)); // 1440 minutes in a day
+        currentHour = startHour + Mathf.FloorToInt((totalMinutes + startMinute) / 60f);
         currentMinute = Mathf.FloorToInt((startMinute + totalMinutes) % 60f);
         DisplayTime();
 
@@ -80,7 +82,7 @@ public class GameManager : MonoBehaviour
 
     public void HandlePauseGame()
     {
-        if(GamePaused())
+        if (GamePaused())
         {
             UnpauseGame();
         }
@@ -106,7 +108,7 @@ public class GameManager : MonoBehaviour
     {
         // End of the day logic
         Debug.Log("End of Day " + day);
-        
+
         //start new day after daydelay seconds
         Invoke(nameof(StartNewDay), dayDelay);
     }
@@ -119,7 +121,7 @@ public class GameManager : MonoBehaviour
         DisplayDay();
     }
 
-     // Method to display the time as a 24-hour clock probably will eventual involve a UI element
+    // Method to display the time as a 24-hour clock probably will eventual involve a UI element
     private void DisplayTime()
     {
         string timeString;
@@ -127,30 +129,40 @@ public class GameManager : MonoBehaviour
         {
             timeString = "12:00 PM";
         }
-        else{
+        else
+        {
             // Format the time as HH:MM
             string ampm = currentHour >= 12 ? "PM" : "AM";
 
             string hourString = currentHour > 12 ? (currentHour - 12).ToString() : currentHour.ToString();
-            timeString = $"{hourString}:{currentMinute:D2} {ampm}";
+            timeString = $"{hourString}:{currentMinute:D2}{ampm}";
         }
 
         // Display the time (for example, using Debug.Log or a UI element)
         if (logTime)
-            Debug.Log("Current Time: " + timeString ); //+ "(" + elapsedTime / dayDuration +")"
+            Debug.Log("Current Time: " + timeString); //+ "(" + elapsedTime / dayDuration +")"
         if (timeText != null)
+        {
+            timeString = "<mspace=48>" + timeString + "</mspace>";
             timeText.text = timeString;
+            timeTextShadow.text = timeString;
+        }
     }
     private void DisplayDay()
     {
         if (dayText != null)
-            dayText.text = "Day " + day;
-            //i want the text to fade in and out a couple times
-            int fadeCount = 4;
-            float fadeDuration = 0.8f;
-            StartCoroutine(FadeText(dayText, fadeCount, fadeDuration));
+        {
+            string text = "<mspace=mspace=48>Day:" + day + "</mspace>";
+            dayText.text = text;
+            dayTextShadow.text = text;
+        }
+        //i want the text to fade in and out a couple times
+        int fadeCount = 4;
+        float fadeDuration = 0.8f;
+        StartCoroutine(FadeText(dayText, fadeCount, fadeDuration));
+        StartCoroutine(FadeText(dayTextShadow, fadeCount, fadeDuration));
     }
-        private IEnumerator FadeText(TextMeshProUGUI text, int fadeCount, float duration)
+    private IEnumerator FadeText(TextMeshProUGUI text, int fadeCount, float duration)
     {
         for (int i = 0; i < fadeCount; i++)
         {
@@ -186,4 +198,4 @@ public class GameManager : MonoBehaviour
 
     }
 }
- 
+

@@ -4,10 +4,8 @@ public class Appliance : Storage
 {
     [SerializeField] protected Breakable breakable;
 
-    [Tooltip("The QuickTimeEvent to use when interacting with this appliance.")]
-
     [SerializeField] private bool inUse = false;
-    protected bool working  = true;
+    protected bool working = true;
 
     public bool InUse() => inUse;
 
@@ -19,6 +17,5 @@ public class Appliance : Storage
             breakable.HandleRepairing(zPressed, this);
             working = breakable.IsBroken() == false;
         }
-        
     }
 }

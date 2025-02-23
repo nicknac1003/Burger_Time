@@ -15,6 +15,8 @@ public abstract class Interactable : MonoBehaviour
     // Set from Player Controller
     public void InteractZ(bool held)
     {
+        if (!PlayerFacingThis()) return;
+
         zPressed = held;
         if (held && zReleased)
         {
@@ -22,6 +24,7 @@ public abstract class Interactable : MonoBehaviour
         }
         zReleased = !held;
     }
+
     public void InteractX(bool held)
     {
         xPressed = held;
@@ -39,6 +42,25 @@ public abstract class Interactable : MonoBehaviour
             OnC();
         }
         cReleased = !held;
+    }
+    private bool PlayerFacingThis()
+    {
+        float xDiff = Mathf.Abs(transform.position.x - PlayerController.Instance.transform.position.x);
+        float yDiff = Mathf.Abs(transform.position.y - PlayerController.Instance.transform.position.y);
+        if (xDiff > yDiff)
+        {
+            if (transform.position.x > PlayerController.Instance.transform.position.x && PlayerController.Instance.direction == 3) return true;
+
+            if (transform.position.x < PlayerController.Instance.transform.position.x && PlayerController.Instance.direction == 1) return true;
+        }
+        else
+        {
+            if (transform.position.y > PlayerController.Instance.transform.position.y && PlayerController.Instance.direction == 2) return true;
+
+            if (transform.position.y < PlayerController.Instance.transform.position.y && PlayerController.Instance.direction == 0) return true;
+        }
+
+        return false;
     }
     public void InteractMove(Vector2 vec) { moveInput = vec; }
 

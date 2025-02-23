@@ -32,8 +32,9 @@ public class PlayerController : MonoBehaviour
     private Interactable closestInteractable;
     private Holdable holding;
 
-    private bool lockedInPlace = false;
-    private Vector2 wishDirection;
+    public bool lockedInPlace = false;
+    public Vector2 wishDirection { get; private set; }
+    public int direction { get; private set; } = 0; // 0 = down, 1 = left, 2 = right, 3 = up
     private Vector2 lockedLastDirection; // prevent unwanted movement when leaving locked state
     private bool goodUnlock = true;   // prevent unwanted movement when leaving locked state
     private Vector2 prevWishDirection;
@@ -44,14 +45,13 @@ public class PlayerController : MonoBehaviour
     public static void LockPlayer()
     {
         if (Instance.lockedInPlace) return;
-
         Instance.lockedInPlace = true;
         Instance.wishDirection = Vector2.zero;
     }
     public static void UnlockPlayer()
     {
+        Debug.Log("Unlocking player");
         if (Instance.lockedInPlace == false) return;
-
         Instance.lockedInPlace = false;
         Instance.lockedLastDirection = Instance.wishDirection;
         Instance.goodUnlock = false;
@@ -174,7 +174,6 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(rb.position + wishDirection * moveSpeed * Time.fixedDeltaTime);
     }
 
-
     public static bool UniqueDirection(Vector2 a, Vector2 b)
     {
         // Are the vectors in a different enough direction?
@@ -188,10 +187,12 @@ public class PlayerController : MonoBehaviour
 
     private void AddInteractable(Interactable interactable)
     {
+        if (interactable == null) return;
         interactables.Add(interactable);
     }
     private void RemoveInteractable(Interactable interactable)
     {
+        if (interactable == null) return;
         interactables.Remove(interactable);
         interactable.ResetInteracts();
     }
@@ -201,11 +202,11 @@ public class PlayerController : MonoBehaviour
         if (interactables.Count <= 0) return null;
 
         Interactable closest = interactables[0];
-        Vector3 closestToPlayer = Vector3.Scale(closest.transform.position - transform.position, new Vector3(1, 0, 1)); // ignore Y axis
+        Vector3 closestToPlayer = Vector3.Scale(closest.transform.position - transform.position, new Vector3(1, 1, 0)); // ignore Y axis
 
         for (int i = 1; i < interactables.Count; i++)
         {
-            Vector3 toPlayer = Vector3.Scale(interactables[i].transform.position - transform.position, new Vector3(1, 0, 1)); // ignore Y axis
+            Vector3 toPlayer = Vector3.Scale(interactables[i].transform.position - transform.position, new Vector3(1, 1, 0)); // ignore Y axis
 
             if (toPlayer.magnitude < closestToPlayer.magnitude)
             {
@@ -225,6 +226,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Interactable"))
         {
+
             AddInteractable(other.GetComponent<Interactable>());
         }
     }
@@ -251,6 +253,7 @@ public class PlayerController : MonoBehaviour
         Instance.holding = item;
         Instance.holding.transform.SetParent(Instance.holdAnchor);
         Instance.holding.transform.localPosition = Vector3.zero;
+        Instance.animator.SetTrigger("Pickup");
 
         return true;
     }
@@ -264,21 +267,10 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
-    // hard coded positions for holding item in hand
-    public void holdingPosDown()
+    public void SetPlayerDirection(int dir)
     {
-        holdAnchor.localPosition = new Vector3(0.37f, -0.654f, -0.05f);
+        direction = dir;
+        animator.SetInteger("Direction", dir);
     }
-    public void holdingPosUp()
-    {
-        holdAnchor.localPosition = new Vector3(-0.35f, -0.5f, 0.1f);
-    }
-    public void holdingPosLeft()
-    {
-        holdAnchor.localPosition = new Vector3(0.0f, -0.71f, -0.05f);
-    }
-    public void holdingPosRight()
-    {
-        holdAnchor.localPosition = new Vector3(0.0f, -0.71f, 0.1f);
-    }
+
 }

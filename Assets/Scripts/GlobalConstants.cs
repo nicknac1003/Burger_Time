@@ -36,6 +36,7 @@ public class GlobalConstants
     public static IngredientObject plate   = Resources.Load<IngredientObject>("Ingredients/Plate");
 
     public static GameObject speechBubble = Resources.Load<GameObject>("SpeechBubble");
+    public static GameObject reviewPopup  = Resources.Load<GameObject>("RatingPopup");
 
     public static float alternateAnimationTime = 0.25f;
     public static float mashingAnimationTime   = 0.15f;

@@ -60,8 +60,6 @@ public class ServeStation : Interactable
 
         Customer serving = ticket.GetCustomer();
         serving.SetState(CustomerState.PickingUpFood);
-
-        GameManager.WelpReview(serving.GiveReview());
     }
 
     private void PlaceBurger(BurgerObject burger)

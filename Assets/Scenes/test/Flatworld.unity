@@ -78001,7 +78001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding: {x: 0, y: 0, z: 266, w: 0}
+  m_Padding: {x: 0, y: 0, z: 23.62, w: 0}
   m_Softness: {x: 0, y: 0}
 --- !u!222 &1108704929
 CanvasRenderer:
@@ -83779,20 +83779,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: maxWaitTime
-      value: 120
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: pickupPoint
       value: 
       objectReference: {fileID: 1980827876}
-    - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
-      propertyPath: maxSpawnAttemptTime
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
-      propertyPath: minSpawnAttemptTime
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: 'popularity.Array.data[9]'
       value: 25

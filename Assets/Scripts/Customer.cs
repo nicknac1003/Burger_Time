@@ -20,10 +20,6 @@ public class Customer : MonoBehaviour
     [SerializeField] private CustomerState debugStateView;
     [SerializeField] private Animator animator;
 
-    [SerializeField] private GameObject reviewPopup;
-
-    private float finalScore = 5f;
-
     public int GetID() => id;
     public float GetTimeSpentInLine() => timeSpentInLine;
     public float GetTimeSpentWaitingForOrder() => timeSpentWaitingForOrder;
@@ -64,6 +60,11 @@ public class Customer : MonoBehaviour
                 goal = CustomerManager.Instance.GetSpotInLine(this);
                 transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 timeSpentInLine += Time.deltaTime;
+
+                if(timeSpentInLine > CustomerManager.MaxWaitTime())
+                {
+                    CustomerManager.Instance.CustomerRefusedService(this);
+                }
             break;
 
             case CustomerState.Ordering:
@@ -78,6 +79,11 @@ public class Customer : MonoBehaviour
                 timeSpentWaitingForOrder += Time.deltaTime;
                 goal = waitForFoodPosition;
                 transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+
+                if(timeSpentWaitingForOrder > CustomerManager.MaxWaitTime())
+                {
+                    CustomerManager.Instance.CustomerRefusedService(this);
+                }
             break;
 
             case CustomerState.PickingUpFood:
@@ -87,7 +93,7 @@ public class Customer : MonoBehaviour
                 {
                     ServeStation.PickUpBurger(this);
                     SetState(CustomerState.Eating);
-                    SpawnReviewPopup();
+                    GameManager.WelpReview(this, GiveReview());
                 }
             break;
 
@@ -107,10 +113,7 @@ public class Customer : MonoBehaviour
                 }
             break;
         }
-        if (timeSpentInLine > CustomerManager.MaxWaitTime() || timeSpentWaitingForOrder > CustomerManager.MaxWaitTime())
-        {
-            CustomerManager.Instance.CustomerRefusedService(this);
-        }
+
         AdjustAnimation();
     }
 
@@ -209,12 +212,6 @@ public class Customer : MonoBehaviour
         CustomerManager.RemoveCustomerFromLine(this);
 
         OrderManager.NewTicket(order, this);
-    }
-    public void SpawnReviewPopup()
-    {
-        GameObject popup = Instantiate(reviewPopup, transform.position, Quaternion.identity);
-        popup.GetComponent<RatingPopup>().SetRating(finalScore);
-        Destroy(gameObject, 5f);
     }
 }
 

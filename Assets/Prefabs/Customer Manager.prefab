@@ -293,8 +293,8 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  minSpawnAttemptTime: 3
-  maxSpawnAttemptTime: 10
+  minSpawnAttemptTime: 10
+  maxSpawnAttemptTime: 30
   spawnPoint: {fileID: 2478930179672093808}
   exitPoint: {fileID: 6235221324621291606}
   lineStart: {fileID: 0}

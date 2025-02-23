@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
 
     public float initialRating = 5f;
     private float rating;
-    public float ratingScale = 0.3f;
 
     public TextMeshProUGUI dayText;
     public TextMeshProUGUI dayTextShadow;
@@ -64,7 +63,7 @@ public class GameManager : MonoBehaviour
         currentHour = startHour;
         currentMinute = startMinute;
         rating = initialRating;
-        RatingUI.UpdateRating(rating);
+        RatingUI.UpdateRating(rating / 5f);
     }
 
     void Update()
@@ -193,17 +192,16 @@ public class GameManager : MonoBehaviour
         text.color = new Color(color.r, color.g, color.b, endAlpha);
     }
 
-    public static void WelpReview(float review)
+    public static void WelpReview(Customer customer, float review)
     {
-        new GameObject("Score Popup").AddComponent<RatingPopup>().SetRating(review);
+        Instantiate(GlobalConstants.reviewPopup, customer.transform.position, Quaternion.identity).GetComponent<RatingPopup>().SetRating(review);
         
-        float mid = 2.5f;
-        float diff = review - mid;
+        float diff       = review - 2.5f;
         float scaledDiff = diff / (1 + Mathf.Abs(diff));
-        Debug.Log(scaledDiff);
-        Instance.rating += scaledDiff * Instance.ratingScale;
-        Instance.rating = Mathf.Clamp(Instance.rating, 0f, Instance.initialRating);
-        RatingUI.UpdateRating(Instance.rating);
+        Instance.rating += scaledDiff * 1.4f; // 0 = -1 star, 5 = +1 star
+        Instance.rating  = Mathf.Clamp(Instance.rating, 0f, Instance.initialRating);
+
+        RatingUI.UpdateRating(Instance.rating / 5f); // normalize for the rating bar
     }
 }
 

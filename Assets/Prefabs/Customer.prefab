@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4635858040129594310}
-  - component: {fileID: 6365771963109138596}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -46,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugStateView: 0
+  animator: {fileID: 3018179610848178886}
 --- !u!1 &8354282500733175035
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ Animator:
   m_GameObject: {fileID: 8354282500733175035}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: aa0ce81ebd5b8584e853f5b5621b89c4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -155,4 +155,4 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1

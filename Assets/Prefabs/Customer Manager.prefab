@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5686b7dbadbce498b07b9ceb32563e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  customerPrefabs: []
   popularity:
   - 0
   - 0
@@ -244,16 +245,19 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  minSpawnAttemptTime: 3
+  maxSpawnAttemptTime: 10
   spawnPoint: {fileID: 2478930179672093808}
   exitPoint: {fileID: 6235221324621291606}
   lineStart: {fileID: 6259326279292939787}
   waitingArea: {fileID: 5184987103032431676}
-  maxLineLength: 6
+  maxLineLength: 4
   lineSpacing: 1
   maxCapacity: 15
   minBurgerTime: 20
   maxBurgerTime: 40
   customerMoveSpeed: 4
   maxWaitTime: 60
-  requestIngredientTime: 0.5
+  requestIngredientTime: 0.75
   maxToppings: 8
+  lineDebugView: []

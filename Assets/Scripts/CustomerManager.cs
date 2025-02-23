@@ -6,38 +6,38 @@ using UnityEngine.Rendering;
 public class CustomerManager : MonoBehaviour
 {
     [SerializeField] GameObject[] customerPrefabs;
-    [SerializeField] private float[]     popularity = new float[24];
-    [SerializeField] private float       minSpawnAttemptTime;
-    [SerializeField] private float       maxSpawnAttemptTime;
-    [SerializeField] private Transform   spawnPoint;
-    [SerializeField] private Transform   exitPoint;
-    [SerializeField] private Transform   lineStart;
+    [SerializeField] private float[] popularity = new float[24];
+    [SerializeField] private float minSpawnAttemptTime;
+    [SerializeField] private float maxSpawnAttemptTime;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform exitPoint;
+    [SerializeField] private Transform lineStart;
     [SerializeField] private BoxCollider2D waitingArea;
-    [SerializeField] private int   maxLineLength;
+    [SerializeField] private int maxLineLength;
     [SerializeField] private float lineSpacing;
-    [SerializeField] private int   maxCapacity;
+    [SerializeField] private int maxCapacity;
     [SerializeField] private float minBurgerTime;
     [SerializeField] private float maxBurgerTime;
     [SerializeField] private float customerMoveSpeed;
     [SerializeField] private float maxWaitTime;
     [SerializeField] private float requestIngredientTime;
-    [SerializeField] private int   maxToppings = 8;
+    [SerializeField] private int maxToppings = 8;
 
     public static CustomerManager Instance { get; private set; }
 
     private float timeSinceLastSpawn = 0;
     private float trySpawnAt = 0;
-    private int customerCount   = 0;
-    private int inBuilding      = 0;
+    private int customerCount = 0;
+    private int inBuilding = 0;
     private List<Customer> line = new();
 
     public static (float, float) GetBurgerTimeRange() => (Instance.minBurgerTime, Instance.maxBurgerTime);
-    public static float   CustomerMoveSpeed() => Instance.customerMoveSpeed;
-    public static Vector3 Exit()              => Instance.exitPoint.position;
-    public static float   MaxWaitTime()       => Instance.maxWaitTime;
-    public static float   RequestTime()       => Instance.requestIngredientTime;
-    public static int     MaxToppings()       => Instance.maxToppings;
-    public static int     Customers()         => Instance.customerCount;
+    public static float CustomerMoveSpeed() => Instance.customerMoveSpeed;
+    public static Vector3 Exit() => Instance.exitPoint.position;
+    public static float MaxWaitTime() => Instance.maxWaitTime;
+    public static float RequestTime() => Instance.requestIngredientTime;
+    public static int MaxToppings() => Instance.maxToppings;
+    public static int Customers() => Instance.customerCount;
 
     public List<Customer> lineDebugView;
 
@@ -61,7 +61,7 @@ public class CustomerManager : MonoBehaviour
 
         timeSinceLastSpawn += Time.deltaTime;
 
-        if(timeSinceLastSpawn > trySpawnAt && CustomerArrives())
+        if (timeSinceLastSpawn > trySpawnAt && CustomerArrives())
         {
             timeSinceLastSpawn = 0;
             line.Add(SpawnCustomer());
@@ -80,7 +80,7 @@ public class CustomerManager : MonoBehaviour
     {
         GameObject newCustomer = GenerateCustomer();
         newCustomer.transform.SetParent(transform);
-        newCustomer.AddComponent<Customer>().Init(customerCount);
+        newCustomer.GetComponent<Customer>().Init(customerCount);
         newCustomer.transform.position = spawnPoint.position;
         return newCustomer.GetComponent<Customer>();
     }
@@ -96,14 +96,14 @@ public class CustomerManager : MonoBehaviour
 
     private bool CustomerArrives()
     {
-        if(GameManager.Open() == false) return false;
+        if (GameManager.Open() == false) return false;
 
-        if(LineTooLong() || AtCapacity()) return false;
+        if (LineTooLong() || AtCapacity()) return false;
 
         int hour = GameManager.GetHour();
         float currentPopularity = Mathf.Lerp(popularity[hour], popularity[(hour + 1) % 24], GameManager.GetHourCompletion());
 
-        if(Random.value > currentPopularity) return false;
+        if (Random.value > currentPopularity) return false;
 
         customerCount++;
         inBuilding++;
@@ -115,8 +115,8 @@ public class CustomerManager : MonoBehaviour
     {
         CustomerState state = customer.GetState();
 
-        if(state == CustomerState.WaitingToOrder) line.Remove(customer);
-        if(state == CustomerState.WaitingForFood) OrderManager.RemoveTicket(OrderManager.FindTicket(customer));
+        if (state == CustomerState.WaitingToOrder) line.Remove(customer);
+        if (state == CustomerState.WaitingForFood) OrderManager.RemoveTicket(OrderManager.FindTicket(customer));
 
         customer.SetState(CustomerState.Leaving);
     }
@@ -130,7 +130,7 @@ public class CustomerManager : MonoBehaviour
     public Vector3 GetRandomWaitingPosition()
     {
         Vector3 center = waitingArea.bounds.center;
-        Vector3 size   = waitingArea.bounds.size;
+        Vector3 size = waitingArea.bounds.size;
 
         return new Vector3(
             center.x + Random.Range(-size.x / 2, size.x / 2),
@@ -151,7 +151,7 @@ public class CustomerManager : MonoBehaviour
     {
         Debug.Log("Attempting to take order");
 
-        if(OrderManager.CanTakeOrder() == false) return;
+        if (OrderManager.CanTakeOrder() == false) return;
 
         if (Instance.line.Count <= 0 || Instance.AtLineStart(Instance.line[0]) == false) return;
 
@@ -165,21 +165,21 @@ public class CustomerManager : MonoBehaviour
 
     public static void ServeFood()
     {
-        if(OrderManager.CanServeFood() == false) return;
+        if (OrderManager.CanServeFood() == false) return;
 
         Holdable item = PlayerController.GetItem();
-        if(item == null || item is not BurgerObject) return;
+        if (item == null || item is not BurgerObject) return;
 
         Burger order = (item as BurgerObject).GetBurger();
 
         Ticket ticket = OrderManager.FindTicket(order);
-        if(ticket == null) ticket = OrderManager.OldestTicket();
+        if (ticket == null) ticket = OrderManager.OldestTicket();
 
         OrderManager.RemoveTicket(ticket);
 
         Customer serving = ticket.GetCustomer();
         serving.SetState(CustomerState.Eating);
-        
+
         float score = serving.GiveReview();
         GameManager.WelpReview(score);
         new GameObject(item + "'s Score").AddComponent<RatingPopup>().SetRating(score);

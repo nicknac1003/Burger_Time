@@ -36,6 +36,7 @@ public class WindmillQTE : QuickTimeEvent
 
     protected override float PerformQTE(bool zPressed, bool xPressed, bool cPressed, Vector2 moveInput, Interactable parent)
     {
+        Debug.Log(mashProgress);
         if (xPressed)
         {
             EndQTE(parent);

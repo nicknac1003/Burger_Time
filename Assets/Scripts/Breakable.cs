@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.VFX;
 
 [System.Serializable]
@@ -17,7 +18,7 @@ public class Breakable
     [Range(1f, 60f)][SerializeField] private float safetyTime = 5f;
 
     [Tooltip("Chance of breaking per interval check as a decimal percentage.")]
-    [Range(0.008f, 0.05f)][SerializeField] private float breakChance = 0.05f;
+    [Range(0.008f, 0.1f)][SerializeField] private float breakChance = 0.05f;
 
     [Tooltip("Quicktime Event to repair the item.")]
     [SerializeReference] private QuickTimeEvent repairQTE = new HoldQTE();
@@ -75,15 +76,11 @@ public class Breakable
 
         if ((requireHoldable && requiredHoldable != null && PlayerController.GetItem() == requiredHoldable) || !requireHoldable)
         {
-            Debug.Log("QTE");
-            if (repairQTE.QTE(pressed, false, false, Vector2.zero, parent) > 0f)
-                if ((requireHoldable && requiredHoldable != null && PlayerController.GetItem() == requiredHoldable) || !requireHoldable)
-                {
-                    if (repairQTE.QTE(pressed, false, false, Vector2.zero, parent) > 0f)
-                    {
-                        Repair(parent);
-                    }
-                }
+            float QTEscore = repairQTE.QTE(pressed, false, false, Vector2.zero, parent);
+            if (QTEscore > 0f)  {
+                Repair(parent);
+            }
+
         }
     }
     public void Break(Appliance parent)
@@ -107,8 +104,10 @@ public class Breakable
         if (vfxBreakPrefab == null) return;
         if (vfxInScene != null) return;
 
+        // Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
         vfxInScene = Object.Instantiate(vfxBreakPrefab, vfxAnchor.position, Quaternion.identity);
         vfxInScene.transform.SetParent(vfxAnchor);
+        // vfxInScene.GetComponent<ParticleSystem>().Play();
     }
 
     private void Destroyvfx()

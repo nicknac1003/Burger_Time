@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 8376547137511214936}
   - component: {fileID: 5880681388721751063}
   - component: {fileID: 6015604293282524163}
+  - component: {fileID: 2042489891753872772}
   m_Layer: 0
   m_Name: Cleaner
   m_TagString: Interactable
@@ -138,6 +139,10 @@ MonoBehaviour:
       rid: 2277583875323199774
     requiredHoldable: {fileID: 0}
     vfxBreakPrefab: {fileID: 0}
+    breakSound: {fileID: 0}
+    breakVolume: 0.2
+    breakAudioSource: {fileID: 0}
+    requireHoldable: 0
     vfxAnchor: {fileID: 0}
   inUse: 0
   useApplianceQTE:
@@ -166,3 +171,15 @@ MonoBehaviour:
         progressVolume: 0.75
         errorVolume: 0.45
         revolutions: 3
+--- !u!210 &2042489891753872772
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9103470263558727065}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
+  m_SortAtRoot: 0

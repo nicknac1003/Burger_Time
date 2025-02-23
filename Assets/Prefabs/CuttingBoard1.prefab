@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722780311218991346}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.5, y: 2.5, z: 0.12646283}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -96,8 +96,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceptedHoldables: 00000200030004000500
+  acceptedStates: 00000100
   anchor: {fileID: 4269085900087586653}
   canHoldBurgers: 0
+  holdable: {fileID: 0}
+  canHoldFireExtinguisher: 0
   breakable:
     canBreak: 0
     canBreakDuringUse: 0
@@ -108,6 +111,7 @@ MonoBehaviour:
       rid: 8066485002639245793
     requiredHoldable: {fileID: 0}
     vfxBreakPrefab: {fileID: 0}
+    requireHoldable: 0
     vfxAnchor: {fileID: 0}
   inUse: 0
   useApplianceQTE:

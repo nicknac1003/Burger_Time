@@ -28,10 +28,13 @@ public class Trash : Interactable
                 {
                     PlayThrowAwaySound();
                 }
+                if (playerHolding is FireExtinguisher fireExtinguisher && PlayerController.DestroyItem())
+                {
+                    PlayThrowAwaySound();
+                }
             }
         }
     }
-
     private void PlayThrowAwaySound()
     {
         audioSource.PlayOneShot(throwAwaySound, volume);

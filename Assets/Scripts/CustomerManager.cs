@@ -12,7 +12,9 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Transform exitPoint;
     [SerializeField] private Transform lineStart;
+    [SerializeField] private Transform pickupPoint;
     [SerializeField] private BoxCollider2D waitingArea;
+    [SerializeField] private BoxCollider2D eatingArea;
     [SerializeField] private int maxLineLength;
     [SerializeField] private float lineSpacing;
     [SerializeField] private int maxCapacity;
@@ -34,6 +36,7 @@ public class CustomerManager : MonoBehaviour
     public static (float, float) GetBurgerTimeRange() => (Instance.minBurgerTime, Instance.maxBurgerTime);
     public static float CustomerMoveSpeed() => Instance.customerMoveSpeed;
     public static Vector3 Exit() => Instance.exitPoint.position;
+    public static Vector3 Pickup() => Instance.pickupPoint.position;
     public static float MaxWaitTime() => Instance.maxWaitTime;
     public static float RequestTime() => Instance.requestIngredientTime;
     public static int MaxToppings() => Instance.maxToppings;
@@ -127,6 +130,18 @@ public class CustomerManager : MonoBehaviour
         Destroy(customer.gameObject);
     }
 
+    public Vector3 GetRandomEatingPosition()
+    {
+        Vector3 center = eatingArea.bounds.center;
+        Vector3 size = eatingArea.bounds.size;
+
+        return new Vector3(
+            center.x + Random.Range(-size.x / 2, size.x / 2),
+            center.y + Random.Range(-size.y / 2, size.y / 2),
+            0
+        );
+    }
+
     public Vector3 GetRandomWaitingPosition()
     {
         Vector3 center = waitingArea.bounds.center;
@@ -161,33 +176,5 @@ public class CustomerManager : MonoBehaviour
     public static void RemoveCustomerFromLine(Customer customer) // callback
     {
         Instance.line.Remove(customer);
-    }
-
-    public static void ServeFood()
-    {
-        Debug.Log("Trying to serve.");
-
-        if (OrderManager.CanServeFood() == false) return;
-
-        Debug.Log("Able to serve.");
-
-        Holdable item = PlayerController.GetItem();
-        Debug.Log("Player is holding: " + item);
-
-        if (item == null || item is not BurgerObject) return;
-
-        Burger order = (item as BurgerObject).GetBurger();
-
-        Ticket ticket = OrderManager.FindTicket(order);
-        if (ticket == null) ticket = OrderManager.OldestTicket();
-
-        OrderManager.RemoveTicket(ticket);
-
-        Customer serving = ticket.GetCustomer();
-        serving.SetState(CustomerState.Eating);
-
-        float score = serving.GiveReview();
-        GameManager.WelpReview(score);
-        new GameObject(item + "'s Score").AddComponent<RatingPopup>().SetRating(score);
     }
 }

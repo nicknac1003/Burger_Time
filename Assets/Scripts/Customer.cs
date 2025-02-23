@@ -11,6 +11,7 @@ public class Customer : MonoBehaviour
     private float timeToEatBurger;
     private CustomerState state;
     private Vector3 waitForFoodPosition;
+    private Vector3 eatFoodPosition;
     private bool startedOrdering;
     private float lineOffset;
     private Vector3 goal;
@@ -37,6 +38,7 @@ public class Customer : MonoBehaviour
         (float minBurgerTime, float maxBurgerTime) = CustomerManager.GetBurgerTimeRange();
         timeToEatBurger = Random.Range(minBurgerTime, maxBurgerTime);
         waitForFoodPosition = CustomerManager.Instance.GetRandomWaitingPosition();
+        eatFoodPosition = CustomerManager.Instance.GetRandomEatingPosition();
     }
 
     void Update()
@@ -46,19 +48,19 @@ public class Customer : MonoBehaviour
         {
             case CustomerState.Entering:
                 // We dont want time to tick up until the customer stops moving and is in line
-                transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 goal = CustomerManager.Instance.GetSpotInLine(this);
-                if (Vector3.Distance(transform.position, CustomerManager.Instance.GetSpotInLine(this)) < 0.1f)
+                transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+                if (Vector3.Distance(transform.position, goal) < 0.1f)
                 {
                     SetState(CustomerState.WaitingToOrder);
                 }
-                break;
+            break;
 
             case CustomerState.WaitingToOrder:
-                transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 goal = CustomerManager.Instance.GetSpotInLine(this);
+                transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 timeSpentInLine += Time.deltaTime;
-                break;
+            break;
 
             case CustomerState.Ordering:
                 if (startedOrdering == false)
@@ -66,18 +68,30 @@ public class Customer : MonoBehaviour
                     startedOrdering = true;
                     StartCoroutine(PlaceOrder());
                 }
-                break;
+            break;
 
             case CustomerState.WaitingForFood:
                 timeSpentWaitingForOrder += Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, waitForFoodPosition, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 goal = waitForFoodPosition;
-                break;
+                transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+            break;
+
+            case CustomerState.PickingUpFood:
+                goal = CustomerManager.Pickup();
+                transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+                if(Vector3.Distance(transform.position, goal) < 0.1f)
+                {
+                    ServeStation.PickUpBurger(this);
+                    SetState(CustomerState.Eating);
+                }
+            break;
 
             case CustomerState.Eating:
+                goal = eatFoodPosition;
+                transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 if (timeToEatBurger <= 0) SetState(CustomerState.Leaving);
                 timeToEatBurger -= Time.deltaTime;
-                break;
+            break;
 
             case CustomerState.Leaving:
                 transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Exit(), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
@@ -86,7 +100,7 @@ public class Customer : MonoBehaviour
                 {
                     CustomerManager.Instance.CustomerLeaves(this);
                 }
-                break;
+            break;
         }
         if (timeSpentInLine > CustomerManager.MaxWaitTime() || timeSpentWaitingForOrder > CustomerManager.MaxWaitTime())
         {
@@ -204,5 +218,6 @@ public enum CustomerState
     Ordering,
     WaitingForFood,
     Eating,
+    PickingUpFood,
     Leaving
 }

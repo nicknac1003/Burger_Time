@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 prevWishDirection;
     public static bool LockedInPlace() => Instance.lockedInPlace;
 
-    public void SetHolding(Holdable holdable) => holding = holdable;
+    public static void SetHolding(Holdable holdable) => Instance.holding = holdable;
 
     public static void LockPlayer()
     {

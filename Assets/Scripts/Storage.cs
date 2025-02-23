@@ -67,7 +67,7 @@ public class Storage : Interactable
         holdable = item;
         holdable.transform.SetParent(anchor.transform);
         holdable.transform.localPosition = Vector3.zero;
-        PlayerController.Instance.SetHolding(null);
+        PlayerController.SetHolding(null);
 
         Debug.Log("Placed " + holdable.name + " in " + name);
 
@@ -94,7 +94,7 @@ public class Storage : Interactable
             if (burger.CanAdd(ingredient))
             {
                 burger.Add(ingredient);
-                PlayerController.Instance.SetHolding(null);
+                PlayerController.SetHolding(null);
             }
         }
 
@@ -109,7 +109,7 @@ public class Storage : Interactable
             {
                 newBurger.Add(ingredient1);
                 newBurger.Add(ingredient2);
-                PlayerController.Instance.SetHolding(null);
+                PlayerController.SetHolding(null);
                 holdable = newBurger;
             }
             else

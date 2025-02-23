@@ -182,11 +182,11 @@ public class Customer : MonoBehaviour
         float preperationScore  = 1 - timeSpentWaitingForOrder / (CustomerManager.PrepTimePerIngredient() * burgerDifficulty);
 
         float totalScore = (waitInLineScore + preperationScore) * 5f / 2f;
-        float adjustedScore = (waitInLineScore + preperationScore) * 5f / (2f + (correctOrder ? 0f : 1f));
+        float adjustedScore = totalScore + (correctOrder ? 0.75f : -0.75f);
 
-        Debug.Log("Wait in line: " + waitInLineScore + " Preperation: " + preperationScore + "Total: " + totalScore + " Adjusted: " + adjustedScore);
+        Debug.Log("Wait in line: " + waitInLineScore + " Preperation: " + preperationScore + " | Total: " + totalScore + " Adjusted: " + adjustedScore);
 
-        return totalScore;
+        return adjustedScore;
     }
 
     public void GrabBurger(BurgerObject newBurger)

@@ -156,10 +156,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1408408277}
     - target: {fileID: 865474330569445239, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
-      propertyPath: initialRating
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 865474330569445239, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
       propertyPath: daysLastedText
       value: 
       objectReference: {fileID: 518809184}
@@ -167,10 +163,6 @@ PrefabInstance:
       propertyPath: timeTextShadow
       value: 
       objectReference: {fileID: 866997689}
-    - target: {fileID: 865474330569445239, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
-      propertyPath: dayDurationMinutes
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2311425413845875805, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

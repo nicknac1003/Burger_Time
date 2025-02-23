@@ -12,6 +12,9 @@ public class Jukebox : Interactable
     // Keeps track of the current clip index
     private int currentClipIndex = 0;
 
+    private bool isOn = true;
+    public bool IsOn() => isOn;
+    public void SetOn(bool on) => isOn = on;
 
     void Start()
     {
@@ -26,7 +29,7 @@ public class Jukebox : Interactable
     void Update()
     {
         // Check if a clip is assigned and it's no longer playing
-        if (audioSource.clip != null && !audioSource.isPlaying)
+        if (audioSource.clip != null && !audioSource.isPlaying && isOn)
         {
             NextClip();
         }
@@ -39,7 +42,7 @@ public class Jukebox : Interactable
         ToggleMusic();
     }
 
-    void ToggleMusic()
+    public void ToggleMusic()
     {
         // Toggle the music on/off
         if (audioSource.isPlaying)

@@ -81273,7 +81273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3167803971989275182, guid: aedc3b53a5e3a4342ac5457e1aed87d7, type: 3}
       propertyPath: ingredientType
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3242707290953774024, guid: aedc3b53a5e3a4342ac5457e1aed87d7, type: 3}
       propertyPath: m_Sprite

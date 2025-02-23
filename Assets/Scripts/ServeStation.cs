@@ -61,9 +61,7 @@ public class ServeStation : Interactable
         Customer serving = ticket.GetCustomer();
         serving.SetState(CustomerState.PickingUpFood);
 
-        float score = serving.GiveReview();
-        GameManager.WelpReview(score);
-        //new GameObject(item + "'s Score").AddComponent<RatingPopup>().SetRating(score);
+        GameManager.WelpReview(serving.GiveReview());
     }
 
     private void PlaceBurger(BurgerObject burger)

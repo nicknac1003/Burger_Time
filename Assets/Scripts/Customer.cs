@@ -160,7 +160,7 @@ public class Customer : MonoBehaviour
         prevGoal = goal;
     }
 
-    public float GiveReview()
+    public float GiveReview(bool refusedService = false)
     {
         float lineSpeed = 1 - timeSpentInLine / CustomerManager.MaxWaitTime();
         float orderSpeed = 1 - timeSpentWaitingForOrder / CustomerManager.MaxWaitTime();

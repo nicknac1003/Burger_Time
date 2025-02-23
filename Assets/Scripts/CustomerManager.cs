@@ -124,6 +124,8 @@ public class CustomerManager : MonoBehaviour
         if (state == CustomerState.WaitingToOrder) line.Remove(customer);
         if (state == CustomerState.WaitingForFood) OrderManager.RemoveTicket(OrderManager.FindTicket(customer));
 
+        GameManager.WelpReview(0f);
+
         customer.SetState(CustomerState.Leaving);
     }
 

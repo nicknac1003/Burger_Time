@@ -301,13 +301,15 @@ MonoBehaviour:
   pickupPoint: {fileID: 0}
   waitingArea: {fileID: 5184987103032431676}
   eatingArea: {fileID: 4974391063134711313}
+  returnPlateStack: {fileID: 0}
   maxLineLength: 4
   lineSpacing: 1
   maxCapacity: 15
   minBurgerTime: 20
   maxBurgerTime: 40
   customerMoveSpeed: 4
-  maxWaitTime: 45
+  maxWaitTime: 60
+  prepTimePerIngredient: 20
   requestIngredientTime: 0.75
   maxToppings: 8
   lineDebugView: []

@@ -18,6 +18,8 @@ public class Customer : MonoBehaviour
     private Vector3 prevGoal;
 
     private BurgerObject burger;
+    private int burgerDifficulty;
+    private bool correctOrder = false;
 
     [SerializeField] private CustomerState debugStateView;
     [SerializeField] private Animator animator;
@@ -26,6 +28,7 @@ public class Customer : MonoBehaviour
     public float GetTimeSpentInLine() => timeSpentInLine;
     public float GetTimeSpentWaitingForOrder() => timeSpentWaitingForOrder;
     public float LineOffset() => lineOffset;
+    public void SetCorrectOrder(bool correct) => correctOrder = correct;
 
     public CustomerState GetState() => state;
     public void SetState(CustomerState newState)
@@ -82,7 +85,7 @@ public class Customer : MonoBehaviour
                 goal = waitForFoodPosition;
                 transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
 
-                if(timeSpentWaitingForOrder > CustomerManager.MaxWaitTime())
+                if(timeSpentWaitingForOrder > CustomerManager.PrepTimePerIngredient() * burgerDifficulty)
                 {
                     CustomerManager.Instance.CustomerRefusedService(this);
                 }
@@ -175,10 +178,15 @@ public class Customer : MonoBehaviour
 
     public float GiveReview()
     {
-        float lineSpeed = 1 - timeSpentInLine / CustomerManager.MaxWaitTime();
-        float orderSpeed = 1 - timeSpentWaitingForOrder / CustomerManager.MaxWaitTime();
-        float normalized = (lineSpeed + orderSpeed) / 2;
-        return normalized;
+        float waitInLineScore   = 1 - timeSpentInLine / CustomerManager.MaxWaitTime();
+        float preperationScore  = 1 - timeSpentWaitingForOrder / (CustomerManager.PrepTimePerIngredient() * burgerDifficulty);
+
+        float totalScore = (waitInLineScore + preperationScore) * 5f / 2f;
+        float adjustedScore = (waitInLineScore + preperationScore) * 5f / (2f + (correctOrder ? 0f : 1f));
+
+        Debug.Log("Wait in line: " + waitInLineScore + " Preperation: " + preperationScore + "Total: " + totalScore + " Adjusted: " + adjustedScore);
+
+        return totalScore;
     }
 
     public void GrabBurger(BurgerObject newBurger)
@@ -205,9 +213,15 @@ public class Customer : MonoBehaviour
 
         List<Ingredient> ingredients = order.GetIngredients();
         int ingredientCount = ingredients.Count;
+        burgerDifficulty = ingredientCount;
         for (int i = 0; i < ingredientCount; i++)
         {
-            if (ingredients[i].Type() == IngredientType.Plate) continue;
+            if(ingredients[i].Type() == IngredientType.Plate) continue;
+
+            if(ingredients[i].Type() == IngredientType.Patty)
+            {
+                burgerDifficulty++;
+            }
 
             spriteRenderer.sprite = ingredients[i].GetSprite();
             inBubble.SetActive(true);
@@ -215,7 +229,7 @@ public class Customer : MonoBehaviour
             yield return new WaitForSeconds(CustomerManager.RequestTime());
             inBubble.SetActive(false);
 
-            if (i != ingredientCount - 1)
+            if(i != ingredientCount - 1)
             {
                 yield return new WaitForSeconds(0.15f); // Buffer for clear separation between ingredients except last
             }

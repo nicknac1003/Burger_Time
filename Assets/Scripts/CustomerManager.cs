@@ -23,6 +23,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private float maxBurgerTime;
     [SerializeField] private float customerMoveSpeed;
     [SerializeField] private float maxWaitTime;
+    [SerializeField] private float prepTimePerIngredient;
     [SerializeField] private float requestIngredientTime;
     [SerializeField] private int maxToppings = 8;
 
@@ -39,6 +40,7 @@ public class CustomerManager : MonoBehaviour
     public static Vector3 Exit() => Instance.exitPoint.position;
     public static Vector3 Pickup() => Instance.pickupPoint.position;
     public static float MaxWaitTime() => Instance.maxWaitTime;
+    public static float PrepTimePerIngredient() => Instance.prepTimePerIngredient;
     public static float RequestTime() => Instance.requestIngredientTime;
     public static int MaxToppings() => Instance.maxToppings;
     public static int Customers() => Instance.customerCount;

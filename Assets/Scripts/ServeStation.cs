@@ -45,13 +45,18 @@ public class ServeStation : Interactable
         Ticket ticket = OrderManager.FindTicket(burgerObject.GetBurger());
         if (ticket == null)
         {
+            Debug.Log("Order did not match.");
             ticket = OrderManager.OldestTicket();
+        }
+        else
+        {
+            Debug.Log("ORDER MATCHED!");
+            ticket.GetCustomer().SetCorrectOrder(true);
         }
 
         OrderManager.RemoveTicket(ticket);
 
-        Customer serving = ticket.GetCustomer();
-        serving.SetState(CustomerState.PickingUpFood);
+        ticket.GetCustomer().SetState(CustomerState.PickingUpFood);
     }
 
     private void PlaceBurger(BurgerObject burger)

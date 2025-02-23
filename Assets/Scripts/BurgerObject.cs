@@ -209,7 +209,7 @@ public class Burger
         Burger comp = (Burger)other;
 
         // Check if burger a has the same ingredient count (early exit)
-        if(ingredients.Count == comp.ingredients.Count) return false;
+        if(ingredients.Count != comp.ingredients.Count) return false;
 
         // Now we have to check and make sure burger a has the same ingredients at the same states as burger b. Find a match and remove from working list.
         List<Ingredient> workingList = new(comp.ingredients);
@@ -225,7 +225,10 @@ public class Burger
                     break;
                 }
             }
-            if (fail) return false;
+            if (fail)
+            {
+                return false;
+            }
         }
         return true;
     }

@@ -13,8 +13,10 @@ public class Customer : MonoBehaviour
     private Vector3 waitForFoodPosition;
     private bool startedOrdering;
     private float lineOffset;
+    private Vector3 prevFramePos = Vector3.zero;
 
     [SerializeField] private CustomerState debugStateView;
+    [SerializeField] private Animator animator;
 
     public int GetID() => id;
     public float GetTimeSpentInLine() => timeSpentInLine;
@@ -39,12 +41,12 @@ public class Customer : MonoBehaviour
     void Update()
     {
         debugStateView = state;
-        switch(state)
+        switch (state)
         {
             case CustomerState.Entering:
                 // We dont want time to tick up until the customer stops moving and is in line
                 transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
-                if(Vector3.Distance(transform.position, CustomerManager.Instance.GetSpotInLine(this)) < 0.1f)
+                if (Vector3.Distance(transform.position, CustomerManager.Instance.GetSpotInLine(this)) < 0.1f)
                 {
                     SetState(CustomerState.WaitingToOrder);
                 }
@@ -53,7 +55,7 @@ public class Customer : MonoBehaviour
             case CustomerState.WaitingToOrder:
                 transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 timeSpentInLine += Time.deltaTime;
-            break;
+                break;
 
             case CustomerState.Ordering:
                 if (startedOrdering == false)
@@ -66,7 +68,7 @@ public class Customer : MonoBehaviour
             case CustomerState.WaitingForFood:
                 timeSpentWaitingForOrder += Time.deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, waitForFoodPosition, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
-            break;
+                break;
 
             case CustomerState.Eating:
                 if (timeToEatBurger <= 0) SetState(CustomerState.Leaving);
@@ -75,16 +77,48 @@ public class Customer : MonoBehaviour
 
             case CustomerState.Leaving:
                 transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Exit(), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
-                if(Vector3.Distance(transform.position, CustomerManager.Exit()) < 0.1f)
+                if (Vector3.Distance(transform.position, CustomerManager.Exit()) < 0.1f)
                 {
                     CustomerManager.Instance.CustomerLeaves(this);
                 }
-            break;
+                break;
         }
 
         if (timeSpentInLine > CustomerManager.MaxWaitTime() || timeSpentWaitingForOrder > CustomerManager.MaxWaitTime())
         {
             CustomerManager.Instance.CustomerRefusedService(this);
+        }
+    }
+
+    private void AdjustAnimation()
+    {
+        Vector2 diff = transform.position - prevFramePos;
+        Direction direction = PlayerController.GetDirection(diff, 0.1f);
+
+        if (direction != Direction.None)
+        {
+            animator.SetBool("Walking", true);
+            if (direction == Direction.Left)
+            {
+                animator.SetFloat("xVel", -1);
+            }
+            else if (direction == Direction.Right)
+            {
+                animator.SetFloat("xVel", 1);
+            }
+            else if (direction == Direction.Up)
+            {
+                animator.SetFloat("yVel", 1);
+            }
+            else if (direction == Direction.Down)
+            {
+                animator.SetFloat("yVel", -1);
+            }
+            prevFramePos = transform.position;
+        }
+        else
+        {
+            animator.SetBool("Walking", false);
         }
     }
 
@@ -99,7 +133,7 @@ public class Customer : MonoBehaviour
     private IEnumerator PlaceOrder()
     {
         Debug.Log("Taking order for " + this);
-        
+
         Burger order = Burger.GenerateRandomBurger(Random.Range(0, 1 + Mathf.Min(GameManager.GetDay(), CustomerManager.MaxToppings())));
 
         PlayerController.LockPlayer();
@@ -117,7 +151,7 @@ public class Customer : MonoBehaviour
         int ingredientCount = ingredients.Count;
         for (int i = 0; i < ingredientCount; i++)
         {
-            if(ingredients[i].Type() == IngredientType.Plate) continue;
+            if (ingredients[i].Type() == IngredientType.Plate) continue;
 
             spriteRenderer.sprite = ingredients[i].GetSprite();
             inBubble.SetActive(true);

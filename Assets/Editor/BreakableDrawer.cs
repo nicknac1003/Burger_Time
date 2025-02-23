@@ -17,7 +17,7 @@ public class BreakableDrawer : PropertyDrawer
         SerializedProperty breakChanceProp = property.FindPropertyRelative("breakChance");
         SerializedProperty repairQTEProp   = property.FindPropertyRelative("repairQTE");
         SerializedProperty holdableProp    = property.FindPropertyRelative("requiredHoldable");
-        SerializedProperty vfxBreakProp    = property.FindPropertyRelative("vfxBreak");
+        SerializedProperty vfxBreakProp    = property.FindPropertyRelative("vfxBreakPrefab");
         SerializedProperty vfxAnchorProp   = property.FindPropertyRelative("vfxAnchor");
 
         // Calculate rects

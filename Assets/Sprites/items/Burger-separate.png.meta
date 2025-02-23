@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -115,10 +115,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -135,12 +135,12 @@ TextureImporter:
       name: Burger-separate_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 16
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -157,12 +157,12 @@ TextureImporter:
       name: Burger-separate_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 32
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -179,12 +179,12 @@ TextureImporter:
       name: Burger-separate_3
       rect:
         serializedVersion: 2
-        x: 96
+        x: 48
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -201,12 +201,12 @@ TextureImporter:
       name: Burger-separate_4
       rect:
         serializedVersion: 2
-        x: 128
+        x: 64
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -223,12 +223,12 @@ TextureImporter:
       name: Burger-separate_5
       rect:
         serializedVersion: 2
-        x: 160
+        x: 80
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -245,12 +245,12 @@ TextureImporter:
       name: Burger-separate_6
       rect:
         serializedVersion: 2
-        x: 192
+        x: 96
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -267,12 +267,12 @@ TextureImporter:
       name: Burger-separate_7
       rect:
         serializedVersion: 2
-        x: 224
+        x: 112
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -289,12 +289,12 @@ TextureImporter:
       name: Burger-separate_8
       rect:
         serializedVersion: 2
-        x: 256
+        x: 128
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -311,12 +311,12 @@ TextureImporter:
       name: Burger-separate_9
       rect:
         serializedVersion: 2
-        x: 288
+        x: 144
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

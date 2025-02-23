@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -115,10 +115,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -135,12 +135,12 @@ TextureImporter:
       name: Patty_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 16
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -157,12 +157,12 @@ TextureImporter:
       name: Patty_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 32
         y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

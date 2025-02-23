@@ -11,17 +11,26 @@ public class Customer : MonoBehaviour
     private float timeToEatBurger;
     private CustomerState state;
     private Vector3 waitForFoodPosition;
-    private Vector3 waitInLinePosition;
     private bool startedOrdering;
-    private bool doneOrdering;
+    private float lineOffset;
+
+    [SerializeField] private CustomerState debugStateView;
 
     public int GetID() => id;
     public float GetTimeSpentInLine() => timeSpentInLine;
     public float GetTimeSpentWaitingForOrder() => timeSpentWaitingForOrder;
+    public float LineOffset() => lineOffset;
+
+    public CustomerState GetState() => state;
+    public void SetState(CustomerState newState)
+    {
+        state = newState;
+    }
 
     public void Init(int newID)
     {
         id = newID;
+        lineOffset = Random.Range(-0.25f, 0.25f);
         (float minBurgerTime, float maxBurgerTime) = CustomerManager.GetBurgerTimeRange();
         timeToEatBurger = Random.Range(minBurgerTime, maxBurgerTime);
         waitForFoodPosition = CustomerManager.Instance.GetRandomWaitingPosition();
@@ -29,21 +38,22 @@ public class Customer : MonoBehaviour
 
     void Update()
     {
-        switch (state)
+        debugStateView = state;
+        switch(state)
         {
             case CustomerState.Entering:
                 // We dont want time to tick up until the customer stops moving and is in line
-                Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
-                if (Vector3.Distance(transform.position, CustomerManager.Instance.GetSpotInLine(this)) < 0.1f)
+                transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+                if(Vector3.Distance(transform.position, CustomerManager.Instance.GetSpotInLine(this)) < 0.1f)
                 {
                     SetState(CustomerState.WaitingToOrder);
                 }
                 break;
 
             case CustomerState.WaitingToOrder:
+                transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 timeSpentInLine += Time.deltaTime;
-                Vector3.MoveTowards(transform.position, CustomerManager.Instance.GetSpotInLine(this), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
-                break;
+            break;
 
             case CustomerState.Ordering:
                 if (startedOrdering == false)
@@ -55,8 +65,8 @@ public class Customer : MonoBehaviour
 
             case CustomerState.WaitingForFood:
                 timeSpentWaitingForOrder += Time.deltaTime;
-                Vector3.MoveTowards(transform.position, waitForFoodPosition, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
-                break;
+                transform.position = Vector3.MoveTowards(transform.position, waitForFoodPosition, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+            break;
 
             case CustomerState.Eating:
                 if (timeToEatBurger <= 0) SetState(CustomerState.Leaving);
@@ -64,23 +74,18 @@ public class Customer : MonoBehaviour
                 break;
 
             case CustomerState.Leaving:
-                Vector3.MoveTowards(transform.position, CustomerManager.Exit(), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
-                break;
+                transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Exit(), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+                if(Vector3.Distance(transform.position, CustomerManager.Exit()) < 0.1f)
+                {
+                    CustomerManager.Instance.CustomerLeaves(this);
+                }
+            break;
         }
 
         if (timeSpentInLine > CustomerManager.MaxWaitTime() || timeSpentWaitingForOrder > CustomerManager.MaxWaitTime())
         {
-            CustomerManager.Instance.CustomerLeaves(this);
+            CustomerManager.Instance.CustomerRefusedService(this);
         }
-    }
-
-    public void SetState(CustomerState newState)
-    {
-        state = newState;
-    }
-    public CustomerState GetState()
-    {
-        return state;
     }
 
     public float GiveReview()
@@ -93,21 +98,27 @@ public class Customer : MonoBehaviour
 
     private IEnumerator PlaceOrder()
     {
-        Burger order = Burger.GenerateRandomBurger(Random.Range(0, Mathf.Min(GameManager.GetDay(), CustomerManager.MaxToppings())));
+        Debug.Log("Taking order for " + this);
+        
+        Burger order = Burger.GenerateRandomBurger(Random.Range(0, 1 + Mathf.Min(GameManager.GetDay(), CustomerManager.MaxToppings())));
 
         PlayerController.LockPlayer();
 
         GameObject speechBubble = Instantiate(GlobalConstants.speechBubble, transform);
-        speechBubble.transform.localPosition = new Vector3(0.5f, 1.5f, 0);
+        speechBubble.transform.localPosition = new Vector3(1.25f, 2.5f, 0);
 
         GameObject inBubble = Object.Instantiate(speechBubble, speechBubble.transform);
+        inBubble.transform.localPosition = new Vector3(0, 3 * GlobalConstants.pixelWorldSize, 0);
         SpriteRenderer spriteRenderer = inBubble.GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = speechBubble.GetComponent<SpriteRenderer>().sortingOrder + 1;
         inBubble.SetActive(false);
 
         List<Ingredient> ingredients = order.GetIngredients();
         int ingredientCount = ingredients.Count;
         for (int i = 0; i < ingredientCount; i++)
         {
+            if(ingredients[i].Type() == IngredientType.Plate) continue;
+
             spriteRenderer.sprite = ingredients[i].GetSprite();
             inBubble.SetActive(true);
 
@@ -124,6 +135,10 @@ public class Customer : MonoBehaviour
         PlayerController.UnlockPlayer();
 
         SetState(CustomerState.WaitingForFood);
+
+        CustomerManager.RemoveCustomerFromLine(this);
+
+        Debug.Log(this + " ordered " + order);
 
         OrderManager.NewTicket(order, this);
     }

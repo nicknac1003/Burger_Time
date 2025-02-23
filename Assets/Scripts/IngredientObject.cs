@@ -122,27 +122,27 @@ public class IngredientObject : Holdable
     public IngredientState State() => ingredient.State();
     public Ingredient GetIngredient() => ingredient;
 
-    public static Sprite GetSprite(IngredientType t, IngredientState s)
+    public static Sprite GetSprite(IngredientType t, IngredientState s, bool b = false)
     {
         return t switch
         {
-            IngredientType.Bun => GlobalConstants.bun.GetSprite(s),
-            IngredientType.Patty => GlobalConstants.patty.GetSprite(s),
-            IngredientType.Lettuce => GlobalConstants.lettuce.GetSprite(s),
-            IngredientType.Tomato => GlobalConstants.tomato.GetSprite(s),
-            IngredientType.Cheese => GlobalConstants.cheese.GetSprite(s),
-            IngredientType.Onion => GlobalConstants.onion.GetSprite(s),
-            IngredientType.Plate => GlobalConstants.plate.GetSprite(s),
+            IngredientType.Bun => GlobalConstants.bun.GetSprite(s, b),
+            IngredientType.Patty => GlobalConstants.patty.GetSprite(s, b),
+            IngredientType.Lettuce => GlobalConstants.lettuce.GetSprite(s, b),
+            IngredientType.Tomato => GlobalConstants.tomato.GetSprite(s, b),
+            IngredientType.Cheese => GlobalConstants.cheese.GetSprite(s, b),
+            IngredientType.Onion => GlobalConstants.onion.GetSprite(s, b),
+            IngredientType.Plate => GlobalConstants.plate.GetSprite(s, b),
             _ => null,
         };
     }
-    public Sprite GetSprite(IngredientState s)
+    public Sprite GetSprite(IngredientState s, bool b = false)
     {
         return s switch
         {
-            IngredientState.Raw => raw,
-            IngredientState.Cooked => cooked,
-            IngredientState.Burnt => burnt,
+            IngredientState.Raw => b ? onBurgerRaw : raw,
+            IngredientState.Cooked => b ? onBurgerCooked : cooked,
+            IngredientState.Burnt => b ? onBurgerBurnt : burnt,
             _ => null,
         };
     }
@@ -167,18 +167,7 @@ public class IngredientObject : Holdable
 
     private void UpdateSprite()
     {
-        switch (ingredient.State())
-        {
-            case IngredientState.Raw:
-                spriteRenderer.sprite = onBurger ? onBurgerRaw : raw;
-                break;
-            case IngredientState.Cooked:
-                spriteRenderer.sprite = onBurger ? onBurgerCooked : cooked;
-                break;
-            case IngredientState.Burnt:
-                spriteRenderer.sprite = onBurger ? onBurgerBurnt : burnt;
-                break;
-        }
+        GetSprite(ingredient.State(), onBurger);
     }
 
     public void StartMovementAnimation(Transform target, float duration, float arcHeight)
@@ -228,9 +217,9 @@ public class Ingredient
     public IngredientState State() => state;
     public IngredientType Type() => type;
 
-    public Sprite GetSprite()
+    public Sprite GetSprite(bool onBurger = false)
     {
-        return IngredientObject.GetSprite(type, state);
+        return IngredientObject.GetSprite(type, state, onBurger);
     }
 
     public override string ToString()

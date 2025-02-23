@@ -20,7 +20,6 @@ public class Storage : Interactable
 
     protected override void OnZ()
     {
-        Debug.Log("Z pressed on " + name);
         if (PlayerController.HoldingItem())
         {
             Holdable playerHolding = PlayerController.GetItem();
@@ -37,7 +36,6 @@ public class Storage : Interactable
         {
             if (TakeItem())
             {
-                Debug.Log("Took item from " + name);
                 // visual feedback for taking item?
             }
         }
@@ -68,13 +66,9 @@ public class Storage : Interactable
 
     protected virtual bool TakeItem()
     {
-        Debug.Log("Trying to take item from " + name);
         if (holdable == null) return false;
-        Debug.Log("Item is not null");
         if (PlayerController.HoldingItem()) return false;
-        Debug.Log("Player is not holding an item");
         if (PlayerController.GrabItem(holdable) == false) return false;
-        Debug.Log("Player grabbed item");
         if (holdable is FireExtinguisher fe) fe.Taken();
 
         holdable = null;

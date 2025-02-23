@@ -24,13 +24,11 @@ public class ServeStation : Interactable
     {
         if(burgerToServe != null)
         {
-            Debug.Log("Already serving a burger!");
             return;
         }
 
         if (OrderManager.CanServeFood() == false)
         {
-            Debug.Log("No tickets!");
             return;
         }
 
@@ -38,7 +36,6 @@ public class ServeStation : Interactable
 
         if (item == null || item is not BurgerObject)
         {
-            Debug.Log("No burger to serve!");
             return;
         }
 
@@ -49,11 +46,6 @@ public class ServeStation : Interactable
         if (ticket == null)
         {
             ticket = OrderManager.OldestTicket();
-            Debug.Log("No ticket for this burger! Giving it to the oldest ticket: " + ticket);
-        }
-        else
-        {
-            Debug.Log("Serving ticket: " + ticket);
         }
 
         OrderManager.RemoveTicket(ticket);
@@ -66,7 +58,6 @@ public class ServeStation : Interactable
     {
         if(burger == null || burgerToServe != null)
         {
-            Debug.LogError("Burger is null or already serving a different burger");
             return;
         }
 
@@ -79,11 +70,8 @@ public class ServeStation : Interactable
 
     public static void PickUpBurger(Customer customer)
     {
-        Debug.Log("Burger: " + Instance.burgerToServe + " Customer: " + customer);
-
         if(customer == null || Instance.burgerToServe == null)
         {
-            Debug.LogError("Customer is null or no burger to serve");
             return;
         }
 

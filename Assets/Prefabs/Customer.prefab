@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4635858040129594310}
-  - component: {fileID: 6365771963109138596}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -156,4 +155,4 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1

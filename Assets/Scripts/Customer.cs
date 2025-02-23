@@ -161,7 +161,7 @@ public class Customer : MonoBehaviour
         speechBubble.transform.localPosition = new Vector3(1.25f, 2.5f, 0);
 
         GameObject inBubble = Object.Instantiate(speechBubble, speechBubble.transform);
-        inBubble.transform.localPosition = new Vector3(0, 3 * GlobalConstants.pixelWorldSize, 0);
+        inBubble.transform.localPosition = new Vector3(0, -5.5f * GlobalConstants.pixelWorldSize, 0);
         SpriteRenderer spriteRenderer = inBubble.GetComponent<SpriteRenderer>();
         spriteRenderer.sortingOrder = speechBubble.GetComponent<SpriteRenderer>().sortingOrder + 1;
         inBubble.SetActive(false);

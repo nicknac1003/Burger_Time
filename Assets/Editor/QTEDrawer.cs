@@ -51,13 +51,35 @@ public class QTEDrawer : PropertyDrawer
             while (!SerializedProperty.EqualContents(childProperty, endProperty))
             {
                 position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), childProperty, true);
+                DrawProperty(ref position, childProperty);
                 childProperty.NextVisible(false);
             }
             EditorGUI.indentLevel--;
         }
 
         EditorGUI.EndProperty();
+    }
+
+    private void DrawProperty(ref Rect position, SerializedProperty property)
+    {
+        if (property.isArray && property.propertyType == SerializedPropertyType.Generic)
+        {
+            EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), property, true);
+            if (property.isExpanded)
+            {
+                EditorGUI.indentLevel++;
+                for (int i = 0; i < property.arraySize; i++)
+                {
+                    position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), property.GetArrayElementAtIndex(i), true);
+                }
+                EditorGUI.indentLevel--;
+            }
+        }
+        else
+        {
+            EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), property, true);
+        }
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -71,6 +93,13 @@ public class QTEDrawer : PropertyDrawer
             while (!SerializedProperty.EqualContents(childProperty, endProperty))
             {
                 height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                if (childProperty.isArray && childProperty.propertyType == SerializedPropertyType.Generic && childProperty.isExpanded)
+                {
+                    for (int i = 0; i < childProperty.arraySize; i++)
+                    {
+                        height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    }
+                }
                 childProperty.NextVisible(false);
             }
         }

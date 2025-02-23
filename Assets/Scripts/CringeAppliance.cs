@@ -1,14 +1,9 @@
 using UnityEngine;
 
-public class CuttingBoard : Appliance
+public class CringeAppliance : Appliance
 {
     [SerializeReference] private QuickTimeEvent useApplianceQTE = new MashQTE();
     private bool QTEInProgress = false;
-
-    // private void Start() {
-    //     useApplianceQTE = new MashQTE();
-    // }
-
 
     protected override void Update()
     {
@@ -35,20 +30,24 @@ public class CuttingBoard : Appliance
 
     protected override void OnZ()
     {
+        Debug.Log("OnZ");
         if (!QTEInProgress)
         {
+            Debug.Log("Not in QTE");
             if (PlayerController.HoldingItem())
             {
-                Holdable playerHolding = PlayerController.GetItem();
-                if (PlaceItem(playerHolding))
+                Debug.Log("Player holding item");
+                if (PlaceItem(PlayerController.GetItem()))
                 {
                     // visual feedback for placing item?
                 }
             }
             else
             {
+                Debug.Log("Player not holding item");
                 if (holdable != null && holdable is IngredientObject ig)
                 {
+                    Debug.Log("Holdable is ingredient object");
                     if (ig.State() == IngredientState.Cooked) TakeItem();
                     else QTEInProgress = true;
                 }

@@ -13,9 +13,10 @@ public class Storage : Interactable
     [SerializeField] private Transform anchor;
 
     [SerializeField] private bool canHoldBurgers = false;
-    [SerializeField] protected Holdable holdable;
 
     [SerializeField] protected bool canHoldFireExtinguisher = false;
+
+    protected Holdable holdable;
 
     protected override void OnZ()
     {
@@ -42,13 +43,29 @@ public class Storage : Interactable
 
     protected bool PlaceItem(Holdable item)
     {
+        Debug.Log("Trying to place item in " + name);
+
         if (holdable != null) return false;
         
+        Debug.Log("Storage is empty");
+
         if (item is IngredientObject ingredientObject)
         {
+            Debug.Log("Item is ingredient object");
+
+            if(acceptedHoldables.Count > 0) Debug.Log("Holdables are restricted.");
+            if(acceptedHoldables.Contains(ingredientObject.Type())) Debug.Log("Item is an accepted holdable.");
+            if(acceptedStates.Contains(ingredientObject.State())) Debug.Log("Item is in an accepted state.");
+
             if (acceptedHoldables.Count > 0 && (!acceptedHoldables.Contains(ingredientObject.Type()) || !acceptedStates.Contains(ingredientObject.State()))) return false;
         }
-        else if (!canHoldBurgers && item is BurgerObject) return false;
+        else if (!canHoldBurgers && item is BurgerObject)
+        {
+            Debug.Log("Item is a burger object and storage cannot hold burgers.");
+            return false;
+        }
+        
+        Debug.Log("Item is allowed");
 
         if (item is FireExtinguisher && !canHoldFireExtinguisher) return false;
         if (item is FireExtinguisher fe && canHoldFireExtinguisher) fe.Dropped();

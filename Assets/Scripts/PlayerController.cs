@@ -252,7 +252,7 @@ public class PlayerController : MonoBehaviour
 
         Instance.holding = item;
         Instance.holding.transform.SetParent(Instance.holdAnchor);
-        //Instance.holding.transform.localPosition = Vector3.zero;
+        Instance.holding.transform.localPosition = Vector3.zero;
         Instance.animator.SetTrigger("Pickup");
 
         return true;

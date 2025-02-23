@@ -61,6 +61,7 @@ public class IngredientObject : Holdable
 
     private SpriteRenderer spriteRenderer;
     private bool onBurger = false;
+    public bool isMoving = false;
 
     public static IngredientObject Instantiate(Ingredient data)
     {
@@ -160,6 +161,7 @@ public class IngredientObject : Holdable
 
     public void StartMovementAnimation(Transform target, float duration, float arcHeight)
     {
+        isMoving = true;
         StartCoroutine(MoveToTarget(target, duration, arcHeight));
     }
     IEnumerator MoveToTarget(Transform target, float duration, float arcHeight)
@@ -183,6 +185,7 @@ public class IngredientObject : Holdable
         }
 
         transform.position = endPosition;
+        isMoving = false;
     }
 
 }

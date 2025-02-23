@@ -110,12 +110,12 @@ public class Customer : MonoBehaviour
                 {
                     if (diff.x > 0)
                     {
-                        animator.SetFloat("xVel", 1);
+                        animator.SetFloat("xVel", -1);
                         animator.SetFloat("yVel", 0);
                     }
                     else
                     {
-                        animator.SetFloat("xVel", -1);
+                        animator.SetFloat("xVel", 1);
                         animator.SetFloat("yVel", 0);
                     }
                 }

@@ -38,14 +38,16 @@ public class Storage : Interactable
     }
 
 
-    protected bool PlaceItem(Holdable item)
+    protected virtual bool PlaceItem(Holdable item)
     {
         if (holdable != null) return false;
-        
+
         if (item is IngredientObject ingredientObject)
         {
             if (acceptedHoldables.Count > 0 && !acceptedHoldables.Contains(ingredientObject.Type()))
                 return false;
+
+            if (ingredientObject.isMoving) return false;
         }
         else if (!canHoldBurgers && item is BurgerObject) return false;
         if (item is FireExtinguisher fet && !canHoldFireExtinguisher) return false;

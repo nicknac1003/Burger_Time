@@ -32,7 +32,7 @@ public class Stove : Appliance
 
     public void Cooking()
     {
-
+        Debug.Log("cooking");
         IngredientObject patty = holdable as IngredientObject;
         if (patty.Type() != IngredientType.Patty) return;
 
@@ -58,13 +58,9 @@ public class Stove : Appliance
 
     protected override bool TakeItem()
     {
-        if (holdable == null) return false;
-        if (!working) return false;
-        if (PlayerController.HoldingItem()) return false;
-        if (PlayerController.GrabItem(holdable) == false) return false;
-        Debug.Log("Took " + holdable.name + " from " + name);
+        if (!base.TakeItem()) return false;
+
         audioSource.Stop();
-        holdable = null;
 
         return true;
     }
@@ -72,6 +68,7 @@ public class Stove : Appliance
     public void PlayClip(bool force)
     {
         if (audioSource == null || cookingClip == null) return;
+        Debug.Log("Playing");
         if (force)
         {
             Debug.Log("Forcing");

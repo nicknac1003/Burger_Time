@@ -20,6 +20,10 @@ public class Customer : MonoBehaviour
     [SerializeField] private CustomerState debugStateView;
     [SerializeField] private Animator animator;
 
+    [SerializeField] private GameObject reviewPopup;
+
+    private float finalScore = 5f;
+
     public int GetID() => id;
     public float GetTimeSpentInLine() => timeSpentInLine;
     public float GetTimeSpentWaitingForOrder() => timeSpentWaitingForOrder;
@@ -83,6 +87,7 @@ public class Customer : MonoBehaviour
                 {
                     ServeStation.PickUpBurger(this);
                     SetState(CustomerState.Eating);
+                    SpawnReviewPopup();
                 }
             break;
 
@@ -204,6 +209,12 @@ public class Customer : MonoBehaviour
         CustomerManager.RemoveCustomerFromLine(this);
 
         OrderManager.NewTicket(order, this);
+    }
+    public void SpawnReviewPopup()
+    {
+        GameObject popup = Instantiate(reviewPopup, transform.position, Quaternion.identity);
+        popup.GetComponent<RatingPopup>().SetRating(finalScore);
+        Destroy(gameObject, 5f);
     }
 }
 

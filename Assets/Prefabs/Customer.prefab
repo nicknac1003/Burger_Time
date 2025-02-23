@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4635858040129594310}
+  - component: {fileID: 6365771963109138596}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugStateView: 0
   animator: {fileID: 3018179610848178886}
+  reviewPopup: {fileID: 1328764216328756072, guid: ae5d0cd6299aa9447838339cdecfc6f6, type: 3}
 --- !u!1 &8354282500733175035
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,19 +1,21 @@
 using UnityEngine;
 
-public class IngredientCrate: Interactable {
+public class IngredientCrate : Interactable
+{
     public IngredientType ingredientType;
 
     public static Animation pickupAnimation;
 
     public AudioSource pickupSound;
+    public float ingredientScale = 0.75f;
 
-    protected override void OnZ() {
-        if(PlayerController.HoldingItem()) return;
+    protected override void OnZ()
+    {
+        if (PlayerController.HoldingItem()) return;
 
-        IngredientObject ingredient = IngredientObject.Instantiate(new Ingredient(ingredientType, IngredientState.Raw));
-        // ingredient.transform.localScale = new Vector3(0.75f, 0.75f * Mathf.Sqrt(2), 0.75f);
-        Debug.Log(ingredient.transform.localScale);
-
+        IngredientObject ingredient = IngredientObject.Instantiate(new Ingredient(ingredientType, IngredientState.Raw), transform);
+        ingredient.transform.localScale = new Vector3(ingredientScale, ingredientScale, ingredientScale);
+        ingredient.StartMovementAnimation(PlayerController.Instance.holdAnchor.transform, 0.5f, 1f);
         PlayerController.GrabItem(ingredient);
 
         // pickupAnimation.Play();

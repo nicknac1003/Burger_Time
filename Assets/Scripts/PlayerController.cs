@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private float decayFactor;
 
     [Header("Gameplay Variables")]
-    [SerializeField] private Transform holdAnchor;
+    public Transform holdAnchor;
     [SerializeField] private Animator animator;
     private Rigidbody2D rb;
 
@@ -252,7 +252,7 @@ public class PlayerController : MonoBehaviour
 
         Instance.holding = item;
         Instance.holding.transform.SetParent(Instance.holdAnchor);
-        Instance.holding.transform.localPosition = Vector3.zero;
+        //Instance.holding.transform.localPosition = Vector3.zero;
         Instance.animator.SetTrigger("Pickup");
 
         return true;
@@ -271,6 +271,15 @@ public class PlayerController : MonoBehaviour
     {
         direction = dir;
         animator.SetInteger("Direction", dir);
+    }
+
+    public static Direction GetDirection(Vector2 moveInput, float squaredThreshold = 0.25f)
+    {
+        if (moveInput.sqrMagnitude <= squaredThreshold) return Direction.None;
+        if (Vector2.Angle(Vector2.up, moveInput) <= 45) return Direction.Up;
+        if (Vector2.Angle(Vector2.right, moveInput) <= 45) return Direction.Right;
+        if (Vector2.Angle(Vector2.down, moveInput) <= 45) return Direction.Down;
+        return Direction.Left;
     }
 
 }

@@ -118,4 +118,15 @@ public class Storage : Interactable
             }
         }
     }
+    public void SetItem(Holdable item)
+    {
+        if (holdable != null) return;
+        holdable = item;
+        holdable.transform.SetParent(anchor.transform);
+        holdable.transform.localPosition = Vector3.zero;
+    }
+    public Holdable GetItem()
+    {
+        return holdable;
+    }
 }

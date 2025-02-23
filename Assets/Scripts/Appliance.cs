@@ -8,6 +8,7 @@ public class Appliance : Storage
     protected bool working = true;
 
     public bool InUse() => inUse;
+    public Breakable GetBreakable() => breakable;
 
     protected virtual void Update()
     {

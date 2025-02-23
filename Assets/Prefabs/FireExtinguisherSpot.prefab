@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4650572410787308758}
   - component: {fileID: 5777476331777949813}
   - component: {fileID: 1510433929399318267}
+  - component: {fileID: 4419443110905408885}
   m_Layer: 0
   m_Name: FireExtinguisherSpot
   m_TagString: Interactable
@@ -127,7 +128,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 2, y: 2}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
@@ -149,10 +150,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceptedHoldables: 
+  acceptedStates: 
   anchor: {fileID: 4006250006184385473}
   canHoldBurgers: 0
   holdable: {fileID: 4025663937910472906}
   canHoldFireExtinguisher: 1
+--- !u!114 &4419443110905408885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140171990406829590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2591ad4c36da1b448fa2d7ab4011ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireExtinguisher: {fileID: 4025663937910472906}
+  fireExtinguisherPrefab: {fileID: 538809433287189887, guid: 8cfb6f7cefc1b8a43bc512eb81827422, type: 3}
+  storage: {fileID: 1510433929399318267}
 --- !u!1 &5141867119739665873
 GameObject:
   m_ObjectHideFlags: 0

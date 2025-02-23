@@ -6,6 +6,9 @@ public class Storage : Interactable
     [Tooltip("The list of holdable items that can be stored in this storage.")]
     [SerializeField] private List<IngredientType> acceptedHoldables = new();
 
+    [Tooltip("The list of states that the items above can be.")]
+    [SerializeField] private List<IngredientState> acceptedStates = new();
+
     [Tooltip("The anchor point where the holdable item will be placed.")]
     [SerializeField] private Transform anchor;
 
@@ -37,15 +40,13 @@ public class Storage : Interactable
         }
     }
 
-
     protected bool PlaceItem(Holdable item)
     {
         if (holdable != null) return false;
         
         if (item is IngredientObject ingredientObject)
         {
-            if (acceptedHoldables.Count > 0 && !acceptedHoldables.Contains(ingredientObject.Type()))
-                return false;
+            if (acceptedHoldables.Count > 0 && (!acceptedHoldables.Contains(ingredientObject.Type()) || !acceptedStates.Contains(ingredientObject.State()))) return false;
         }
         else if (!canHoldBurgers && item is BurgerObject) return false;
         if (item is FireExtinguisher fet && !canHoldFireExtinguisher) return false;
@@ -77,25 +78,38 @@ public class Storage : Interactable
     {
         if (holdable is BurgerObject burger && playerHolding is IngredientObject ingredient)
         {
-            if (burger.Add(ingredient))
+            if (burger.CanAdd(ingredient))
+            {
+                burger.Add(ingredient);
                 PlayerController.Instance.SetHolding(null);
+            }
         }
+
         if (holdable is IngredientObject ingredient1 && playerHolding is IngredientObject ingredient2 && canHoldBurgers)
         {
-            GameObject gameObject = new GameObject("Burger", typeof(BurgerObject));
-            gameObject.transform.SetParent(anchor);
-            gameObject.transform.localPosition = Vector3.zero;
-            BurgerObject newBurger = gameObject.GetComponent<BurgerObject>();
-            if (newBurger.Add(ingredient1) && newBurger.Add(ingredient2))
+            GameObject burgerObject = new("Burger", typeof(BurgerObject));
+            burgerObject.transform.SetParent(anchor);
+            burgerObject.transform.localPosition = Vector3.zero;
+
+            BurgerObject newBurger = burgerObject.GetComponent<BurgerObject>();
+            if (newBurger.CanAdd(ingredient1) && newBurger.CanAdd(ingredient2))
             {
+                newBurger.Add(ingredient1);
+                newBurger.Add(ingredient2);
                 PlayerController.Instance.SetHolding(null);
                 holdable = newBurger;
             }
+            else
+            {
+                Destroy(burgerObject);
+            }
         }
+
         if (holdable is IngredientObject ingredient3 && playerHolding is BurgerObject burger2)
         {
-            if (burger2.Add(ingredient3))
+            if (burger2.CanAdd(ingredient3))
             {
+                burger2.Add(ingredient3);
                 holdable = null;
             }
         }

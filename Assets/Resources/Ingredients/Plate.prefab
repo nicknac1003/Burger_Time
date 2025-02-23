@@ -105,7 +105,7 @@ MonoBehaviour:
     type: 0
     state: 0
   prepMethod: 5
-  raw: {fileID: 21300000, guid: 6c8fce670dd60d7409368c9faae2842d, type: 3}
+  raw: {fileID: 21300000, guid: 6a88859ee8a51174789ef2c7a544684e, type: 3}
   cooked: {fileID: 21300000, guid: 6c8fce670dd60d7409368c9faae2842d, type: 3}
   burnt: {fileID: 0}
   onBurgerRaw: {fileID: 0}

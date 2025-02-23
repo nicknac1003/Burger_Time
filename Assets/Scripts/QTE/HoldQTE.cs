@@ -122,13 +122,14 @@ public class HoldQTE : QuickTimeEvent
         circle.transform.localPosition = new Vector3(0f, 2f, 0f);
 
         circleSpriteRenderer = circle.GetComponent<SpriteRenderer>();
+        circleSpriteRenderer.sortingOrder = 10;
         circleSpriteRenderer.material = new Material(circleSpriteRenderer.material);
         circleSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
         circleSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
 
         keyZ = new GameObject("KeyZ");
         keyZ.transform.parent = circle.transform;
-        keyZ.transform.localPosition = new Vector3(0f, 0.5f, 0f);
+        keyZ.transform.localPosition = new Vector3(0f, 1f, 0f);
         keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
         keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Up);
     }

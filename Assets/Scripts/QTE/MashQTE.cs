@@ -72,13 +72,14 @@ public class MashQTE : QuickTimeEvent
         fillBarInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
 
         fillBarSpriteRenderer = fillBarInstance.GetComponent<SpriteRenderer>();
+        fillBarSpriteRenderer.sortingOrder = 10;
         fillBarSpriteRenderer.material = new Material(fillBarSpriteRenderer.material);
         fillBarSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
         fillBarSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
 
         keyZ = new GameObject("KeyZ");
         keyZ.transform.parent = fillBarInstance.transform;
-        keyZ.transform.localPosition = new Vector3(0f, 0.5f, 0f);
+        keyZ.transform.localPosition = new Vector3(0f, 1f, 0f);
         keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
         keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Up);
     }

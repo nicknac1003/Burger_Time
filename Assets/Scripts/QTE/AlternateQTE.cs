@@ -106,16 +106,17 @@ public class AlternateQTE : QuickTimeEvent
         fillBarSpriteRenderer.material = new Material(fillBarSpriteRenderer.material);
         fillBarSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
         fillBarSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
+        fillBarSpriteRenderer.sortingOrder = 10;
 
         keyZ = new GameObject("KeyZ");
         keyZ.transform.parent = fillBarInstance.transform;
-        keyZ.transform.localPosition = new Vector3(-0.5f, 0f, 0f);
+        keyZ.transform.localPosition = new Vector3(-1f, 0f, 0f);
         keyZAnimator = keyZ.AddComponent<UIKeyAnimator>();
         keyZAnimator.Init(GlobalConstants.keyZ, KeyState.Down);
 
         keyC = new GameObject("KeyC");
         keyC.transform.parent = fillBarInstance.transform;
-        keyC.transform.localPosition = new Vector3(0.5f, 0f, 0f);
+        keyC.transform.localPosition = new Vector3(1f, 0f, 0f);
         keyCAnimator = keyC.AddComponent<UIKeyAnimator>();
         keyCAnimator.Init(GlobalConstants.keyC, KeyState.Up);
     }

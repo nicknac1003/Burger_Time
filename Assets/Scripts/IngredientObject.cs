@@ -137,7 +137,7 @@ public class IngredientObject : Holdable
 
     private void UpdateSprite()
     {
-        GetSprite(ingredient.State(), onBurger);
+        spriteRenderer.sprite = GetSprite(ingredient.State(), onBurger);
     }
     
 }

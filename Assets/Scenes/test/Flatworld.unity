@@ -10449,10 +10449,21 @@ MonoBehaviour:
     vfxAnchor: {fileID: 0}
   inUse: 0
   useApplianceQTE:
-    rid: 8066485002639245794
+    rid: 2277583875323199678
   references:
     version: 2
     RefIds:
+    - rid: 2277583875323199678
+      type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
+      data:
+        progressSounds: []
+        errorSounds: []
+        audioSource: {fileID: 0}
+        locksPlayerInPlace: 0
+        progressVolume: 0.75
+        errorVolume: 0.45
+        time: 4
+        drain: 0.5
     - rid: 8066485002639245793
       type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
       data:
@@ -10464,22 +10475,6 @@ MonoBehaviour:
         errorVolume: 0.45
         time: 4
         drain: 0.5
-    - rid: 8066485002639245794
-      type: {class: MashQTE, ns: , asm: Assembly-CSharp}
-      data:
-        progressSounds:
-        - {fileID: 8300000, guid: c7e6d897c0128e84ea45a0d3d6307360, type: 3}
-        - {fileID: 8300000, guid: 8ae1ef0c3255ecd4da9a0795d626d782, type: 3}
-        - {fileID: 8300000, guid: d9fc67d78587b434ea43455d79975f1f, type: 3}
-        - {fileID: 8300000, guid: 7891d7338ffe70c49b7820fe0ff97eb1, type: 3}
-        - {fileID: 8300000, guid: b6f570c83c2456b4fb22a9a7bb8f3766, type: 3}
-        - {fileID: 8300000, guid: d5cfa84cafd3cb94ba21b0aa2219a6c3, type: 3}
-        errorSounds: []
-        audioSource: {fileID: 376847070}
-        locksPlayerInPlace: 1
-        progressVolume: 0.75
-        errorVolume: 0.45
-        mashCount: 10
 --- !u!61 &376847069
 BoxCollider2D:
   m_ObjectHideFlags: 0

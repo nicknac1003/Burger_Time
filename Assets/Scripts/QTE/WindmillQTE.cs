@@ -155,28 +155,29 @@ public class WindmillQTE : QuickTimeEvent
         fillBarSpriteRenderer.material = new Material(fillBarSpriteRenderer.material);
         fillBarSpriteRenderer.material.SetColor("_colorEmpty", GlobalConstants.badColor);
         fillBarSpriteRenderer.material.SetColor("_colorFilled", GlobalConstants.goodColor);
+        fillBarSpriteRenderer.sortingOrder = 10;
 
         keyUp = new GameObject("KeyUp");
         keyUp.transform.parent = fillBarInstance.transform;
-        keyUp.transform.localPosition = new Vector3(0f, 0.5f, 0f);
+        keyUp.transform.localPosition = new Vector3(0f, 1f, 0f);
         keyUpAnimator = keyUp.AddComponent<UIKeyAnimator>();
         keyUpAnimator.Init(GlobalConstants.keyUp, KeyState.Up);
 
         keyRight = new GameObject("KeyRight");
         keyRight.transform.parent = fillBarInstance.transform;
-        keyRight.transform.localPosition = new Vector3(0.5f, 0f, 0f);
+        keyRight.transform.localPosition = new Vector3(1f, 0f, 0f);
         keyRightAnimator = keyRight.AddComponent<UIKeyAnimator>();
         keyRightAnimator.Init(GlobalConstants.keyRight, KeyState.Up);
 
         keyDown = new GameObject("KeyDown");
         keyDown.transform.parent = fillBarInstance.transform;
-        keyDown.transform.localPosition = new Vector3(0f, -0.5f, 0f);
+        keyDown.transform.localPosition = new Vector3(0f, -1f, 0f);
         keyDownAnimator = keyDown.AddComponent<UIKeyAnimator>();
         keyDownAnimator.Init(GlobalConstants.keyDown, KeyState.Up);
 
         keyLeft = new GameObject("KeyLeft");
         keyLeft.transform.parent = fillBarInstance.transform;
-        keyLeft.transform.localPosition = new Vector3(-0.5f, 0f, 0f);
+        keyLeft.transform.localPosition = new Vector3(-1f, 0f, 0f);
         keyLeftAnimator = keyLeft.AddComponent<UIKeyAnimator>();
         keyLeftAnimator.Init(GlobalConstants.keyLeft, KeyState.Up);
     }

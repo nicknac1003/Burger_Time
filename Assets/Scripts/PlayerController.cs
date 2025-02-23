@@ -226,7 +226,6 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"collided with {other.name}");
         if (other.CompareTag("Interactable"))
         {
             

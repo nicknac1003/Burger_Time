@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &960295359002040383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7209552272517217454}
+  m_Layer: 0
+  m_Name: vfxAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7209552272517217454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960295359002040383}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 450982988267318642}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4380318927407670970
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,6 +43,7 @@ GameObject:
   - component: {fileID: 246238483775671929}
   - component: {fileID: 4366805655657605383}
   - component: {fileID: 5879597864319746647}
+  - component: {fileID: 1667890349365539390}
   m_Layer: 0
   m_Name: Stove
   m_TagString: Interactable
@@ -33,6 +65,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5354645228164302931}
+  - {fileID: 7209552272517217454}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &246238483775671929
@@ -105,8 +138,8 @@ MonoBehaviour:
     repairQTE:
       rid: 8066485002639245790
     requiredHoldable: {fileID: 0}
-    vfxBreak: {fileID: 0}
-    vfxAnchor: {fileID: 0}
+    vfxBreakPrefab: {fileID: 1733721084633098381, guid: 0eaa9c5a2aae1234c9e5fc08798fd4c7, type: 3}
+    vfxAnchor: {fileID: 7209552272517217454}
   inUse: 0
   BrokenCookTimeMultiplier: 4
   cookTime: 10
@@ -230,6 +263,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!210 &1667890349365539390
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4380318927407670970}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
+  m_SortAtRoot: 0
 --- !u!1 &4615859265804591580
 GameObject:
   m_ObjectHideFlags: 0

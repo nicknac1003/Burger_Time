@@ -26,7 +26,9 @@ public class Breakable
     [SerializeField] private Holdable requiredHoldable;
 
     [Tooltip("VFX to play while broken.")]
-    [SerializeField] private VisualEffect vfxBreak;
+    [SerializeField] private Transform vfxBreakPrefab;
+
+    private Transform vfxInScene;
 
     [Tooltip("Anchor to place VFX.")]
     [SerializeField] private Transform vfxAnchor;
@@ -75,6 +77,7 @@ public class Breakable
     public void Break(Appliance parent)
     {
         broken = true;
+        Createvfx();
         Debug.Log(parent.name + " broke!");
     }
 
@@ -82,7 +85,21 @@ public class Breakable
     {
         broken      = false;
         breakTimer  = -safetyTime; // set to negative safety time so we can reset to 0 for interval checks
-
+        Destroyvfx();
         Debug.Log(parent.name + " repaired!");
+    }
+        private void Createvfx(){
+        if(vfxBreakPrefab == null) return;
+        if (vfxInScene != null) return;
+
+        vfxInScene = Object.Instantiate(vfxBreakPrefab, vfxAnchor.position, Quaternion.identity);
+        vfxInScene.transform.SetParent(vfxAnchor);
+    }
+
+    private void Destroyvfx(){
+        if(vfxInScene == null) return;
+
+        Object.Destroy(vfxInScene.gameObject);
+        vfxInScene = null;
     }
 }

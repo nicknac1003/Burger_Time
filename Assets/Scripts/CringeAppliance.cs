@@ -5,10 +5,6 @@ public class CringeAppliance : Appliance
     [SerializeReference] private QuickTimeEvent useApplianceQTE = new MashQTE();
     private bool QTEInProgress = false;
 
-    private void Awake()
-    {
-        Debug.Log(useApplianceQTE);    
-    }
     protected override void Update()
     {
         base.Update();

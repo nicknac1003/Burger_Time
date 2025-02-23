@@ -80,22 +80,6 @@ public class BurgerObject : Holdable
             ingredientsOnBurger[i].transform.localPosition = new Vector3(0, i * spacing, 0);
         }
     }
-
-    // DEBUG ONLY
-    // void Awake()
-    // {
-    //     List<Ingredient> workingList = new(burger.GetIngredients());
-    //     burger = new Burger();
-
-    //     foreach(Ingredient ingredient in workingList)
-    //     {
-    //         Debug.Log("Adding " + ingredient + " to " + this);
-    //         if(Add(IngredientObject.Instantiate(ingredient)) == false)
-    //         {
-    //             Debug.LogError("Failed to add " + ingredient + " to " + this);
-    //         }
-    //     }   
-    // }
 }
 
 [System.Serializable]

@@ -21,6 +21,7 @@ public class HoldQTE : QuickTimeEvent
     private float drainSpeed = 1f; // Multiplier for how fast progress depletes
 
     // bools to play a sound at each quarter of the progress
+    private bool played01 = false;
     private bool played25 = false;
     private bool played50 = false;
     private bool played75 = false;
@@ -90,8 +91,13 @@ public class HoldQTE : QuickTimeEvent
         return 0f;
     }
 
-    private void checkSoundProgress()
+    private void checkSoundProgress() // mostly for wrench cranking sound
     {
+        if (progress / time > 0.01 && !played25)
+        {
+            PlayProgressSound();
+            played01 = true;
+        }
         if (progress / time > 0.25 && !played25)
         {
             PlayProgressSound();
@@ -153,6 +159,7 @@ public class HoldQTE : QuickTimeEvent
         parent.ResetInteracts();
         isActive = false;
         ResetProgress();
+        EndProgressSound();
         DestroyUI();
     }
 }

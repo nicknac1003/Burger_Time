@@ -91,16 +91,13 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         holdAnchor = transform.Find("HoldingPos").transform;
     }
     void Update()
     {
         if (GameManager.GamePaused()) return;
 
-        wishDirection = moveAction.ReadValue<Vector2>().normalized;
+        if (!lockedInPlace) wishDirection = moveAction.ReadValue<Vector2>().normalized;
 
         if (goodUnlock == false)
         {
@@ -126,8 +123,8 @@ public class PlayerController : MonoBehaviour
         if (lockedInPlace == false && goodUnlock)
         {
             UpdatePosition();
-            UpdateAnimation();
         }
+        UpdateAnimation();
     }
     private void UpdateAnimation()
     {

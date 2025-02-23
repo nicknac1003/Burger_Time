@@ -59,8 +59,14 @@ public abstract class QuickTimeEvent
     }
     public void PlayProgressSound()
     {
+        if (audioSource.isPlaying) return;
+        audioSource.clip = progressSounds[Random.Range(0, progressSounds.Count)];
+        audioSource.volume = progressVolume;
+        audioSource.Play();
+    }
+    public void EndProgressSound()
+    {
         audioSource.Stop();
-        audioSource.PlayOneShot(progressSounds[Random.Range(0, progressSounds.Count)], progressVolume);
     }
     public void PlayErrorSound()
     {

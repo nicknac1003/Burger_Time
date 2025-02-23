@@ -56,6 +56,9 @@ public class CustomerManager : MonoBehaviour
         }
 
         trySpawnAt = Random.Range(minSpawnAttemptTime, maxSpawnAttemptTime);
+
+        //spawn a customer to start the day
+        line.Add(SpawnCustomer());
     }
 
     void Update()

@@ -14,7 +14,6 @@ public class Storage : Interactable
 
     protected override void OnZ()
     {
-        Debug.Log(PlayerFacingThis());
         if (PlayerController.HoldingItem())
         {
             Holdable playerHolding = PlayerController.GetItem();
@@ -35,16 +34,7 @@ public class Storage : Interactable
             }
         }
     }
-    private bool PlayerFacingThis()
-    {
-        Debug.Log(PlayerController.Instance.direction);
-        Debug.Log(PlayerController.Instance.transform.position.y + " vs object: " + transform.position.y);
-        if (transform.position.y > PlayerController.Instance.transform.position.y && PlayerController.Instance.direction == "Up") return true;
 
-        if (transform.position.y < PlayerController.Instance.transform.position.y && PlayerController.Instance.direction == "Down") return true;
-
-        return false;
-    }
 
     private bool PlaceItem(Holdable item)
     {

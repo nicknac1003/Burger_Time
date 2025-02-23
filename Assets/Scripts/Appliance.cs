@@ -12,7 +12,7 @@ public class Appliance : Storage
 
     protected virtual void Update()
     {
-        if (breakable.CanBreak())
+        if (breakable.CanBreak() && !inUse)
         {
             breakable.HandleBreaking(this);
             breakable.HandleRepairing(zPressed, this);

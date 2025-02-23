@@ -64,9 +64,9 @@ public class Ticket : MonoBehaviour
 
     void Update()
     {
-        float percentRemaining = (CustomerManager.MaxWaitTime() - customer.GetTimeSpentWaitingForOrder()) / CustomerManager.MaxWaitTime();
+        float percentRemaining = 1 - (customer.GetTimeSpentWaitingForOrder() / customer.GetMaxOrderTime());
 
-        timerRect.offsetMax = new(-Mathf.Lerp(width, 10, percentRemaining), timerRect.offsetMax.y); // Shrink timer bar to the left
+        timerRect.offsetMax = new(-Mathf.Lerp(width, 10, percentRemaining), timerRect.offsetMax.y);  // Shrink timer bar to the left
         timerRect.GetComponent<Image>().color = OrderManager.GetGradientColor(1 - percentRemaining); // Change color of timer bar
     }
 

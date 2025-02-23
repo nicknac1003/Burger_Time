@@ -38,7 +38,7 @@ public class Storage : Interactable
     }
 
 
-    private bool PlaceItem(Holdable item)
+    protected bool PlaceItem(Holdable item)
     {
         if (holdable != null) return false;
         
@@ -73,7 +73,7 @@ public class Storage : Interactable
         return true;
     }
 
-    private void TryCombine(Holdable playerHolding)
+    protected void TryCombine(Holdable playerHolding)
     {
         if (holdable is BurgerObject burger && playerHolding is IngredientObject ingredient)
         {

@@ -26,6 +26,10 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private float prepTimePerIngredient;
     [SerializeField] private float requestIngredientTime;
     [SerializeField] private int maxToppings = 8;
+    [SerializeField] private AudioClip customerEnterSound;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private float customerEnterVolume = 0.5f;
+
 
     public static CustomerManager Instance { get; private set; }
 
@@ -61,7 +65,11 @@ public class CustomerManager : MonoBehaviour
         }
 
         trySpawnAt = Random.Range(minSpawnAttemptTime, maxSpawnAttemptTime);
-
+        if (audioSource != null)
+        {
+            audioSource.clip = customerEnterSound;
+            audioSource.volume = customerEnterVolume;
+        }
         //spawn a customer to start the day
         line.Add(SpawnCustomer());
     }
@@ -93,9 +101,14 @@ public class CustomerManager : MonoBehaviour
         newCustomer.transform.SetParent(transform);
         newCustomer.GetComponent<Customer>().Init(customerCount);
         newCustomer.transform.position = spawnPoint.position;
+        PlayCustomerSpawnSound();
         return newCustomer.GetComponent<Customer>();
     }
 
+    private void PlayCustomerSpawnSound()
+    {
+        audioSource.Play();
+    }
     private bool AtCapacity()
     {
         return inBuilding >= maxCapacity;

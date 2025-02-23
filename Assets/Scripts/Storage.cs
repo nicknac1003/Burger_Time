@@ -10,7 +10,9 @@ public class Storage : Interactable
     [SerializeField] private Transform anchor;
 
     [SerializeField] private bool canHoldBurgers = false;
-    protected Holdable holdable;
+    [SerializeField] protected Holdable holdable;
+
+    [SerializeField] protected bool canHoldFireExtinguisher = false;
 
     protected override void OnZ()
     {
@@ -39,14 +41,15 @@ public class Storage : Interactable
     private bool PlaceItem(Holdable item)
     {
         if (holdable != null) return false;
-        Debug.Log(item is IngredientObject);
+        
         if (item is IngredientObject ingredientObject)
         {
             if (acceptedHoldables.Count > 0 && !acceptedHoldables.Contains(ingredientObject.Type()))
                 return false;
         }
-        else if (!canHoldBurgers) return false;
-
+        else if (!canHoldBurgers && item is BurgerObject) return false;
+        if (item is FireExtinguisher fet && !canHoldFireExtinguisher) return false;
+        if (item is FireExtinguisher fe && canHoldFireExtinguisher) fe.Dropped();
         holdable = item;
         holdable.transform.SetParent(anchor.transform);
         holdable.transform.localPosition = Vector3.zero;
@@ -62,6 +65,7 @@ public class Storage : Interactable
         if (holdable == null) return false;
         if (PlayerController.HoldingItem()) return false;
         if (PlayerController.GrabItem(holdable) == false) return false;
+        if (holdable is FireExtinguisher fe) fe.Taken();
         Debug.Log("Took " + holdable.name + " from " + name);
 
         holdable = null;

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Jukebox : Interactable
 {
+    public static Jukebox Instance { get; private set; }
+
     // Reference to the AudioSource component
     public AudioSource audioSource;
 
@@ -16,8 +18,17 @@ public class Jukebox : Interactable
     public bool IsOn() => isOn;
     public void SetOn(bool on) => isOn = on;
 
-    void Start()
+    void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         if (clips.Length > 0)
         {
             // Optionally, start playing the first clip immediately
@@ -37,26 +48,25 @@ public class Jukebox : Interactable
 
     protected override void OnZ()
     {
-        Debug.Log("Jukebox was interacted with");
         // Play the current clip
         ToggleMusic();
     }
 
-    public void ToggleMusic()
+    public static void ToggleMusic()
     {
         // Toggle the music on/off
-        if (audioSource.isPlaying)
+        if (Instance.audioSource.isPlaying)
         {
-            audioSource.Pause();
+            Instance.audioSource.Pause();
         }
         else
         {
-            audioSource.Play();
+            Instance.audioSource.Play();
         }
     }
 
     // This method can be hooked up to a "Next Clip" button
-    public void NextClip()
+    private void NextClip()
     {
         if (clips.Length == 0)
             return;

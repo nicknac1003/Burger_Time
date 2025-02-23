@@ -50,3 +50,15 @@ MonoBehaviour:
   endHour: 21
   endMinute: 0
   dayDurationMinutes: 5
+  logTime: 0
+  dayDelay: 6
+  initialRating: 3
+  dayText: {fileID: 0}
+  dayTextShadow: {fileID: 0}
+  timeText: {fileID: 0}
+  timeTextShadow: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  MainGameUI: {fileID: 0}
+  GameOverUI: {fileID: 0}
+  daysLastedText: {fileID: 0}
+  MusicPlayer: {fileID: 0}

@@ -85,7 +85,7 @@ public class Breakable
                     }
                 }
         }
-
+    }
     public void Break(Appliance parent)
     {
         broken = true;

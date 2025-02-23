@@ -77,25 +77,38 @@ public class Storage : Interactable
     {
         if (holdable is BurgerObject burger && playerHolding is IngredientObject ingredient)
         {
-            if (burger.Add(ingredient))
+            if (burger.CanAdd(ingredient))
+            {
+                burger.Add(ingredient);
                 PlayerController.Instance.SetHolding(null);
+            }
         }
+
         if (holdable is IngredientObject ingredient1 && playerHolding is IngredientObject ingredient2 && canHoldBurgers)
         {
-            GameObject gameObject = new GameObject("Burger", typeof(BurgerObject));
-            gameObject.transform.SetParent(anchor);
-            gameObject.transform.localPosition = Vector3.zero;
-            BurgerObject newBurger = gameObject.GetComponent<BurgerObject>();
-            if (newBurger.Add(ingredient1) && newBurger.Add(ingredient2))
+            GameObject burgerObject = new("Burger", typeof(BurgerObject));
+            burgerObject.transform.SetParent(anchor);
+            burgerObject.transform.localPosition = Vector3.zero;
+
+            BurgerObject newBurger = burgerObject.GetComponent<BurgerObject>();
+            if (newBurger.CanAdd(ingredient1) && newBurger.CanAdd(ingredient2))
             {
+                newBurger.Add(ingredient1);
+                newBurger.Add(ingredient2);
                 PlayerController.Instance.SetHolding(null);
                 holdable = newBurger;
             }
+            else
+            {
+                Destroy(burgerObject);
+            }
         }
+
         if (holdable is IngredientObject ingredient3 && playerHolding is BurgerObject burger2)
         {
-            if (burger2.Add(ingredient3))
+            if (burger2.CanAdd(ingredient3))
             {
+                burger2.Add(ingredient3);
                 holdable = null;
             }
         }

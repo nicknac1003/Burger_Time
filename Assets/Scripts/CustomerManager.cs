@@ -165,9 +165,15 @@ public class CustomerManager : MonoBehaviour
 
     public static void ServeFood()
     {
+        Debug.Log("Trying to serve.");
+
         if (OrderManager.CanServeFood() == false) return;
 
+        Debug.Log("Able to serve.");
+
         Holdable item = PlayerController.GetItem();
+        Debug.Log("Player is holding: " + item);
+
         if (item == null || item is not BurgerObject) return;
 
         Burger order = (item as BurgerObject).GetBurger();

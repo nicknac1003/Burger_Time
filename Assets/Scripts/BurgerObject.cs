@@ -16,6 +16,20 @@ public class BurgerObject : Holdable
 
     public float spacing = 0.1f;
 
+    public bool CanAdd(IngredientObject ingredientObj)
+    {
+        Ingredient ingredient = ingredientObj.GetIngredient();
+
+        if(ingredient.State() == IngredientState.Raw && ingredient.Type() != IngredientType.Patty) return false;
+
+        if(ingredient.Type() == IngredientType.Plate || ingredient.Type() == IngredientType.Bun)
+        {
+            return !burger.Contains(ingredient);
+        }
+
+        return true;
+    }
+
     /// <summary>
     /// Adds an IngredientObject to the BurgerObject
     /// </summary>
@@ -23,22 +37,18 @@ public class BurgerObject : Holdable
     /// <returns>
     /// True if ingredient was added, false if not
     /// </returns>
-    public bool Add(IngredientObject ingredientObj)
+    public void Add(IngredientObject ingredientObj)
     {
+        if(CanAdd(ingredientObj) == false) return;
+
         Ingredient ingredient = ingredientObj.GetIngredient();
 
-        if(ingredient.State() == IngredientState.Raw && ingredient.Type() != IngredientType.Patty) return false;
-
         if(ingredient.Type() == IngredientType.Plate)
-        {
-            if(burger.Contains(ingredient)) return false;
-            
+        {           
             ingredientsOnBurger.Insert(0, ingredientObj); // Plate ALWAYS goes on the bottom of list
         }
         else if(ingredient.Type() == IngredientType.Bun)
         {
-            if(burger.Contains(ingredient)) return false;
-
             ingredientsOnBurger.Insert(burger.Contains(IngredientType.Plate) ? 1 : 0, ingredientObj); // Bun 1 ALWAYS goes above plate in list - cooked = bottom bun
 
             IngredientObject secondBun = IngredientObject.Instantiate(new Ingredient(IngredientType.Bun, IngredientState.Burnt));
@@ -63,8 +73,6 @@ public class BurgerObject : Holdable
         burger.Add(ingredient);
 
         UpdateBurger();
-
-        return true;
     }
 
     private void UpdateBurger()

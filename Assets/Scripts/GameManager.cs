@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
         currentHour = startHour;
         currentMinute = startMinute;
         rating = initialRating;
+        RatingUI.UpdateRating(rating);
     }
 
     void Update()
@@ -191,16 +192,18 @@ public class GameManager : MonoBehaviour
 
         text.color = new Color(color.r, color.g, color.b, endAlpha);
     }
+
     public static void WelpReview(float review)
     {
+        new GameObject("Score Popup").AddComponent<RatingPopup>().SetRating(review);
+        
         float mid = 2.5f;
         float diff = review - mid;
         float scaledDiff = diff / (1 + Mathf.Abs(diff));
         Debug.Log(scaledDiff);
         Instance.rating += scaledDiff * Instance.ratingScale;
         Instance.rating = Mathf.Clamp(Instance.rating, 0f, Instance.initialRating);
-        Debug.Log("Rating: " + Instance.rating);
-
+        RatingUI.UpdateRating(Instance.rating);
     }
 }
 

@@ -79548,6 +79548,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7229080777137241410, guid: 4008e8ecbd444f9438ae335e8a166b76, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8630777521895514013, guid: 4008e8ecbd444f9438ae335e8a166b76, type: 3}
       propertyPath: m_Name
       value: Serve Station

@@ -6,6 +6,9 @@ public class Storage : Interactable
     [Tooltip("The list of holdable items that can be stored in this storage.")]
     [SerializeField] private List<IngredientType> acceptedHoldables = new();
 
+    [Tooltip("The list of states that the items above can be.")]
+    [SerializeField] private List<IngredientState> acceptedStates = new();
+
     [Tooltip("The anchor point where the holdable item will be placed.")]
     [SerializeField] private Transform anchor;
 
@@ -37,18 +40,17 @@ public class Storage : Interactable
         }
     }
 
-
     protected bool PlaceItem(Holdable item)
     {
         if (holdable != null) return false;
         
         if (item is IngredientObject ingredientObject)
         {
-            if (acceptedHoldables.Count > 0 && !acceptedHoldables.Contains(ingredientObject.Type()))
-                return false;
+            if (acceptedHoldables.Count > 0 && (!acceptedHoldables.Contains(ingredientObject.Type()) || !acceptedStates.Contains(ingredientObject.State()))) return false;
         }
         else if (!canHoldBurgers && item is BurgerObject) return false;
-        if (item is FireExtinguisher fet && !canHoldFireExtinguisher) return false;
+
+        if (item is FireExtinguisher && !canHoldFireExtinguisher) return false;
         if (item is FireExtinguisher fe && canHoldFireExtinguisher) fe.Dropped();
         holdable = item;
         holdable.transform.SetParent(anchor.transform);

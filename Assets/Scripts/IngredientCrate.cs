@@ -11,7 +11,7 @@ public class IngredientCrate: Interactable {
         if(PlayerController.HoldingItem()) return;
 
         IngredientObject ingredient = IngredientObject.Instantiate(new Ingredient(ingredientType, IngredientState.Raw));
-        ingredient.transform.localScale = new Vector3(0.75f, 0.75f * Mathf.Sqrt(2), 0.75f);
+        // ingredient.transform.localScale = new Vector3(0.75f, 0.75f * Mathf.Sqrt(2), 0.75f);
         Debug.Log(ingredient.transform.localScale);
 
         PlayerController.GrabItem(ingredient);

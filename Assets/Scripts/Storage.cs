@@ -48,8 +48,8 @@ public class Storage : Interactable
         else if (!canHoldBurgers) return false;
 
         holdable = item;
-        holdable.transform.position = anchor.position;
-        holdable.transform.SetParent(null);
+        holdable.transform.SetParent(anchor.transform);
+        holdable.transform.localPosition = Vector3.zero;
         PlayerController.Instance.SetHolding(null);
 
         Debug.Log("Placed " + holdable.name + " in " + name);

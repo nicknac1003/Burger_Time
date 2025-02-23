@@ -76524,9 +76524,9 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 22937
-    ctime2: 42598
-    ctime3: 65535
+    ctime1: 19661
+    ctime2: 39321
+    ctime3: 58982
     ctime4: 0
     ctime5: 0
     ctime6: 0
@@ -76543,7 +76543,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  maxTicketPosition: 1200
+  maxTicketPosition: 1250
   ticketSlideTime: 0.25
 --- !u!1 &1508734194
 GameObject:

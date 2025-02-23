@@ -111,16 +111,20 @@ public class CustomerManager : MonoBehaviour
         return true;
     }
 
-    public void CustomerLeaves(Customer customer)
+    public void CustomerRefusedService(Customer customer)
     {
         CustomerState state = customer.GetState();
 
         if(state == CustomerState.WaitingToOrder) line.Remove(customer);
-        if(state == CustomerState.WaitingForFood) // remove order
+        if(state == CustomerState.WaitingForFood) OrderManager.RemoveTicket(OrderManager.FindTicket(customer));
 
         customer.SetState(CustomerState.Leaving);
+    }
 
+    public void CustomerLeaves(Customer customer)
+    {
         inBuilding--;
+        Destroy(customer.gameObject);
     }
 
     public Vector3 GetRandomWaitingPosition()

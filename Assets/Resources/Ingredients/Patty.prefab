@@ -111,3 +111,4 @@ MonoBehaviour:
   onBurgerRaw: {fileID: -1276214788, guid: 046198740d2d4684784ef593f88732a5, type: 3}
   onBurgerCooked: {fileID: -873732140, guid: 046198740d2d4684784ef593f88732a5, type: 3}
   onBurgerBurnt: {fileID: -316433741, guid: 046198740d2d4684784ef593f88732a5, type: 3}
+  cookTime: 0

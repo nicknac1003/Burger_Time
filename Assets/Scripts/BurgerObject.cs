@@ -1,19 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Compatibility;
 using UnityEngine;
-
-[System.Serializable]
-public class SpriteSpace
-{
-    public Sprite sprite;
-    public float spacing;
-    public SpriteSpace(Sprite sprite, float spacing)
-    {
-        this.sprite  = sprite;
-        this.spacing = spacing;
-    }
-}
+using UnityEngine.UI;
 
 public class BurgerObject : Holdable
 {
@@ -161,7 +149,7 @@ public class Burger
     /// <returns></returns>
     public static Burger GenerateRandomBurger(int toppings)
     {
-        bool hasBun   = toppings > 0 && Random.value > 0.05f; // 5% chance of no bun, only if toppings are present
+        bool hasBun   = toppings <= 0 || Random.value > 0.05f; // 5% chance of no bun, only if toppings are present
         bool hasPatty = (!hasBun && toppings <= 0) || Random.value > 0.05f; // 5% chance of no patty. If no bun or toppings, patty is required
 
         Burger burger = new();
@@ -192,6 +180,34 @@ public class Burger
         }
 
         return burger;
+    }
+
+    public GameObject DrawUIBurger()
+    {
+        // Create a burger to be added as a child in the UI
+        GameObject UIBurger = new("UI Burger");
+        UIBurger.AddComponent<RectTransform>();
+        bool hadBun = false;
+
+        for(int i = 0; i < ingredients.Count; i++)
+        {
+            if(ingredients[i].Type() == IngredientType.Bun) hadBun = true;
+
+            GameObject ingredientSlot = new(ingredients[i] + " Slot");
+            ingredientSlot.transform.SetParent(UIBurger.transform);
+            ingredientSlot.transform.localPosition = new Vector3(0, i * 10, 0);
+            ingredientSlot.AddComponent<Image>().sprite = ingredients[i].GetSprite(true);
+        }
+
+        if(hadBun)
+        {
+            GameObject ingredientSlot = new("Bun Slot");
+            ingredientSlot.transform.SetParent(UIBurger.transform);
+            ingredientSlot.transform.localPosition = new Vector3(0, ingredients.Count * 10, 0);
+            ingredientSlot.AddComponent<Image>().sprite = new Ingredient(IngredientType.Bun, IngredientState.Burnt).GetSprite(true);
+        }
+
+        return UIBurger;
     }
 
     public override bool Equals(object other)

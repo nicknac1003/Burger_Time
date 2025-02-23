@@ -56,6 +56,7 @@ public class OrderManager : MonoBehaviour
     public static void RemoveTicketFromList(Ticket ticket) // callback
     {
         Instance.tickets.Remove(ticket);
+        Instance.UpdateTicketPositions();
     }
 
     private void UpdateTicketPositions()

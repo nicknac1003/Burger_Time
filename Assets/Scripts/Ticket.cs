@@ -16,6 +16,7 @@ public class Ticket : MonoBehaviour
     private RectTransform rectTransform;
     private RectTransform timerRect;
     private RectTransform ingredientsRect;
+    private RectTransform burgerObjectRect;
     
     private int width;
 
@@ -28,6 +29,7 @@ public class Ticket : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         timerRect = transform.Find("Timer").GetComponent<RectTransform>();
         ingredientsRect = transform.Find("Ingredients").GetComponent<RectTransform>();
+        burgerObjectRect = transform.Find("Burger").GetComponent<RectTransform>();
     }
 
     public void Init(Burger burger, Customer person)
@@ -46,8 +48,10 @@ public class Ticket : MonoBehaviour
         rectTransform.anchoredPosition = new Vector2(width, 0);
 
         // Populate burger
-        BurgerObject burgerObject = new GameObject("Customer " + customer.GetID() + "'s Burger").AddComponent<BurgerObject>();
-        burgerObject.transform.SetParent(transform);
+        GameObject UIBurger = order.DrawUIBurger();
+        UIBurger.transform.SetParent(burgerObjectRect);
+        UIBurger.transform.localPosition = new Vector3(0, 0, 0);
+        UIBurger.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -40);
 
         // Add ingredients to grid layout
         for(int i = 0; i < ingredientCount; i++)
@@ -55,9 +59,6 @@ public class Ticket : MonoBehaviour
             GameObject ingredientSlot = new(ingredientList[i] + " Slot");
             ingredientSlot.transform.SetParent(ingredientsRect);
             ingredientSlot.AddComponent<Image>().sprite = ingredientList[i].GetSprite();
-
-            // Add ingredient to burger
-            burgerObject.Add(IngredientObject.Instantiate(ingredientList[i]));
         }
     }
 

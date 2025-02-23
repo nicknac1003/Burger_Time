@@ -40,18 +40,6 @@ public abstract class QuickTimeEvent
     {
         float score = PerformQTE(zPressed, xPressed, cPressed, moveInput, parent);
 
-        if (locksPlayerInPlace)
-        {
-            if (InProgress())
-            {
-                PlayerController.LockPlayer();
-            }
-            else
-            {
-                PlayerController.UnlockPlayer();
-            }
-        }
-
         return score;
     }
     public void PlayProgressSound()

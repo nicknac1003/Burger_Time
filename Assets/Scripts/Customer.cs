@@ -75,12 +75,16 @@ public class Customer : MonoBehaviour
 
             case CustomerState.Leaving:
                 transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Exit(), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
+                if(Vector3.Distance(transform.position, CustomerManager.Exit()) < 0.1f)
+                {
+                    CustomerManager.Instance.CustomerLeaves(this);
+                }
             break;
         }
 
         if(timeSpentInLine > CustomerManager.MaxWaitTime() || timeSpentWaitingForOrder > CustomerManager.MaxWaitTime())
         {
-            CustomerManager.Instance.CustomerLeaves(this);
+            CustomerManager.Instance.CustomerRefusedService(this);
         }
     }
 

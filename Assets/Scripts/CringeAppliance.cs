@@ -1,14 +1,9 @@
 using UnityEngine;
 
-public class CuttingBoard : Appliance
+public class CringeAppliance : Appliance
 {
     [SerializeReference] private QuickTimeEvent useApplianceQTE = new MashQTE();
     private bool QTEInProgress = false;
-
-    // private void Start() {
-    //     useApplianceQTE = new MashQTE();
-    // }
-
 
     protected override void Update()
     {
@@ -39,8 +34,7 @@ public class CuttingBoard : Appliance
         {
             if (PlayerController.HoldingItem())
             {
-                Holdable playerHolding = PlayerController.GetItem();
-                if (PlaceItem(playerHolding))
+                if (PlaceItem(PlayerController.GetItem()))
                 {
                     // visual feedback for placing item?
                 }

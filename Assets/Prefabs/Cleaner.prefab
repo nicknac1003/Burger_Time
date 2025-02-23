@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3690275644474120675
+--- !u!1 &2360174544857680973
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,30 +8,30 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1232983166281596604}
+  - component: {fileID: 7214092959671646375}
   m_Layer: 0
-  m_Name: Line Start
+  m_Name: Object Anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1232983166281596604
+--- !u!4 &7214092959671646375
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690275644474120675}
+  m_GameObject: {fileID: 2360174544857680973}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8707393419364661499}
+  m_Father: {fileID: 8376547137511214936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8630777521895514013
+--- !u!1 &9103470263558727065
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,39 +39,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8707393419364661499}
-  - component: {fileID: 2502461291012856436}
-  - component: {fileID: 6153287723942805218}
+  - component: {fileID: 8376547137511214936}
+  - component: {fileID: 5880681388721751063}
+  - component: {fileID: 6015604293282524163}
   m_Layer: 0
-  m_Name: Order Station
+  m_Name: Cleaner
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8707393419364661499
+--- !u!4 &8376547137511214936
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8630777521895514013}
+  m_GameObject: {fileID: 9103470263558727065}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: -4, z: 0}
+  m_LocalPosition: {x: 10.075, y: 3.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1232983166281596604}
+  - {fileID: 7214092959671646375}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &2502461291012856436
+--- !u!61 &5880681388721751063
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8630777521895514013}
+  m_GameObject: {fileID: 9103470263558727065}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -99,7 +99,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.5}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -109,17 +109,60 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
---- !u!114 &6153287723942805218
+--- !u!114 &6015604293282524163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8630777521895514013}
+  m_GameObject: {fileID: 9103470263558727065}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d834220b7f030194cace9ba39e0b9c8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b046ea4582952e4d93a0d76f07a8845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedHoldables: 0600
+  acceptedStates: 0000
+  anchor: {fileID: 7214092959671646375}
+  canHoldBurgers: 0
+  canHoldFireExtinguisher: 0
+  breakable:
+    canBreak: 1
+    canBreakDuringUse: 0
+    interval: 1
+    safetyTime: 5
+    breakChance: 0.05
+    repairQTE:
+      rid: 2277583875323199774
+    requiredHoldable: {fileID: 0}
+    vfxBreakPrefab: {fileID: 0}
+    vfxAnchor: {fileID: 0}
+  inUse: 0
+  useApplianceQTE:
+    rid: 2277583875323199780
+  references:
+    version: 2
+    RefIds:
+    - rid: 2277583875323199774
+      type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
+      data:
+        locksPlayerInPlace: 0
+        progressSounds: []
+        errorSounds: []
+        audioSource: {fileID: 0}
+        progressVolume: 0.75
+        errorVolume: 0.45
+        time: 4
+        drain: 0.5
+    - rid: 2277583875323199780
+      type: {class: WindmillQTE, ns: , asm: Assembly-CSharp}
+      data:
+        locksPlayerInPlace: 1
+        progressSounds: []
+        errorSounds: []
+        audioSource: {fileID: 0}
+        progressVolume: 0.75
+        errorVolume: 0.45
+        revolutions: 3

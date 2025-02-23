@@ -71,7 +71,6 @@ public class Breakable
         }
 
         if( (requireHoldable && requiredHoldable != null && PlayerController.GetItem() == requiredHoldable) || !requireHoldable){
-            Debug.Log("QTE");
             if(repairQTE.QTE(pressed, false, false, Vector2.zero, parent) > 0f)
             {
                 Repair(parent);
@@ -83,7 +82,6 @@ public class Breakable
     {
         broken = true;
         Createvfx();
-        Debug.Log(parent.name + " broke!");
     }
 
     private void Repair(Appliance parent)
@@ -91,7 +89,6 @@ public class Breakable
         broken      = false;
         breakTimer  = -safetyTime; // set to negative safety time so we can reset to 0 for interval checks
         Destroyvfx();
-        Debug.Log(parent.name + " repaired!");
     }
         private void Createvfx(){
         if(vfxBreakPrefab == null) return;

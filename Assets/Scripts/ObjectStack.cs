@@ -19,9 +19,7 @@ public class ObjectStack : Interactable
                 ingredientObject.transform.SetParent(transform);
                 ingredientObject.transform.localPosition = new Vector3(0, inStack.Count * spacing, 0);
                 inStack.Add(ingredientObject); // add after setting position to account for 0-indexing
-                PlayerController.Instance.SetHolding(null);
-
-                Debug.Log("Placed " + ingredientObject.name + " in " + name);
+                PlayerController.SetHolding(null);
             }
             return;
         }
@@ -31,8 +29,6 @@ public class ObjectStack : Interactable
         IngredientObject topOfStack = inStack[inStack.Count - 1];
         PlayerController.GrabItem(topOfStack);
         inStack.Remove(topOfStack);
-
-        Debug.Log("Took " + topOfStack.name + " from " + name);
     }
 
     void Awake()

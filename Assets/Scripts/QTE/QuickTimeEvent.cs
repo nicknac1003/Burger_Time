@@ -4,16 +4,16 @@ using System.Collections.Generic;
 public abstract class QuickTimeEvent
 {
     [Tooltip("Should the player be locked in place during the QTE?")]
+    [SerializeField] bool locksPlayerInPlace = true;
+
     [SerializeField] public List<AudioClip> progressSounds;
     [SerializeField] public List<AudioClip> errorSounds;
     [SerializeField] public AudioSource audioSource;
-    [SerializeField] bool locksPlayerInPlace = true;
-    [Range(0f, 1f)]
-    [SerializeField]
-    private float progressVolume = 0.75f;
-    [Range(0f, 1f)]
-    [SerializeField]
-    private float errorVolume = 0.45f;
+
+    [Range(0f, 1f)][SerializeField] private float progressVolume = 0.75f;
+
+    [Range(0f, 1f)][SerializeField] private float errorVolume = 0.45f;
+    
     protected bool isActive = false;
 
     public QuickTimeEvent(bool locksPlayer = true)

@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 prevWishDirection;
     public static bool LockedInPlace() => Instance.lockedInPlace;
 
-    public void SetHolding(Holdable holdable) => holding = holdable;
+    public static void SetHolding(Holdable holdable) => Instance.holding = holdable;
 
     public static void LockPlayer()
     {
@@ -92,16 +92,13 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         holdAnchor = transform.Find("HoldingPos").transform;
     }
     void Update()
     {
         if (GameManager.GamePaused()) return;
 
-        wishDirection = moveAction.ReadValue<Vector2>().normalized;
+        if (!lockedInPlace) wishDirection = moveAction.ReadValue<Vector2>().normalized;
 
         if (goodUnlock == false)
         {
@@ -127,8 +124,8 @@ public class PlayerController : MonoBehaviour
         if (lockedInPlace == false && goodUnlock)
         {
             UpdatePosition();
-            UpdateAnimation();
         }
+        UpdateAnimation();
     }
     private void UpdateAnimation()
     {

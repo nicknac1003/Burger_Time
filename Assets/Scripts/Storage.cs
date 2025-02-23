@@ -13,12 +13,14 @@ public class Storage : Interactable
     [SerializeField] private Transform anchor;
 
     [SerializeField] private bool canHoldBurgers = false;
-    [SerializeField] protected Holdable holdable;
 
     [SerializeField] protected bool canHoldFireExtinguisher = false;
 
+    protected Holdable holdable;
+
     protected override void OnZ()
     {
+        Debug.Log("Z pressed on " + name);
         if (PlayerController.HoldingItem())
         {
             Holdable playerHolding = PlayerController.GetItem();
@@ -35,6 +37,7 @@ public class Storage : Interactable
         {
             if (TakeItem())
             {
+                Debug.Log("Took item from " + name);
                 // visual feedback for taking item?
             }
         }
@@ -42,10 +45,18 @@ public class Storage : Interactable
 
     protected virtual bool PlaceItem(Holdable item)
     {
+        Debug.Log("Trying to place item in " + name);
+
         if (holdable != null) return false;
 
         if (item is IngredientObject ingredientObject)
         {
+            Debug.Log("Item is ingredient object");
+
+            if (acceptedHoldables.Count > 0) Debug.Log("Holdables are restricted.");
+            if (acceptedHoldables.Contains(ingredientObject.Type())) Debug.Log("Item is an accepted holdable.");
+            if (acceptedStates.Contains(ingredientObject.State())) Debug.Log("Item is in an accepted state.");
+
             if (acceptedHoldables.Count > 0 && (!acceptedHoldables.Contains(ingredientObject.Type()) || !acceptedStates.Contains(ingredientObject.State()))) return false;
             if (acceptedHoldables.Count > 0 && !acceptedHoldables.Contains(ingredientObject.Type()))
                 return false;
@@ -58,7 +69,7 @@ public class Storage : Interactable
         holdable = item;
         holdable.transform.SetParent(anchor.transform);
         holdable.transform.localPosition = Vector3.zero;
-        PlayerController.Instance.SetHolding(null);
+        PlayerController.SetHolding(null);
 
         Debug.Log("Placed " + holdable.name + " in " + name);
 
@@ -67,9 +78,13 @@ public class Storage : Interactable
 
     protected virtual bool TakeItem()
     {
+        Debug.Log("Trying to take item from " + name);
         if (holdable == null) return false;
+        Debug.Log("Item is not null");
         if (PlayerController.HoldingItem()) return false;
+        Debug.Log("Player is not holding an item");
         if (PlayerController.GrabItem(holdable) == false) return false;
+        Debug.Log("Player grabbed item");
         if (holdable is FireExtinguisher fe) fe.Taken();
         Debug.Log("Took " + holdable.name + " from " + name);
 
@@ -85,7 +100,7 @@ public class Storage : Interactable
             if (burger.CanAdd(ingredient))
             {
                 burger.Add(ingredient);
-                PlayerController.Instance.SetHolding(null);
+                PlayerController.SetHolding(null);
             }
         }
 
@@ -100,7 +115,7 @@ public class Storage : Interactable
             {
                 newBurger.Add(ingredient1);
                 newBurger.Add(ingredient2);
-                PlayerController.Instance.SetHolding(null);
+                PlayerController.SetHolding(null);
                 holdable = newBurger;
             }
             else

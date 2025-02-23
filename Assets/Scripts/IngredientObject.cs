@@ -67,13 +67,13 @@ public class IngredientObject : Holdable
     {
         GameObject obj = data.Type() switch
         {
-            IngredientType.Bun => Instantiate(GlobalConstants.bun.gameObject),
-            IngredientType.Patty => Instantiate(GlobalConstants.patty.gameObject),
+            IngredientType.Bun     => Instantiate(GlobalConstants.bun.gameObject),
+            IngredientType.Patty   => Instantiate(GlobalConstants.patty.gameObject),
             IngredientType.Lettuce => Instantiate(GlobalConstants.lettuce.gameObject),
-            IngredientType.Tomato => Instantiate(GlobalConstants.tomato.gameObject),
-            IngredientType.Cheese => Instantiate(GlobalConstants.cheese.gameObject),
-            IngredientType.Onion => Instantiate(GlobalConstants.onion.gameObject),
-            IngredientType.Plate => Instantiate(GlobalConstants.plate.gameObject),
+            IngredientType.Tomato  => Instantiate(GlobalConstants.tomato.gameObject),
+            IngredientType.Cheese  => Instantiate(GlobalConstants.cheese.gameObject),
+            IngredientType.Onion   => Instantiate(GlobalConstants.onion.gameObject),
+            IngredientType.Plate   => Instantiate(GlobalConstants.plate.gameObject),
             _ => null
         };
 
@@ -84,7 +84,7 @@ public class IngredientObject : Holdable
         }
 
         IngredientObject ingredientObject = obj.GetComponent<IngredientObject>();
-        ingredientObject.ingredient = data;
+        ingredientObject.ingredient = new Ingredient(data);
         ingredientObject.ChangeState(data.State());
 
         return ingredientObject;
@@ -199,6 +199,11 @@ public class Ingredient
     [SerializeField] private IngredientType type;
     [SerializeField] private IngredientState state;
 
+    public Ingredient(Ingredient ingredient)
+    {
+        type = ingredient.Type();
+        state = ingredient.State();
+    }
     public Ingredient(IngredientType t, IngredientState s)
     {
         type = t;

@@ -27,7 +27,6 @@ public class Stove : Appliance
         {
             Cooking();
         }
-
     }
 
     public void Cooking()
@@ -83,6 +82,5 @@ public class Stove : Appliance
             }
         }
     }
-
 
 }

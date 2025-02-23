@@ -76,16 +76,16 @@ public class PlayerController : MonoBehaviour
         pauseAction.started += _ => GameManager.Instance.HandlePauseGame();
 
         zAction = playerInput.actions.FindAction("Z");
-        zAction.started += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(true); };
-        zAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractZ(false); };
+        zAction.started += _ => { if (!GameManager.GamePaused() && !GameManager.GameEnded() && closestInteractable != null) closestInteractable.InteractZ(true); };
+        zAction.canceled += _ => { if (!GameManager.GamePaused() && !GameManager.GameEnded() && closestInteractable != null) closestInteractable.InteractZ(false); };
 
         xAction = playerInput.actions.FindAction("X");
-        xAction.started += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractX(true); };
-        xAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractX(false); };
+        xAction.started += _ => { if (!GameManager.GamePaused() && !GameManager.GameEnded() && closestInteractable != null) closestInteractable.InteractX(true); };
+        xAction.canceled += _ => { if (!GameManager.GamePaused() && !GameManager.GameEnded() && closestInteractable != null) closestInteractable.InteractX(false); };
 
         cAction = playerInput.actions.FindAction("C");
-        cAction.started += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractC(true); };
-        cAction.canceled += _ => { if (!GameManager.GamePaused() && closestInteractable != null) closestInteractable.InteractC(false); };
+        cAction.started += _ => { if (!GameManager.GamePaused() && !GameManager.GameEnded() && closestInteractable != null) closestInteractable.InteractC(true); };
+        cAction.canceled += _ => { if (!GameManager.GamePaused() && !GameManager.GameEnded() && closestInteractable != null) closestInteractable.InteractC(false); };
 
         decayFactor = 1 - velocityDecay * Time.fixedDeltaTime;
     }
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if (GameManager.GamePaused()) return;
+        if (GameManager.GamePaused() || GameManager.GameEnded()) return;
 
         wishDirection = moveAction.ReadValue<Vector2>().normalized;
 
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (GameManager.GamePaused()) return;
+        if (GameManager.GamePaused() || GameManager.GameEnded()) return;
 
         if (lockedInPlace == false && goodUnlock)
         {

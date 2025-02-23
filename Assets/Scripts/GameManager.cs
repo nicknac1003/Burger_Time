@@ -33,9 +33,16 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timeTextShadow;
 
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject MainGameUI;
+    [SerializeField] private GameObject GameOverUI;
+    [SerializeField] private TextMeshProUGUI daysLastedText;
+    [SerializeField] private Jukebox MusicPlayer;
     private bool paused = false;
 
+    private bool gameEnded = false;
+
     public static bool GamePaused() => Instance.paused;
+    public static bool GameEnded() => Instance.gameEnded;
     public static int GetHour() => Instance.currentHour;
     public static float GetHourCompletion() => Instance.currentMinute / 60f;
     public static int GetDay() => Instance.day;
@@ -68,6 +75,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (gameEnded) return;
         elapsedTime += Time.deltaTime;
         totalMinutes = elapsedTime / dayDuration * (endHour * 60f + endMinute - (startHour * 60f + startMinute)); // 1440 minutes in a day
         currentHour = startHour + Mathf.FloorToInt((totalMinutes + startMinute) / 60f);
@@ -77,6 +85,10 @@ public class GameManager : MonoBehaviour
         if (Open() == false && CustomerManager.Customers() == 0)
         {
             EndDay();
+        }
+        if (rating <= 0f && !gameEnded)
+        {
+            EndGame();
         }
     }
 
@@ -202,6 +214,44 @@ public class GameManager : MonoBehaviour
         Instance.rating  = Mathf.Clamp(Instance.rating, 0f, Instance.initialRating);
 
         RatingUI.UpdateRating(Instance.rating / 5f); // normalize for the rating bar
+    }
+    private void EndGame()
+    {
+        gameEnded = true;
+        Time.timeScale = 0f;
+        MusicPlayer.ToggleMusic();
+        MusicPlayer.SetOn(false);
+        MainGameUI.SetActive(false);
+        SetEndText();
+        //fade in game over screen
+        StartCoroutine(FadeInGameOverUI());
+    }
+    private IEnumerator FadeInGameOverUI()
+    {
+        CanvasGroup canvasGroup = GameOverUI.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            yield break;
+        }
+
+        GameOverUI.SetActive(true);
+        float duration = 1f; // Duration of the fade-in
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.unscaledDeltaTime; // Use unscaled time to keep the fade effect working even when Time.timeScale is 0
+            canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / duration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 1f;
+
+    }
+    private void SetEndText()
+    {
+        string newText = "Lost on Day: " + day;
+        daysLastedText.text = newText;
     }
 }
 

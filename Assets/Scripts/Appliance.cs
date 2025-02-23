@@ -8,6 +8,7 @@ public class Appliance : Storage
     protected bool working = true;
 
     public bool InUse() => inUse;
+    public Breakable GetBreakable() => breakable;
 
     protected virtual void Update()
     {
@@ -17,5 +18,17 @@ public class Appliance : Storage
             breakable.HandleRepairing(zPressed, this);
             working = breakable.IsBroken() == false;
         }
+    }
+    protected override bool TakeItem()
+    {
+        if (!working) return false;
+
+        return base.TakeItem();
+    }
+    protected override bool PlaceItem(Holdable item)
+    {
+        if (!working) return false;
+
+        return base.PlaceItem(item);
     }
 }

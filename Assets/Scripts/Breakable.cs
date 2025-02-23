@@ -30,6 +30,8 @@ public class Breakable
 
     private Transform vfxInScene;
 
+    [SerializeField] private bool requireHoldable = false;
+
     [Tooltip("Anchor to place VFX.")]
     [SerializeField] private Transform vfxAnchor;
 
@@ -68,9 +70,12 @@ public class Breakable
             return;
         }
 
-        if(repairQTE.QTE(pressed, false, false, Vector2.zero, parent) > 0f)
-        {
-            Repair(parent);
+        if( (requireHoldable && requiredHoldable != null && PlayerController.GetItem() == requiredHoldable) || !requireHoldable){
+            Debug.Log("QTE");
+            if(repairQTE.QTE(pressed, false, false, Vector2.zero, parent) > 0f)
+            {
+                Repair(parent);
+            }
         }
     }
 
@@ -102,4 +107,7 @@ public class Breakable
         Object.Destroy(vfxInScene.gameObject);
         vfxInScene = null;
     }
+
+    public void SetRequiredHoldable(Holdable holdable) => requiredHoldable = holdable;
+
 }

@@ -8,17 +8,22 @@ public class FireExtinguisher: Holdable {
     [SerializeField] private Collider2D hitbox;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        hitbox = GetComponent<Collider2D>();
+    }
     public void Taken(){
+        Debug.Log("Taken");
         held = true;
         hitbox.enabled = false;
         spriteRenderer.sortingOrder = 3;
     }
 
-    public void Dropped(){
-        Debug.Log("Dropped");
+    public void Dropped(Storage storage){
         held = false;
-        hitbox.enabled = true;
         spriteRenderer.sortingOrder = 2;
+        if (storage.name == "FireExtinguisherSpot") hitbox.enabled = true;
     }
 
 }

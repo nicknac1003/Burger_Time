@@ -140,8 +140,9 @@ MonoBehaviour:
     breakChance: 0.05
     repairQTE:
       rid: 8066485002639245790
-    requiredHoldable: {fileID: 0}
+    requiredHoldable: {fileID: 8707321568623033480, guid: 8cfb6f7cefc1b8a43bc512eb81827422, type: 3}
     vfxBreakPrefab: {fileID: 1733721084633098381, guid: 0eaa9c5a2aae1234c9e5fc08798fd4c7, type: 3}
+    requireHoldable: 1
     vfxAnchor: {fileID: 7209552272517217454}
   inUse: 0
   BrokenCookTimeMultiplier: 4

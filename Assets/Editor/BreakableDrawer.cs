@@ -18,6 +18,7 @@ public class BreakableDrawer : PropertyDrawer
         SerializedProperty repairQTEProp   = property.FindPropertyRelative("repairQTE");
         SerializedProperty holdableProp    = property.FindPropertyRelative("requiredHoldable");
         SerializedProperty vfxBreakProp    = property.FindPropertyRelative("vfxBreakPrefab");
+        SerializedProperty requireHoldable = property.FindPropertyRelative("requireHoldable");
         SerializedProperty vfxAnchorProp   = property.FindPropertyRelative("vfxAnchor");
 
         // Calculate rects
@@ -57,8 +58,13 @@ public class BreakableDrawer : PropertyDrawer
         Rect vfxBreakRect    = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(vfxBreakProp));
         totalHeight += EditorGUI.GetPropertyHeight(vfxBreakProp) + 2;
 
+        Rect reqHoldRect   = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(requireHoldable));
+        totalHeight += EditorGUI.GetPropertyHeight(requireHoldable) + 2;
+
         Rect vfxAnchorRect   = new(position.x, position.y + totalHeight, position.width, EditorGUI.GetPropertyHeight(vfxAnchorProp));
         totalHeight += EditorGUI.GetPropertyHeight(vfxAnchorProp) + 2;
+
+
 
         propertyHeight = totalHeight;
 
@@ -72,6 +78,7 @@ public class BreakableDrawer : PropertyDrawer
         EditorGUI.PropertyField(repairQTERect, repairQTEProp);
         EditorGUI.PropertyField(holdableRect, holdableProp);
         EditorGUI.PropertyField(vfxBreakRect, vfxBreakProp);
+        EditorGUI.PropertyField(reqHoldRect, requireHoldable);
         EditorGUI.PropertyField(vfxAnchorRect, vfxAnchorProp);
 
         EditorGUI.indentLevel--;

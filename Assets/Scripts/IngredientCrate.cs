@@ -13,7 +13,7 @@ public class IngredientCrate : Interactable
     {
         if (PlayerController.HoldingItem()) return;
 
-        IngredientObject ingredient = IngredientObject.Instantiate(new Ingredient(ingredientType, IngredientState.Raw), transform);
+        IngredientObject ingredient = IngredientObject.Instantiate(new Ingredient(ingredientType, IngredientState.Raw), transform.position);
         ingredient.transform.localScale = new Vector3(ingredientScale, ingredientScale, ingredientScale);
         ingredient.StartMovementAnimation(PlayerController.Instance.holdAnchor.transform, 0.5f, 1f);
         PlayerController.GrabItem(ingredient);

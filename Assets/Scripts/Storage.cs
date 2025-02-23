@@ -49,7 +49,7 @@ public class Storage : Interactable
         }
         else if (!canHoldBurgers && item is BurgerObject) return false;
         if (item is FireExtinguisher fet && !canHoldFireExtinguisher) return false;
-        if (item is FireExtinguisher fe && canHoldFireExtinguisher) fe.Dropped();
+        if (item is FireExtinguisher fe && canHoldFireExtinguisher) fe.Dropped(this);
         holdable = item;
         holdable.transform.SetParent(anchor.transform);
         holdable.transform.localPosition = Vector3.zero;

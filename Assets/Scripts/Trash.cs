@@ -20,6 +20,8 @@ public class Trash : Interactable
                     plate.ChangeState(IngredientState.Cooked);
                     PlayerController.GrabItem(plate);
                     PlayThrowAwaySound();
+                } else if (PlayerController.DestroyItem()){
+                    PlayThrowAwaySound();
                 }
             }
             else

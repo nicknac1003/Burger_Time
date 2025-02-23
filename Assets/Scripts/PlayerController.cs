@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.GamePaused()) return;
 
-        if (!lockedInPlace) wishDirection = moveAction.ReadValue<Vector2>().normalized;
+        wishDirection = moveAction.ReadValue<Vector2>().normalized;
 
         if (goodUnlock == false)
         {
@@ -124,42 +124,40 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateAnimation()
     {
-        if (wishDirection.magnitude > 0.1f)
-        {
-            if (animator.GetBool("Moving") == false)
-            {
-                animator.SetTrigger("DirectionChange");
-            }
-
-            animator.SetBool("Moving", true);
-
-            if (prevWishDirection.y <= -0.1 && wishDirection.y > -0.1)
-            {
-                animator.SetTrigger("DirectionChange");
-            }
-            else if (prevWishDirection.y >= 0.1 && wishDirection.y < 0.1)
-            {
-                animator.SetTrigger("DirectionChange");
-            }
-            else if (prevWishDirection.x <= -0.1 && wishDirection.x > -0.1)
-            {
-                animator.SetTrigger("DirectionChange");
-            }
-            else if (prevWishDirection.x >= 0.1 && wishDirection.x < 0.1)
-            {
-                animator.SetTrigger("DirectionChange");
-            }
-
-            animator.SetFloat("xVel", wishDirection.x);
-            animator.SetFloat("yVel", wishDirection.y);
-
-            prevWishDirection = wishDirection;
-
-        }
-        else
+        if(wishDirection.magnitude < 0.1f || lockedInPlace)
         {
             animator.SetBool("Moving", false);
+            return;
         }
+
+        if(animator.GetBool("Moving") == false)
+        {
+            animator.SetTrigger("DirectionChange");
+        }
+
+        animator.SetBool("Moving", true);
+
+        if (prevWishDirection.y <= -0.1 && wishDirection.y > -0.1)
+        {
+            animator.SetTrigger("DirectionChange");
+        }
+        else if (prevWishDirection.y >= 0.1 && wishDirection.y < 0.1)
+        {
+            animator.SetTrigger("DirectionChange");
+        }
+        else if (prevWishDirection.x <= -0.1 && wishDirection.x > -0.1)
+        {
+            animator.SetTrigger("DirectionChange");
+        }
+        else if (prevWishDirection.x >= 0.1 && wishDirection.x < 0.1)
+        {
+            animator.SetTrigger("DirectionChange");
+        }
+
+        animator.SetFloat("xVel", wishDirection.x);
+        animator.SetFloat("yVel", wishDirection.y);
+
+        prevWishDirection = wishDirection;
     }
     private void UpdatePosition()
     {

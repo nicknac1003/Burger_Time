@@ -167,8 +167,6 @@ public class CustomerManager : MonoBehaviour
 
     public static void TakeOrder()
     {
-        Debug.Log("Attempting to take order");
-
         if (OrderManager.CanTakeOrder() == false) return;
 
         if (Instance.line.Count <= 0 || Instance.AtLineStart(Instance.line[0]) == false) return;

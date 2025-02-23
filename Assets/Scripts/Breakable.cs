@@ -77,11 +77,14 @@ public class Breakable
         {
             Debug.Log("QTE");
             if (repairQTE.QTE(pressed, false, false, Vector2.zero, parent) > 0f)
-            {
-                Repair(parent);
-            }
+                if ((requireHoldable && requiredHoldable != null && PlayerController.GetItem() == requiredHoldable) || !requireHoldable)
+                {
+                    if (repairQTE.QTE(pressed, false, false, Vector2.zero, parent) > 0f)
+                    {
+                        Repair(parent);
+                    }
+                }
         }
-    }
 
     public void Break(Appliance parent)
     {

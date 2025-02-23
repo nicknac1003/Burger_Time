@@ -5,8 +5,20 @@ public class ServeStation : Interactable
     public static ServeStation Instance { get; private set; }
 
     [SerializeField] Transform orderPosition;
-    
+
     private BurgerObject burgerToServe;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     protected override void OnZ()
     {
@@ -47,11 +59,11 @@ public class ServeStation : Interactable
         OrderManager.RemoveTicket(ticket);
 
         Customer serving = ticket.GetCustomer();
-        serving.SetState(CustomerState.Eating);
+        serving.SetState(CustomerState.PickingUpFood);
 
         float score = serving.GiveReview();
         GameManager.WelpReview(score);
-        new GameObject(item + "'s Score").AddComponent<RatingPopup>().SetRating(score);
+        //new GameObject(item + "'s Score").AddComponent<RatingPopup>().SetRating(score);
     }
 
     private void PlaceBurger(BurgerObject burger)
@@ -71,13 +83,14 @@ public class ServeStation : Interactable
 
     public static void PickUpBurger(Customer customer)
     {
+        Debug.Log("Burger: " + Instance.burgerToServe + " Customer: " + customer);
         if(customer == null || Instance.burgerToServe == null)
         {
             Debug.LogError("Customer is null or no burger to serve");
             return;
         }
         Instance.burgerToServe.transform.SetParent(customer.transform);
-        Instance.burgerToServe.transform.localPosition = new(0f, 2f, 0f);
+        Instance.burgerToServe.transform.localPosition = new(0f, 1f, 0f);
         Instance.burgerToServe = null;
     }
 }

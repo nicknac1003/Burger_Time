@@ -165,8 +165,6 @@ public class Customer : MonoBehaviour
 
     private IEnumerator PlaceOrder()
     {
-        Debug.Log("Taking order for " + this);
-
         Burger order = Burger.GenerateRandomBurger(Random.Range(0, 1 + Mathf.Min(GameManager.GetDay(), CustomerManager.MaxToppings())));
 
         PlayerController.LockPlayer();
@@ -204,8 +202,6 @@ public class Customer : MonoBehaviour
         SetState(CustomerState.WaitingForFood);
 
         CustomerManager.RemoveCustomerFromLine(this);
-
-        Debug.Log(this + " ordered " + order);
 
         OrderManager.NewTicket(order, this);
     }

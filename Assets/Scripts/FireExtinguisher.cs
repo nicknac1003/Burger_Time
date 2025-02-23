@@ -13,14 +13,16 @@ public class FireExtinguisher: Holdable {
         spriteRenderer = GetComponent<SpriteRenderer>();
         hitbox = GetComponent<Collider2D>();
     }
-    public void Taken(){
-        Debug.Log("Taken");
+    
+    public void Taken()
+    {
         held = true;
         hitbox.enabled = false;
         spriteRenderer.sortingOrder = 3;
     }
 
-    public void Dropped(Storage storage){
+    public void Dropped(Storage storage)
+    {
         held = false;
         spriteRenderer.sortingOrder = 2;
         if (storage.name == "FireExtinguisherSpot") hitbox.enabled = true;

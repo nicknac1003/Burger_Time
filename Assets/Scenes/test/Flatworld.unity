@@ -77597,6 +77597,7 @@ GameObject:
   - component: {fileID: 913663326}
   - component: {fileID: 913663325}
   - component: {fileID: 913663324}
+  - component: {fileID: 913663327}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -77668,9 +77669,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SceneManagerScript, Assembly-CSharp
-        m_MethodName: LoadGameScene
+      - m_Target: {fileID: 913663327}
+        m_TargetAssemblyTypeName: PauseScreen, Assembly-CSharp
+        m_MethodName: LoadGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -77718,6 +77719,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913663322}
   m_CullTransparentMesh: 1
+--- !u!114 &913663327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913663322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1b42196ebe9bf4a9a15497030d72d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &938113041
 GameObject:
   m_ObjectHideFlags: 0
@@ -79089,6 +79102,63 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
+--- !u!1001 &1128041653
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2495637299557960308, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_Name
+      value: SceneManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 915.4204
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 473.93225
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.542428
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788663161353923139, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7e60feeb75300a8468b9d7a9fc6e1b79, type: 3}
 --- !u!4 &1158063047 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8668060042612286937, guid: e5c42aaaf64980e4c8540cb6b023a9cf, type: 3}
@@ -84044,6 +84114,7 @@ GameObject:
   - component: {fileID: 2044663511}
   - component: {fileID: 2044663510}
   - component: {fileID: 2044663509}
+  - component: {fileID: 2044663512}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -84115,9 +84186,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SceneManagerScript, Assembly-CSharp
-        m_MethodName: LoadStartScreen
+      - m_Target: {fileID: 2044663512}
+        m_TargetAssemblyTypeName: PauseScreen, Assembly-CSharp
+        m_MethodName: LoadStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -84165,6 +84236,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044663507}
   m_CullTransparentMesh: 1
+--- !u!114 &2044663512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044663507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1b42196ebe9bf4a9a15497030d72d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2060186737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85519,3 +85602,4 @@ SceneRoots:
   - {fileID: 538356877}
   - {fileID: 684334857}
   - {fileID: 401397767}
+  - {fileID: 1128041653}

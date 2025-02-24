@@ -72600,7 +72600,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1.5}
+  m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
 --- !u!210 &684334859
 SortingGroup:
@@ -80369,7 +80369,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2502461291012856436, guid: 4008e8ecbd444f9438ae335e8a166b76, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502461291012856436, guid: 4008e8ecbd444f9438ae335e8a166b76, type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7229080777137241410, guid: 4008e8ecbd444f9438ae335e8a166b76, type: 3}
       propertyPath: m_LocalPosition.y
@@ -84351,7 +84355,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1.5}
+  m_Size: {x: 2.5, y: 1.5}
   m_EdgeRadius: 0
 --- !u!210 &2141855317
 SortingGroup:
@@ -85040,7 +85044,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2502461291012856436, guid: f692edf24d9034649ad31ecce8025927, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502461291012856436, guid: f692edf24d9034649ad31ecce8025927, type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8630777521895514013, guid: f692edf24d9034649ad31ecce8025927, type: 3}
       propertyPath: m_Name

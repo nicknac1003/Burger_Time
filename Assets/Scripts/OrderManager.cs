@@ -103,8 +103,8 @@ public class OrderManager : MonoBehaviour
         }
         if(foundTickets.Count == 0) return null;
 
-        // sort list so that ticket with highest time spent waiting is first in list
-        foundTickets.Sort((a, b) => b.GetCustomer().GetTimeSpentWaitingForOrder().CompareTo(a.GetCustomer().GetTimeSpentWaitingForOrder()));
+        // sort list based on percent left (ascending)
+        foundTickets.Sort((a, b) => a.GetPercantageLeft().CompareTo(b.GetPercantageLeft()));   
         return foundTickets;
     }
 
@@ -115,7 +115,7 @@ public class OrderManager : MonoBehaviour
         Ticket lowest = Instance.tickets[0];
         for(int i = 1; i < Instance.tickets.Count; i++)
         {
-            if(Instance.tickets[i].GetCustomer().GetTimeSpentWaitingForOrder() > lowest.GetCustomer().GetTimeSpentWaitingForOrder())
+            if(Instance.tickets[i].GetPercantageLeft() < lowest.GetPercantageLeft())
             {
                 lowest = Instance.tickets[i];
             }

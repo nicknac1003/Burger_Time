@@ -971,6 +971,7 @@ GameObject:
   - component: {fileID: 150357097}
   - component: {fileID: 150357096}
   - component: {fileID: 150357095}
+  - component: {fileID: 150357098}
   m_Layer: 5
   m_Name: RawImage (2)
   m_TagString: Untagged
@@ -1068,6 +1069,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 150357093}
   m_CullTransparentMesh: 1
+--- !u!114 &150357098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150357093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 179b4e1d845d8cd47bf531def6fff01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 150357095}
+  videoFileName: putoutfire.mp4
 --- !u!1 &151644802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,16 +1108,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151644802}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1293054350}
+  m_Father: {fileID: 1341362668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.018188, y: 137.3}
+  m_AnchoredPosition: {x: -0.018188, y: 240.09999}
   m_SizeDelta: {x: 1597.5, y: 441.3118}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &151644804
@@ -15107,6 +15122,7 @@ GameObject:
   - component: {fileID: 704931049}
   - component: {fileID: 704931048}
   - component: {fileID: 704931047}
+  - component: {fileID: 704931050}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -15204,6 +15220,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704931045}
   m_CullTransparentMesh: 1
+--- !u!114 &704931050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704931045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 179b4e1d845d8cd47bf531def6fff01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 704931047}
+  videoFileName: fire.mp4
 --- !u!1 &742254610
 GameObject:
   m_ObjectHideFlags: 0
@@ -23150,7 +23180,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 151644803}
   - {fileID: 376206456}
   - {fileID: 363876207}
   - {fileID: 1681137004}
@@ -23571,7 +23600,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 151644803}
   m_Father: {fileID: 683553397}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -89694,6 +89724,7 @@ GameObject:
   - component: {fileID: 2038385897}
   - component: {fileID: 2038385896}
   - component: {fileID: 2038385895}
+  - component: {fileID: 2038385898}
   m_Layer: 5
   m_Name: RawImage (1)
   m_TagString: Untagged
@@ -89791,6 +89822,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038385893}
   m_CullTransparentMesh: 1
+--- !u!114 &2038385898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038385893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 179b4e1d845d8cd47bf531def6fff01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 2038385895}
+  videoFileName: Pickup.mp4
 --- !u!1 &2073139236
 GameObject:
   m_ObjectHideFlags: 0

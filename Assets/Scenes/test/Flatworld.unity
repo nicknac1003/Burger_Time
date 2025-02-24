@@ -10913,7 +10913,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2, y: 3}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!210 &401397764
 SortingGroup:
@@ -10971,7 +10971,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1.5}
+  m_Size: {x: 2, y: 3}
   m_EdgeRadius: 0
 --- !u!114 &401397766
 MonoBehaviour:
@@ -10989,7 +10989,7 @@ MonoBehaviour:
     type: 6
     state: 0
   anchor: {fileID: 1630152130}
-  startingCount: 8
+  startingCount: 2
   spacing: 0.125
 --- !u!4 &401397767
 Transform:

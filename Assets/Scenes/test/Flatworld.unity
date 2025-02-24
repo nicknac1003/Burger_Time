@@ -144,6 +144,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1651700345}
     - target: {fileID: 865474330569445239, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
+      propertyPath: startHour
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 865474330569445239, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
       propertyPath: GameOverUI
       value: 
       objectReference: {fileID: 1432905424}
@@ -169,7 +173,7 @@ PrefabInstance:
       objectReference: {fileID: 866997689}
     - target: {fileID: 865474330569445239, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
       propertyPath: dayDurationMinutes
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2311425413845875805, guid: 9c6f4d1077e419945a4bca7848694179, type: 3}
       propertyPath: m_LocalPosition.x
@@ -84919,6 +84923,10 @@ PrefabInstance:
     - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: customerEnterVolume
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: 'popularity.Array.data[9]'
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: customerPrefabs.Array.size

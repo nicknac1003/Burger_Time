@@ -101,6 +101,12 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
+
+        if (Screen.fullScreen) {
+            Debug.Log("Full Screen");
+        } else {
+            Debug.Log("Not Full Screen");
+        }
     }
 
     public void HandlePauseGame()
@@ -108,15 +114,21 @@ public class GameManager : MonoBehaviour
         if (GamePaused())
         {
             UnpauseGame();
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            if (Screen.fullScreen)
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
 
         }
         else
         {
             PauseGame();
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            if (Screen.fullScreen)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
         }
     }
     private void PauseGame()

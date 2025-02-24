@@ -82,4 +82,9 @@ public class Jukebox : Interactable
         audioSource.clip = clips[currentClipIndex];
         audioSource.Play();
     }
+    public void SetVolume(float volume)
+    {
+        this.volume = volume;
+        audioSource.volume = volume;
+    }
 }

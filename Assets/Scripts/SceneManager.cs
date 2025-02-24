@@ -23,6 +23,7 @@ public class SceneManagerScript : MonoBehaviour
 
     public void LoadStartScreen()
     {
+        Debug.Log("Loading Start Screen");
         SceneManager.LoadScene(0);
     }
 

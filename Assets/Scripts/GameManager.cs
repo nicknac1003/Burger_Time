@@ -75,6 +75,12 @@ public class GameManager : MonoBehaviour
         currentMinute = startMinute;
         rating = initialRating;
         RatingUI.UpdateRating(rating / 5f);
+
+        // only happens loading in screen after exiting from pause
+        if (Time.timeScale == 0f)
+        {
+            UnpauseGame();
+        }
     }
 
     void Update()
@@ -218,11 +224,11 @@ public class GameManager : MonoBehaviour
     public static void WelpReview(Customer customer, float review)
     {
         Instantiate(GlobalConstants.reviewPopup, customer.transform.position, Quaternion.identity).GetComponent<RatingPopup>().SetRating(review);
-        
-        float diff       = review - 2.5f;
+
+        float diff = review - 2.5f;
         float scaledDiff = diff / (1 + Mathf.Abs(diff));
         Instance.rating += scaledDiff * 1.4f; // 0 = -1 star, 5 = +1 star
-        Instance.rating  = Mathf.Clamp(Instance.rating, 0f, 5f);
+        Instance.rating = Mathf.Clamp(Instance.rating, 0f, 5f);
 
         RatingUI.UpdateRating(Instance.rating / 5f); // normalize for the rating bar
     }

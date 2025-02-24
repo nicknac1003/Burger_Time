@@ -84956,6 +84956,10 @@ PrefabInstance:
       value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: customerLeftAngrySound
+      value: 
+      objectReference: {fileID: 8300000, guid: cd9ed48512e201549bbedea3aa2d1e90, type: 3}
+    - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: 'popularity.Array.data[9]'
       value: 0
       objectReference: {fileID: 0}

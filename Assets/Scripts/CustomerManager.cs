@@ -27,8 +27,10 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private float requestIngredientTime;
     [SerializeField] private int maxToppings = 8;
     [SerializeField] private AudioClip customerEnterSound;
+    [SerializeField] private AudioClip customerLeftAngrySound;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private float customerEnterVolume = 0.5f;
+    [SerializeField] private float customerAngryVolume = 0.5f;
 
 
     public static CustomerManager Instance { get; private set; }
@@ -142,6 +144,7 @@ public class CustomerManager : MonoBehaviour
         if (state == CustomerState.WaitingForFood) OrderManager.RemoveTicket(OrderManager.FindTicket(customer));
 
         GameManager.WelpReview(customer, 0f);
+        audioSource.PlayOneShot(customerLeftAngrySound, customerAngryVolume);
 
         customer.SetState(CustomerState.Leaving);
     }
@@ -200,12 +203,13 @@ public class CustomerManager : MonoBehaviour
     private bool FirstCustomerPerDay()
     {
         bool should = GameManager.GetHour() == 9 && spawnAt9;
-        if (should){
+        if (should)
+        {
             customerCount++;
             inBuilding++;
             spawnAt9 = false;
         }
-        
+
         return should;
     }
 }

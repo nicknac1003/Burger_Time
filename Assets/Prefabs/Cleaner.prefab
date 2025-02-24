@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 7162378909990384929}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 5880681388721751063}
   - component: {fileID: 6015604293282524163}
   - component: {fileID: 2042489891753872772}
+  - component: {fileID: 4269060219364971842}
   m_Layer: 0
   m_Name: Cleaner
   m_TagString: Interactable
@@ -294,18 +295,18 @@ MonoBehaviour:
   breakable:
     canBreak: 1
     canBreakDuringUse: 0
-    interval: 1
-    safetyTime: 5
-    breakChance: 0.05
+    interval: 15
+    safetyTime: 30
+    breakChance: 0.005
     repairQTE:
       rid: 2277583875323199774
     requiredHoldable: {fileID: 0}
-    vfxBreakPrefab: {fileID: 0}
-    breakSound: {fileID: 0}
-    breakVolume: 0.2
-    breakAudioSource: {fileID: 0}
+    vfxBreakPrefab: {fileID: 1258413611904493769, guid: 84dfa7f8d3634b845b8aa6a90e8e7514, type: 3}
+    breakSound: {fileID: 8300000, guid: 28719c370979fd747a1b5297e5f32ff6, type: 3}
+    breakVolume: 0.1
+    breakAudioSource: {fileID: 4269060219364971842}
     requireHoldable: 0
-    vfxAnchor: {fileID: 0}
+    vfxAnchor: {fileID: 7725941554949629925}
   inUse: 0
   useApplianceQTE:
     rid: 2277583875323199780
@@ -315,14 +316,20 @@ MonoBehaviour:
     - rid: 2277583875323199774
       type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
       data:
-        locksPlayerInPlace: 0
-        progressSounds: []
+        locksPlayerInPlace: 1
+        progressSounds:
+        - {fileID: 8300000, guid: fd470d94167b80c418b465bb2b0436db, type: 3}
+        - {fileID: 8300000, guid: 4377697ac44f1464f977867e9902a059, type: 3}
+        - {fileID: 8300000, guid: d8bd4ba2d1a7b244f93f6343896f9ea0, type: 3}
+        - {fileID: 8300000, guid: fa24fc7e0af63734b84199aa55c4af2a, type: 3}
+        - {fileID: 8300000, guid: 946d31c457e34804d8e8f96e500c80d2, type: 3}
+        - {fileID: 8300000, guid: 322129aebf5a7bc44a8fe2f6c5729489, type: 3}
         errorSounds: []
-        audioSource: {fileID: 0}
+        audioSource: {fileID: 4486970154820620759}
         progressVolume: 0.75
         errorVolume: 0.45
-        time: 4
-        drain: 0.5
+        time: 3
+        drain: 0.25
     - rid: 2277583875323199780
       type: {class: WindmillQTE, ns: , asm: Assembly-CSharp}
       data:
@@ -345,3 +352,100 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_SortAtRoot: 0
+--- !u!82 &4269060219364971842
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9103470263558727065}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

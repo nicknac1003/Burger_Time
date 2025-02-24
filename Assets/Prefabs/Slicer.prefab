@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2263864775182983096}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.5, y: 2.5, z: 0.12646283}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -99,7 +99,6 @@ MonoBehaviour:
   acceptedStates: 0000
   anchor: {fileID: 6722310649532304622}
   canHoldBurgers: 0
-  holdable: {fileID: 0}
   canHoldFireExtinguisher: 0
   breakable:
     canBreak: 0
@@ -111,6 +110,10 @@ MonoBehaviour:
       rid: 8066485002639245793
     requiredHoldable: {fileID: 0}
     vfxBreakPrefab: {fileID: 0}
+    breakSound: {fileID: 0}
+    breakVolume: 0.2
+    breakAudioSource: {fileID: 0}
+    requireHoldable: 0
     vfxAnchor: {fileID: 0}
   inUse: 0
   useApplianceQTE:
@@ -121,20 +124,27 @@ MonoBehaviour:
     - rid: 2277583875323199778
       type: {class: AlternateQTE, ns: , asm: Assembly-CSharp}
       data:
-        progressSounds: []
-        errorSounds: []
-        audioSource: {fileID: 0}
         locksPlayerInPlace: 1
+        progressSounds:
+        - {fileID: 8300000, guid: c7e6d897c0128e84ea45a0d3d6307360, type: 3}
+        - {fileID: 8300000, guid: 8ae1ef0c3255ecd4da9a0795d626d782, type: 3}
+        - {fileID: 8300000, guid: d9fc67d78587b434ea43455d79975f1f, type: 3}
+        - {fileID: 8300000, guid: 7891d7338ffe70c49b7820fe0ff97eb1, type: 3}
+        - {fileID: 8300000, guid: b6f570c83c2456b4fb22a9a7bb8f3766, type: 3}
+        - {fileID: 8300000, guid: d5cfa84cafd3cb94ba21b0aa2219a6c3, type: 3}
+        errorSounds:
+        - {fileID: 8300000, guid: 975ea7c169ae18944b990fb1453dbcd8, type: 3}
+        audioSource: {fileID: 7721708793722104637}
         progressVolume: 0.75
         errorVolume: 0.45
         alternationCount: 5
     - rid: 8066485002639245793
       type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
       data:
+        locksPlayerInPlace: 0
         progressSounds: []
         errorSounds: []
         audioSource: {fileID: 0}
-        locksPlayerInPlace: 0
         progressVolume: 0.75
         errorVolume: 0.45
         time: 4
@@ -151,7 +161,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

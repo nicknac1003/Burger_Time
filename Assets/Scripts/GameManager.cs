@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
         float diff       = review - 2.5f;
         float scaledDiff = diff / (1 + Mathf.Abs(diff));
         Instance.rating += scaledDiff * 1.4f; // 0 = -1 star, 5 = +1 star
-        Instance.rating  = Mathf.Clamp(Instance.rating, 0f, Instance.initialRating);
+        Instance.rating  = Mathf.Clamp(Instance.rating, 0f, 5f);
 
         RatingUI.UpdateRating(Instance.rating / 5f); // normalize for the rating bar
     }

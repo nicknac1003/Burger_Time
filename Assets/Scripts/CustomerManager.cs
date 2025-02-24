@@ -48,6 +48,7 @@ public class CustomerManager : MonoBehaviour
     public static float RequestTime() => Instance.requestIngredientTime;
     public static int MaxToppings() => Instance.maxToppings;
     public static int Customers() => Instance.customerCount;
+    public static int InBuilding() => Instance.inBuilding;
 
     public static void ReturnPlate() => Instance.returnPlateStack.AddToStack();
 

@@ -89,22 +89,37 @@ public class OrderManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Finds the OLDEST ticket with a specific order -- useful for completing orders
+    /// Finds all the tickets for a specific order
     /// </summary>
-    public static Ticket FindTicket(Burger order)
+    public static List<Ticket> FindTickets(Burger order)
     {
+        List<Ticket> foundTickets = new();
         for(int i = 0; i < Instance.tickets.Count; i++)
         {
             if(Instance.tickets[i].GetOrder() == order)
             {
-                return Instance.tickets[i];
+                foundTickets.Add(Instance.tickets[i]);
             }
         }
-        return null;
+        if(foundTickets.Count == 0) return null;
+
+        // sort list so that ticket with highest time spent waiting is first in list
+        foundTickets.Sort((a, b) => b.GetCustomer().GetTimeSpentWaitingForOrder().CompareTo(a.GetCustomer().GetTimeSpentWaitingForOrder()));
+        return foundTickets;
     }
 
-    public static Ticket OldestTicket()
+    public static Ticket LowestTimeLeftTicket()
     {
-        return CanServeFood() ? Instance.tickets[0] : null;
+        if(CanServeFood() == false) return null;
+        
+        Ticket lowest = Instance.tickets[0];
+        for(int i = 1; i < Instance.tickets.Count; i++)
+        {
+            if(Instance.tickets[i].GetCustomer().GetTimeSpentWaitingForOrder() > lowest.GetCustomer().GetTimeSpentWaitingForOrder())
+            {
+                lowest = Instance.tickets[i];
+            }
+        }
+        return lowest;
     }
 }

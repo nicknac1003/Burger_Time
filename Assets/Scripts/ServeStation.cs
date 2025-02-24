@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ServeStation : Interactable
@@ -42,14 +43,15 @@ public class ServeStation : Interactable
         BurgerObject burgerObject = item as BurgerObject;
         PlaceBurger(burgerObject);
 
-        Ticket ticket = OrderManager.FindTicket(burgerObject.GetBurger());
-        if (ticket == null)
+        List<Ticket> tickets = OrderManager.FindTickets(burgerObject.GetBurger());
+        Ticket ticket;
+        if (tickets == null)
         {
-            ticket = OrderManager.OldestTicket();
+            ticket = OrderManager.LowestTimeLeftTicket();
         }
         else
         {
-            ticket.GetCustomer().SetCorrectOrder(true);
+            ticket = tickets[0];
         }
 
         OrderManager.RemoveTicket(ticket);

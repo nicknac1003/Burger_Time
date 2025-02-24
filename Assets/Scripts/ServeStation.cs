@@ -52,6 +52,7 @@ public class ServeStation : Interactable
         else
         {
             ticket = tickets[0];
+            ticket.GetCustomer().SetCorrectOrder(true);
         }
 
         OrderManager.RemoveTicket(ticket);

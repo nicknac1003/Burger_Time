@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GameOverUI;
     [SerializeField] private TextMeshProUGUI daysLastedText;
     [SerializeField] private Jukebox MusicPlayer;
+    [SerializeField] private TextMeshProUGUI openText;
     private bool paused = false;
 
     private bool gameEnded = false;
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
         currentHour = startHour + Mathf.FloorToInt((totalMinutes + startMinute) / 60f);
         currentMinute = Mathf.FloorToInt((startMinute + totalMinutes) % 60f);
         DisplayTime();
+        DisplayOpen();
 
         if (Open() == false && CustomerManager.InBuilding() == 0)
         {
@@ -257,6 +259,16 @@ public class GameManager : MonoBehaviour
     {
         string newText = "Lost on Day: " + day;
         daysLastedText.text = newText;
+    }
+    private void DisplayOpen()
+    {
+        if (openText != null)
+        {
+            string text = Open() ? "Open" : "Closed";
+            openText.text = text;
+            Color color = Open() ? Color.green : Color.red;
+            openText.color = color;
+        }
     }
 }
 

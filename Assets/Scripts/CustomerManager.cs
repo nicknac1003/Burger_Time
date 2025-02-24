@@ -51,7 +51,7 @@ public class CustomerManager : MonoBehaviour
     public static int InBuilding() => Instance.inBuilding;
 
     public static void ReturnPlate() => Instance.returnPlateStack.AddToStack();
-
+    public static bool spawnAt9 = true;
     public List<Customer> lineDebugView;
 
     void Awake()
@@ -79,7 +79,7 @@ public class CustomerManager : MonoBehaviour
 
         timeSinceLastSpawn += Time.deltaTime;
 
-        if (timeSinceLastSpawn > trySpawnAt && CustomerArrives())
+        if ((timeSinceLastSpawn > trySpawnAt && CustomerArrives()) || FirstCustomerPerDay())
         {
             timeSinceLastSpawn = 0;
             line.Add(SpawnCustomer());
@@ -196,5 +196,16 @@ public class CustomerManager : MonoBehaviour
     public static void RemoveCustomerFromLine(Customer customer) // callback
     {
         Instance.line.Remove(customer);
+    }
+    private bool FirstCustomerPerDay()
+    {
+        bool should = GameManager.GetHour() == 9 && spawnAt9;
+        if (should){
+            customerCount++;
+            inBuilding++;
+            spawnAt9 = false;
+        }
+        
+        return should;
     }
 }

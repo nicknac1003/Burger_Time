@@ -139,6 +139,7 @@ public class GameManager : MonoBehaviour
         day++;
         elapsedTime = 0f;
         endOfDay = false;
+        CustomerManager.spawnAt9 = true;
         DisplayDay();
     }
 

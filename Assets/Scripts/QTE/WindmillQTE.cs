@@ -148,7 +148,7 @@ public class WindmillQTE : QuickTimeEvent
     {
         DestroyUI();
 
-        fillBarInstance = Object.Instantiate(GlobalConstants.alternateFill, anchor);
+        fillBarInstance = Object.Instantiate(GlobalConstants.alternateFill, anchor.position, Quaternion.identity);
         fillBarInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
 
         fillBarSpriteRenderer = fillBarInstance.GetComponent<SpriteRenderer>();

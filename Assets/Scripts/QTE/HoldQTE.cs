@@ -124,7 +124,7 @@ public class HoldQTE : QuickTimeEvent
     {
         DestroyUI();
 
-        circle = Object.Instantiate(GlobalConstants.circleFill, anchor);
+        circle = Object.Instantiate(GlobalConstants.circleFill, anchor.position, Quaternion.identity);
         circle.transform.localPosition = new Vector3(0f, 2f, 0f);
 
         circleSpriteRenderer = circle.GetComponent<SpriteRenderer>();

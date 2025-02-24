@@ -139,7 +139,7 @@ public class SliderQTE : QuickTimeEvent
         DestroyUI();
 
         // Instantiate UI Elements
-        sliderBarInstance = Object.Instantiate(GlobalConstants.sliderBar, anchor);
+        sliderBarInstance = Object.Instantiate(GlobalConstants.sliderBar, anchor.position, Quaternion.identity);
         Vector2 barSpriteSize = sliderBarInstance.GetComponent<SpriteRenderer>().sprite.rect.size;
         sliderBarInstance.transform.localPosition = new Vector3(0f, 2.25f, 0f);
 

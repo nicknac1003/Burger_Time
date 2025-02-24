@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public float initialRating = 5f;
     private float rating;
+    private bool endOfDay = false;
 
     public TextMeshProUGUI dayText;
     public TextMeshProUGUI dayTextShadow;
@@ -82,7 +83,8 @@ public class GameManager : MonoBehaviour
         currentMinute = Mathf.FloorToInt((startMinute + totalMinutes) % 60f);
         DisplayTime();
 
-        if (Open() == false && CustomerManager.Customers() == 0)
+        Debug.Log("open: " + Open() + " customers: " + CustomerManager.InBuilding());
+        if (Open() == false && CustomerManager.InBuilding() == 0)
         {
             EndDay();
         }
@@ -123,8 +125,10 @@ public class GameManager : MonoBehaviour
 
     public void EndDay()
     {
+        if (endOfDay) return;
         // End of the day logic
         Debug.Log("End of Day " + day);
+        endOfDay = true;
 
         //start new day after daydelay seconds
         Invoke(nameof(StartNewDay), dayDelay);
@@ -135,6 +139,7 @@ public class GameManager : MonoBehaviour
     {
         day++;
         elapsedTime = 0f;
+        endOfDay = false;
         DisplayDay();
     }
 
@@ -144,7 +149,7 @@ public class GameManager : MonoBehaviour
         string timeString;
         if (currentHour >= 24)
         {
-            timeString = "12:00 PM";
+            timeString = "12:00PM";
         }
         else
         {

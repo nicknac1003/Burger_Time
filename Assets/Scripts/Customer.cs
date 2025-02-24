@@ -106,6 +106,13 @@ public class Customer : MonoBehaviour
             break;
 
             case CustomerState.Eating:
+                if (!GameManager.Open()){
+                    Destroy(burger.gameObject);
+
+                    CustomerManager.ReturnPlate();
+
+                    SetState(CustomerState.Leaving);
+                }
                 goal = eatFoodPosition;
                 transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 if (timeToEatBurger <= 0)

@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
         currentMinute = startMinute;
         rating = initialRating;
         RatingUI.UpdateRating(rating / 5f);
+
+        Time.timeScale = 1f; // force time scale to 1 in case it was 0 before starting
     }
 
     void Update()

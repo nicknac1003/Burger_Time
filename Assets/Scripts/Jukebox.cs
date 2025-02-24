@@ -23,6 +23,7 @@ public class Jukebox : Interactable
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {

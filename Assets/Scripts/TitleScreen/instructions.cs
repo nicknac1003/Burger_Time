@@ -27,6 +27,9 @@ public class instructions : MonoBehaviour
         if (currentPage == pages.Count - 1)
         {
             Debug.Log("Return to title screen");
+            currentPage = 0;
+            UpdatePage(pages.Count - 1);
+            currentPage = 0;
             gameObject.SetActive(false);
             titleScreen.SetActive(true);
             grid.SetActive(false);

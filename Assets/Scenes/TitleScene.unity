@@ -23552,6 +23552,7 @@ GameObject:
   - component: {fileID: 1341362671}
   - component: {fileID: 1341362670}
   - component: {fileID: 1341362669}
+  - component: {fileID: 1341362672}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -23631,7 +23632,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
@@ -23649,6 +23650,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &1341362672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341362667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 179b4e1d845d8cd47bf531def6fff01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1341362671}
+  videoFileName: Combining.mp4
 --- !u!1 &1351769579
 GameObject:
   m_ObjectHideFlags: 0
@@ -25869,6 +25884,7 @@ GameObject:
   - component: {fileID: 1649203346}
   - component: {fileID: 1649203345}
   - component: {fileID: 1649203344}
+  - component: {fileID: 1649203347}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -25913,7 +25929,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
@@ -25966,6 +25982,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649203342}
   m_CullTransparentMesh: 1
+--- !u!114 &1649203347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649203342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 179b4e1d845d8cd47bf531def6fff01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1649203344}
+  videoFileName: ordering.mp4
 --- !u!1 &1681137003
 GameObject:
   m_ObjectHideFlags: 0
@@ -25976,6 +26006,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1681137004}
   - component: {fileID: 1681137007}
+  - component: {fileID: 1681137008}
   - component: {fileID: 1681137006}
   - component: {fileID: 1681137005}
   m_Layer: 5
@@ -26057,7 +26088,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
@@ -26075,6 +26106,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &1681137008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681137003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 179b4e1d845d8cd47bf531def6fff01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1681137007}
+  videoFileName: giveOrder.mp4
 --- !u!1 &1681255650
 GameObject:
   m_ObjectHideFlags: 0

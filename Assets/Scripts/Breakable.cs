@@ -74,7 +74,7 @@ public class Breakable
             return;
         }
 
-        if ((requireHoldable && requiredHoldable != null && PlayerController.GetItem() == requiredHoldable) || !requireHoldable)
+        if ((requireHoldable && requiredHoldable != null && PlayerController.GetItem().GetType() == requiredHoldable.GetType()) || !requireHoldable)
         {
             float QTEscore = repairQTE.QTE(pressed, false, false, Vector2.zero, parent);
             if (QTEscore > 0f)  {
@@ -130,7 +130,4 @@ public class Breakable
             breakAudioSource.Stop();
         }
     }
-
-    public void SetRequiredHoldable(Holdable holdable) => requiredHoldable = holdable;
-
 }

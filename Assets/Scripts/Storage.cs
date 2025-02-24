@@ -16,7 +16,16 @@ public class Storage : Interactable
 
     [SerializeField] protected bool canHoldFireExtinguisher = false;
 
+    [SerializeField] private Holdable startsWith;
+
     protected Holdable holdable;
+
+    void Awake()
+    {
+        if(startsWith == null) return;
+
+        holdable = Instantiate(startsWith, anchor);   
+    }
 
     protected override void OnZ()
     {

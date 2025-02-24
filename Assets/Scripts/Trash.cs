@@ -12,6 +12,9 @@ public class Trash : Interactable
         if (PlayerController.HoldingItem())
         {
             Holdable playerHolding = PlayerController.GetItem();
+
+            if(playerHolding is FireExtinguisher) return;
+            
             if (playerHolding is BurgerObject burgerObject)
             {
                 if (burgerObject.GetBurger().Contains(IngredientType.Plate) && PlayerController.DestroyItem())

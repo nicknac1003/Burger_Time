@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectStack : Interactable
@@ -21,6 +22,11 @@ public class ObjectStack : Interactable
                 ingredientObject.transform.localPosition = new Vector3(0, inStack.Count * spacing, 0);
                 inStack.Add(ingredientObject); // add after setting position to account for 0-indexing
                 PlayerController.SetHolding(null);
+            }
+            if (playerHolding is BurgerObject burger && inStack.Count > 0 && burger.CanAdd(inStack[^1]) )
+            {
+                burger.Add(inStack[^1]);
+                inStack.RemoveAt(inStack.Count - 1);                
             }
             return;
         }

@@ -192,13 +192,13 @@ public class PlayerController : MonoBehaviour
         if (interactables.Count <= 0) return null;
 
         Interactable closest = interactables[0];
-        Vector3 closestToPlayer = Vector3.Scale(closest.transform.position - transform.position, new Vector3(1, 1, 0)); // ignore Y axis
+        Vector3 closestToPlayer = Vector3.Scale(closest.transform.position - transform.position, new Vector3(1, 1, 0)); // ignore Z axis
 
         for (int i = 1; i < interactables.Count; i++)
         {
-            Vector3 toPlayer = Vector3.Scale(interactables[i].transform.position - transform.position, new Vector3(1, 1, 0)); // ignore Y axis
+            Vector3 toPlayer = Vector3.Scale(interactables[i].transform.position - transform.position, new Vector3(1, 1, 0)); // ignore Z axis
 
-            if (toPlayer.magnitude < closestToPlayer.magnitude)
+            if (toPlayer.sqrMagnitude < closestToPlayer.sqrMagnitude)
             {
                 closest = interactables[i];
                 closestToPlayer = toPlayer;

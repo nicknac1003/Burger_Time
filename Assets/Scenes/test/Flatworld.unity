@@ -84513,6 +84513,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3252536679087184675, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3252536679087184675, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -9
+      objectReference: {fileID: 0}
     - target: {fileID: 3559364483248033524, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -84552,6 +84560,22 @@ PrefabInstance:
     - target: {fileID: 3559364483248033524, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974391063134711313, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: m_Size.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974391063134711313, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5184987103032431676, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5184987103032431676, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: m_Size.y
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: lineStart
@@ -84593,6 +84617,14 @@ PrefabInstance:
       propertyPath: 'customerPrefabs.Array.data[0]'
       value: 
       objectReference: {fileID: 2346828081011351927, guid: 5a314dcc8a83d6d41acd1bf30e0bbf0d, type: 3}
+    - target: {fileID: 8212180057861381059, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212180057861381059, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -9
+      objectReference: {fileID: 0}
     - target: {fileID: 9097629859965278668, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: m_Name
       value: Customer Manager

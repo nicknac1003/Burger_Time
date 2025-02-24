@@ -70,8 +70,6 @@ public class CustomerManager : MonoBehaviour
             audioSource.clip = customerEnterSound;
             audioSource.volume = customerEnterVolume;
         }
-        //spawn a customer to start the day
-        line.Add(SpawnCustomer());
     }
 
     void Update()

@@ -7,7 +7,10 @@ public class Customer : MonoBehaviour
 {
     private int id;
     private float timeSpentInLine;
+
+    private float orderWaitTimeMax;
     private float timeSpentWaitingForOrder;
+
     private float timeToEatBurger;
     private CustomerState state;
     private Vector3 waitForFoodPosition;
@@ -18,17 +21,17 @@ public class Customer : MonoBehaviour
     private Vector3 prevGoal;
 
     private BurgerObject burger;
-    private int burgerDifficulty;
     private bool correctOrder = false;
 
     [SerializeField] private CustomerState debugStateView;
     [SerializeField] private Animator animator;
 
-    public int GetID() => id;
+    public int   GetID() => id;
     public float GetTimeSpentInLine() => timeSpentInLine;
     public float GetTimeSpentWaitingForOrder() => timeSpentWaitingForOrder;
     public float LineOffset() => lineOffset;
-    public void SetCorrectOrder(bool correct) => correctOrder = correct;
+    public void  SetCorrectOrder(bool correct) => correctOrder = correct;
+    public float GetMaxOrderTime() => orderWaitTimeMax;
 
     public CustomerState GetState() => state;
     public void SetState(CustomerState newState)
@@ -85,7 +88,7 @@ public class Customer : MonoBehaviour
                 goal = waitForFoodPosition;
                 transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
 
-                if(timeSpentWaitingForOrder > CustomerManager.PrepTimePerIngredient() * burgerDifficulty)
+                if(timeSpentWaitingForOrder > orderWaitTimeMax)
                 {
                     CustomerManager.Instance.CustomerRefusedService(this);
                 }
@@ -178,11 +181,11 @@ public class Customer : MonoBehaviour
 
     public float GiveReview()
     {
-        float waitInLineScore   = 1 - timeSpentInLine / CustomerManager.MaxWaitTime();
-        float preperationScore  = 1 - timeSpentWaitingForOrder / (CustomerManager.PrepTimePerIngredient() * burgerDifficulty);
+        float waitInLineScore  = 1 - Mathf.Pow(timeSpentInLine / CustomerManager.MaxWaitTime(), 2f);
+        float preperationScore = 1 - Mathf.Pow(timeSpentWaitingForOrder / orderWaitTimeMax, 2f);
 
         float totalScore = (waitInLineScore + preperationScore) * 5f / 2f;
-        float adjustedScore = totalScore + (correctOrder ? 0.75f : -0.75f);
+        float adjustedScore = Mathf.Clamp(totalScore + (correctOrder ? 0.75f : -0.75f), 0f, 5f);
 
         Debug.Log("Wait in line: " + waitInLineScore + " Preperation: " + preperationScore + " | Total: " + totalScore + " Adjusted: " + adjustedScore);
 
@@ -213,7 +216,7 @@ public class Customer : MonoBehaviour
 
         List<Ingredient> ingredients = order.GetIngredients();
         int ingredientCount = ingredients.Count;
-        burgerDifficulty = ingredientCount;
+        int burgerDifficulty = ingredientCount;
         for (int i = 0; i < ingredientCount; i++)
         {
             if(ingredients[i].Type() == IngredientType.Plate) continue;
@@ -234,6 +237,8 @@ public class Customer : MonoBehaviour
                 yield return new WaitForSeconds(0.15f); // Buffer for clear separation between ingredients except last
             }
         }
+
+        orderWaitTimeMax = CustomerManager.PrepTimePerIngredient() * burgerDifficulty;
 
         Destroy(speechBubble);
         PlayerController.UnlockPlayer();

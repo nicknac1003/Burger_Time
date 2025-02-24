@@ -11412,11 +11412,11 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 963f34663d312e446a1808251f0f05b5, type: 3}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.safetyTime
-      value: 30
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.breakChance
-      value: 0.008
+      value: 0.009
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.breakVolume
@@ -11441,6 +11441,10 @@ PrefabInstance:
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: 'acceptedStates.Array.data[1]'
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: managedReferences[8066485002639245790].time
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: managedReferences[8066485002639245790].errorSounds.Array.size
@@ -11542,11 +11546,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.safetyTime
-      value: 30
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.breakChance
-      value: 0.008
+      value: 0.009
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.vfxBreakPrefab
@@ -11555,6 +11559,10 @@ PrefabInstance:
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.requiredHoldable
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: managedReferences[8066485002639245790].time
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: m_Name
@@ -73173,11 +73181,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.safetyTime
-      value: 30
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.breakChance
-      value: 0.008
+      value: 0.009
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.vfxBreakPrefab
@@ -73194,6 +73202,10 @@ PrefabInstance:
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: 'acceptedStates.Array.data[1]'
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: managedReferences[8066485002639245790].time
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4380318927407670970, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: m_Name
@@ -78457,11 +78469,11 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 963f34663d312e446a1808251f0f05b5, type: 3}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.safetyTime
-      value: 30
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.breakChance
-      value: 0.008
+      value: 0.009
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.breakVolume
@@ -78486,6 +78498,10 @@ PrefabInstance:
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: 'acceptedStates.Array.data[1]'
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: managedReferences[8066485002639245790].time
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: managedReferences[8066485002639245790].audioSource
@@ -85118,6 +85134,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2141855315}
     - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
+      propertyPath: returnPlateStack
+      value: 
+      objectReference: {fileID: 2141855315}
+    - target: {fileID: 6242108513420600959, guid: 4b9c759ffc25df046b9db49a8ce74cef, type: 3}
       propertyPath: customerEnterSound
       value: 
       objectReference: {fileID: 8300000, guid: b2558ff748c2df1468476dd1794ee62e, type: 3}
@@ -85262,7 +85282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
       propertyPath: breakable.interval
-      value: 0.5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
       propertyPath: breakable.vfxAnchor
@@ -85274,11 +85294,15 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 28719c370979fd747a1b5297e5f32ff6, type: 3}
     - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
       propertyPath: breakable.safetyTime
-      value: 60
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
       propertyPath: breakable.breakChance
-      value: 0.025
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
+      propertyPath: breakable.breakVolume
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
       propertyPath: breakable.breakVolume
@@ -85288,6 +85312,14 @@ PrefabInstance:
       propertyPath: breakable.vfxBreakPrefab
       value: 
       objectReference: {fileID: 1258413611904493769, guid: 84dfa7f8d3634b845b8aa6a90e8e7514, type: 3}
+    - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
+      propertyPath: managedReferences[2277583875323199774].time
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
+      propertyPath: managedReferences[2277583875323199774].drain
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
       propertyPath: breakable.breakAudioSource
       value: 

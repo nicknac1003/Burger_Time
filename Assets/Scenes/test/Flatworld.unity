@@ -11565,6 +11565,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
+      propertyPath: breakable.interval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366805655657605383, guid: efa63fe183335f241942eaecc605dc2e, type: 3}
       propertyPath: breakable.requiredHoldable
       value: 
       objectReference: {fileID: 8707321568623033480, guid: 8cfb6f7cefc1b8a43bc512eb81827422, type: 3}
@@ -85108,7 +85112,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
       propertyPath: breakable.interval
-      value: 13
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
       propertyPath: breakable.breakChance

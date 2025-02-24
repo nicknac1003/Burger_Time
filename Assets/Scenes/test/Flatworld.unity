@@ -85106,6 +85106,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1923475681}
     m_Modifications:
+    - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
+      propertyPath: breakable.interval
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015604293282524163, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
+      propertyPath: breakable.breakChance
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 7214092959671646375, guid: 18d9b87db41e5d440850f98de06425a8, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.375

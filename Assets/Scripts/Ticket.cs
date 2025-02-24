@@ -52,6 +52,7 @@ public class Ticket : MonoBehaviour
         UIBurger.transform.SetParent(burgerObjectRect);
         UIBurger.transform.localPosition = new Vector3(0, 0, 0);
         UIBurger.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -40);
+        UIBurger.transform.localScale = new Vector3(1, 1, 1);
 
         // Add ingredients to grid layout
         for(int i = 0; i < ingredientCount; i++)
@@ -59,6 +60,7 @@ public class Ticket : MonoBehaviour
             GameObject ingredientSlot = new(ingredientList[i] + " Slot");
             ingredientSlot.transform.SetParent(ingredientsRect);
             ingredientSlot.AddComponent<Image>().sprite = ingredientList[i].GetSprite();
+            ingredientSlot.transform.localScale = new Vector3(1, 1, 1);
         }
     }
 

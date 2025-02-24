@@ -133,7 +133,6 @@ MonoBehaviour:
   acceptedStates: 00000100
   anchor: {fileID: 5354645228164302931}
   canHoldBurgers: 0
-  holdable: {fileID: 0}
   canHoldFireExtinguisher: 0
   breakable:
     canBreak: 1
@@ -147,7 +146,7 @@ MonoBehaviour:
     vfxBreakPrefab: {fileID: 1733721084633098381, guid: 0eaa9c5a2aae1234c9e5fc08798fd4c7, type: 3}
     breakSound: {fileID: 8300000, guid: 963f34663d312e446a1808251f0f05b5, type: 3}
     breakVolume: 0.5
-    breakAudioSource: {fileID: 4864707281576310896}
+    breakAudioSource: {fileID: 3330685151498985959}
     requireHoldable: 1
     vfxAnchor: {fileID: 7209552272517217454}
   inUse: 0
@@ -156,19 +155,19 @@ MonoBehaviour:
   BurntTime: 20
   cookingClip: {fileID: 8300000, guid: 69e4033b85576694ab299ecf559267da, type: 3}
   cookingClipVolume: 0.05
-  audioSource: {fileID: 5879597864319746647}
+  audioSource: {fileID: 4864707281576310896}
   references:
     version: 2
     RefIds:
     - rid: 8066485002639245790
       type: {class: HoldQTE, ns: , asm: Assembly-CSharp}
       data:
+        locksPlayerInPlace: 0
         progressSounds:
         - {fileID: 8300000, guid: 17e2bd804214797498f66ffd2b822962, type: 3}
         errorSounds:
         - {fileID: 8300000, guid: 975ea7c169ae18944b990fb1453dbcd8, type: 3}
         audioSource: {fileID: 5879597864319746647}
-        locksPlayerInPlace: 0
         progressVolume: 0.1
         errorVolume: 0.1
         time: 4

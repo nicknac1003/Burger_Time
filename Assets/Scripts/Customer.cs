@@ -191,8 +191,11 @@ public class Customer : MonoBehaviour
         float waitInLineScore  = 1 - Mathf.Pow(timeSpentInLine / CustomerManager.MaxWaitTime(), 2f);
         float preperationScore = 1 - Mathf.Pow(timeSpentWaitingForOrder / orderWaitTimeMax, 2f);
 
-        float totalScore = (waitInLineScore + preperationScore) * 5f / 2f;
-        float adjustedScore = Mathf.Clamp(totalScore + (correctOrder ? 0.75f : -0.75f), 0f, 5f);
+        float totalScore = 0.75f + (waitInLineScore + preperationScore) * 5f / 2f;
+        
+        float adjustedScore;
+        if(correctOrder) adjustedScore = Mathf.Clamp(totalScore, 2f, 5f);
+        else adjustedScore = Mathf.Clamp(totalScore, 0f, 2f);
 
         Debug.Log("Wait in line: " + waitInLineScore + " Preperation: " + preperationScore + " | Total: " + totalScore + " Adjusted: " + adjustedScore);
 

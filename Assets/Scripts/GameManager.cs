@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
         currentMinute = Mathf.FloorToInt((startMinute + totalMinutes) % 60f);
         DisplayTime();
 
-        Debug.Log("open: " + Open() + " customers: " + CustomerManager.InBuilding());
         if (Open() == false && CustomerManager.InBuilding() == 0)
         {
             EndDay();

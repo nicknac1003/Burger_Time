@@ -72600,7 +72600,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.5}
   m_EdgeRadius: 0
 --- !u!210 &684334859
 SortingGroup:
@@ -84351,7 +84351,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.5}
   m_EdgeRadius: 0
 --- !u!210 &2141855317
 SortingGroup:
@@ -84379,11 +84379,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5841701166397579607, guid: d9df9876f906ee541b50b62b5b08688b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 5841701166397579607, guid: d9df9876f906ee541b50b62b5b08688b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5841701166397579607, guid: d9df9876f906ee541b50b62b5b08688b, type: 3}
       propertyPath: m_LocalPosition.z

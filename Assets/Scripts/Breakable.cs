@@ -74,7 +74,7 @@ public class Breakable
             return;
         }
 
-        if ((requireHoldable && requiredHoldable != null && PlayerController.GetItem().GetType() == requiredHoldable.GetType()) || !requireHoldable)
+        if ((requireHoldable && requiredHoldable != null && PlayerController.GetItem() != null && PlayerController.GetItem().GetType() == requiredHoldable.GetType()) || !requireHoldable)
         {
             float QTEscore = repairQTE.QTE(pressed, false, false, Vector2.zero, parent);
             if (QTEscore > 0f)  {

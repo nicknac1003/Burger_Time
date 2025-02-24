@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private int currentHour = 0;
     private int currentMinute = 0;
 
-    public int startHour = 9;
+    public int startHour = 8;
     public int startMinute = 00;
 
     public int endHour = 21;
@@ -42,13 +42,15 @@ public class GameManager : MonoBehaviour
     private bool paused = false;
 
     private bool gameEnded = false;
+    private bool prepTime = false;
 
     public static bool GamePaused() => Instance.paused;
     public static bool GameEnded() => Instance.gameEnded;
     public static int GetHour() => Instance.currentHour;
     public static float GetHourCompletion() => Instance.currentMinute / 60f;
     public static int GetDay() => Instance.day;
-    public static bool Open() => BetweenTimes(Instance.currentHour, Instance.currentMinute, Instance.startHour, Instance.startMinute, Instance.endHour, Instance.endMinute);
+    public static bool Open() => BetweenTimes(Instance.currentHour, Instance.currentMinute, 9, 0f, Instance.endHour, Instance.endMinute);
+    public static bool Prep() => Instance.prepTime;
 
     public static float TimeAsFloat(int hour, float minutes) => hour + minutes / 60f;
     public static bool BetweenTimes(int hour, float minutes, int hourA, float minutesA, int hourB, float minutesB) => TimeAsFloat(hour, minutes) >= TimeAsFloat(hourA, minutesA) && TimeAsFloat(hour, minutes) <= TimeAsFloat(hourB, minutesB);
@@ -85,7 +87,7 @@ public class GameManager : MonoBehaviour
         DisplayTime();
         DisplayOpen();
 
-        if (Open() == false && CustomerManager.InBuilding() == 0)
+        if (currentHour >= endHour && Open() == false && CustomerManager.InBuilding() == 0)
         {
             EndDay();
         }
@@ -132,12 +134,14 @@ public class GameManager : MonoBehaviour
         endOfDay = true;
 
         //start new day after daydelay seconds
+        prepTime = true;
         Invoke(nameof(StartNewDay), dayDelay);
     }
 
     // Call this method to start a new day
     public void StartNewDay()
     {
+        prepTime = false;
         day++;
         elapsedTime = 0f;
         endOfDay = false;
@@ -151,7 +155,7 @@ public class GameManager : MonoBehaviour
         string timeString;
         if (currentHour >= 24)
         {
-            timeString = "12:00PM";
+            timeString = ".......";
         }
         else
         {
@@ -159,7 +163,7 @@ public class GameManager : MonoBehaviour
             string ampm = currentHour >= 12 ? "PM" : "AM";
 
             string hourString = currentHour > 12 ? (currentHour - 12).ToString() : currentHour.ToString();
-            timeString = $"{hourString}:{currentMinute:D2}{ampm}";
+            timeString = Prep() ? "......." : $"{hourString}:{currentMinute:D2}{ampm}";
         }
 
         // Display the time (for example, using Debug.Log or a UI element)
@@ -264,9 +268,9 @@ public class GameManager : MonoBehaviour
     {
         if (openText != null)
         {
-            string text = Open() ? "Open" : "Closed";
+            string text = Prep() ? "Prep" : Open() ? "Open" : "Closed";
             openText.text = text;
-            Color color = Open() ? Color.green : Color.red;
+            Color color = Prep() ? Color.yellow : Open() ? Color.green : Color.red;
             openText.color = color;
         }
     }

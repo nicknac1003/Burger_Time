@@ -105,7 +105,6 @@ public class Breakable
         // Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
         vfxInScene = Object.Instantiate(vfxBreakPrefab, vfxAnchor.position, Quaternion.identity);
         vfxInScene.transform.SetParent(vfxAnchor);
-        Debug.Log("VFX created " + vfxInScene);
         // vfxInScene.GetComponent<ParticleSystem>().Play();
     }
 

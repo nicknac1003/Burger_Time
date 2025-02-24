@@ -68,8 +68,7 @@ public class MashQTE : QuickTimeEvent
     {
         DestroyUI();
 
-        fillBarInstance = Object.Instantiate(GlobalConstants.boxFill, anchor.position, Quaternion.identity);
-        fillBarInstance.transform.localPosition = new Vector3(0f, 2f, 0f);
+        fillBarInstance = Object.Instantiate(GlobalConstants.boxFill, anchor.position + new Vector3(0f, 2f, 0f), Quaternion.identity);
 
         fillBarSpriteRenderer = fillBarInstance.GetComponent<SpriteRenderer>();
         fillBarSpriteRenderer.sortingOrder = 10;

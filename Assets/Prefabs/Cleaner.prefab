@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 7162378909990384929}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0.55, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0.8125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -292,6 +292,7 @@ MonoBehaviour:
   anchor: {fileID: 7214092959671646375}
   canHoldBurgers: 0
   canHoldFireExtinguisher: 0
+  startsWith: {fileID: 0}
   breakable:
     canBreak: 1
     canBreakDuringUse: 0

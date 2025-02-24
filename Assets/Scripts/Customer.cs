@@ -26,11 +26,11 @@ public class Customer : MonoBehaviour
     [SerializeField] private CustomerState debugStateView;
     [SerializeField] private Animator animator;
 
-    public int   GetID() => id;
+    public int GetID() => id;
     public float GetTimeSpentInLine() => timeSpentInLine;
     public float GetTimeSpentWaitingForOrder() => timeSpentWaitingForOrder;
     public float LineOffset() => lineOffset;
-    public void  SetCorrectOrder(bool correct) => correctOrder = correct;
+    public void SetCorrectOrder(bool correct) => correctOrder = correct;
     public float GetMaxOrderTime() => orderWaitTimeMax;
 
     public CustomerState GetState() => state;
@@ -62,18 +62,18 @@ public class Customer : MonoBehaviour
                 {
                     SetState(CustomerState.WaitingToOrder);
                 }
-            break;
+                break;
 
             case CustomerState.WaitingToOrder:
                 goal = CustomerManager.Instance.GetSpotInLine(this);
                 transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
                 timeSpentInLine += Time.deltaTime;
 
-                if(timeSpentInLine > CustomerManager.MaxWaitTime())
+                if (timeSpentInLine > CustomerManager.MaxWaitTime())
                 {
                     CustomerManager.Instance.CustomerRefusedService(this);
                 }
-            break;
+                break;
 
             case CustomerState.Ordering:
                 if (startedOrdering == false)
@@ -81,32 +81,33 @@ public class Customer : MonoBehaviour
                     startedOrdering = true;
                     StartCoroutine(PlaceOrder());
                 }
-            break;
+                break;
 
             case CustomerState.WaitingForFood:
                 timeSpentWaitingForOrder += Time.deltaTime;
                 goal = waitForFoodPosition;
                 transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
 
-                if(timeSpentWaitingForOrder > orderWaitTimeMax)
+                if (timeSpentWaitingForOrder > orderWaitTimeMax)
                 {
                     CustomerManager.Instance.CustomerRefusedService(this);
                 }
-            break;
+                break;
 
             case CustomerState.PickingUpFood:
                 goal = CustomerManager.Pickup();
                 transform.position = Vector3.MoveTowards(transform.position, goal, Time.deltaTime * CustomerManager.CustomerMoveSpeed());
-                if(Vector3.Distance(transform.position, goal) < 0.1f)
+                if (Vector3.Distance(transform.position, goal) < 0.1f)
                 {
                     ServeStation.PickUpBurger(this);
                     SetState(CustomerState.Eating);
                     GameManager.WelpReview(this, GiveReview());
                 }
-            break;
+                break;
 
             case CustomerState.Eating:
-                if (!GameManager.Open()){
+                if (!GameManager.Open())
+                {
                     Destroy(burger.gameObject);
 
                     CustomerManager.ReturnPlate();
@@ -125,7 +126,7 @@ public class Customer : MonoBehaviour
                     SetState(CustomerState.Leaving);
                 }
                 timeToEatBurger -= Time.deltaTime;
-            break;
+                break;
 
             case CustomerState.Leaving:
                 transform.position = Vector3.MoveTowards(transform.position, CustomerManager.Exit(), Time.deltaTime * CustomerManager.CustomerMoveSpeed());
@@ -134,7 +135,7 @@ public class Customer : MonoBehaviour
                 {
                     CustomerManager.Instance.CustomerLeaves(this);
                 }
-            break;
+                break;
         }
 
         AdjustAnimation();
@@ -188,13 +189,13 @@ public class Customer : MonoBehaviour
 
     public float GiveReview()
     {
-        float waitInLineScore  = 1 - Mathf.Pow(timeSpentInLine / CustomerManager.MaxWaitTime(), 2f);
+        float waitInLineScore = 1 - Mathf.Pow(timeSpentInLine / CustomerManager.MaxWaitTime(), 2f);
         float preperationScore = 1 - Mathf.Pow(timeSpentWaitingForOrder / orderWaitTimeMax, 2f);
 
         float totalScore = 0.75f + (waitInLineScore + preperationScore) * 5f / 2f;
-        
+
         float adjustedScore;
-        if(correctOrder) adjustedScore = Mathf.Clamp(totalScore, 2f, 5f);
+        if (correctOrder) adjustedScore = Mathf.Clamp(totalScore, 2f, 5f);
         else adjustedScore = Mathf.Clamp(totalScore, 0f, 2f);
 
         Debug.Log("Wait in line: " + waitInLineScore + " Preperation: " + preperationScore + " | Total: " + totalScore + " Adjusted: " + adjustedScore);
@@ -229,9 +230,9 @@ public class Customer : MonoBehaviour
         int burgerDifficulty = ingredientCount;
         for (int i = 0; i < ingredientCount; i++)
         {
-            if(ingredients[i].Type() == IngredientType.Plate) continue;
+            if (ingredients[i].Type() == IngredientType.Plate) continue;
 
-            if(ingredients[i].Type() == IngredientType.Patty)
+            if (ingredients[i].Type() == IngredientType.Patty)
             {
                 burgerDifficulty++;
             }
@@ -242,7 +243,7 @@ public class Customer : MonoBehaviour
             yield return new WaitForSeconds(CustomerManager.RequestTime());
             inBubble.SetActive(false);
 
-            if(i != ingredientCount - 1)
+            if (i != ingredientCount - 1)
             {
                 yield return new WaitForSeconds(0.15f); // Buffer for clear separation between ingredients except last
             }

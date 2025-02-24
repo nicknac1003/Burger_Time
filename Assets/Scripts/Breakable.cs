@@ -12,13 +12,13 @@ public class Breakable
     [SerializeField] private bool canBreakDuringUse = false;
 
     [Tooltip("How often we check if something breaks in seconds.")]
-    [Range(0.5f, 5f)][SerializeField] private float interval = 1f;
+    [Range(1f, 30f)][SerializeField] private float interval = 1f;
 
     [Tooltip("How long after breaking before we can break again.")]
     [Range(1f, 60f)][SerializeField] private float safetyTime = 5f;
 
     [Tooltip("Chance of breaking per interval check as a decimal percentage.")]
-    [Range(0.008f, 0.1f)][SerializeField] private float breakChance = 0.05f;
+    [Range(0.001f, 0.01f)][SerializeField] private float breakChance = 0.008f;
 
     [Tooltip("Quicktime Event to repair the item.")]
     [SerializeReference] private QuickTimeEvent repairQTE = new HoldQTE();

@@ -152,8 +152,8 @@ public class SliderQTE : QuickTimeEvent
         arrowStartPosition = sliderArrowInstance.transform.position;
 
         // Update Shader
-        sliderTargetStart = Mathf.Clamp(sliderTargetStart, 0, 59);
-        sliderTargetEnd = Mathf.Clamp(sliderTargetEnd, 1, 60);
+        sliderTargetStart = Mathf.Clamp(sliderTargetStart, 0, 61);
+        sliderTargetEnd = Mathf.Clamp(sliderTargetEnd, 1, 62);
 
         SpriteRenderer sliderSpriteRenderer = sliderBarInstance.GetComponent<SpriteRenderer>();
         sliderSpriteRenderer.sortingOrder = 10;
@@ -186,7 +186,7 @@ public class SliderQTE : QuickTimeEvent
 
         targetPosition = (sliderTargetStart + sliderTargetEnd) / 2f;
         targetRange = (sliderTargetEnd - sliderTargetStart) / 2f; // technically half the range
-        ratio = targetPosition / 60f;
+        ratio = targetPosition / 62f;
         timeToReachTargetFromStart = sliderTime * ratio;
         timeToReachEndFromTarget = sliderTime - timeToReachTargetFromStart;
         arrowPosition = 0f;

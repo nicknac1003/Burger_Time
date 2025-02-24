@@ -96,7 +96,9 @@ public class Storage : Interactable
             }
         }
 
-        if (holdable is IngredientObject ingredient1 && playerHolding is IngredientObject ingredient2 && canHoldBurgers)
+        if (holdable is IngredientObject ingredient1 && playerHolding is IngredientObject ingredient2 && canHoldBurgers 
+        && (ingredient1.Type() != IngredientType.Plate || ingredient2.Type() != IngredientType.Plate) 
+        && (ingredient1.Type() != IngredientType.Bun   || ingredient2.Type() != IngredientType.Bun))
         {
             GameObject burgerObject = new("Burger", typeof(BurgerObject));
             burgerObject.transform.SetParent(anchor);
